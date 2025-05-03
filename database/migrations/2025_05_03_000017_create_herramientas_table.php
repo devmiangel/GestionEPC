@@ -23,7 +23,7 @@ return new class extends Migration
             $table->unsignedBigInteger('id_estadoregistro');
             $table->foreign('id_estadoregistro')->references('id')->on('estado_registros');
 
-            $table->text('especicacion_herramienta',255)->nullable();
+            $table->text('especificacion_herramienta',255)->nullable();
 
             $table->timestamps();
         });
