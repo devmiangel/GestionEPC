@@ -4,8 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\loginController;
 
 Route::get('/', function () {
-    // return view('welcome');
-    return "aqui se va a mostrar el inicio de la pagina";
+    return view('welcome');
 });
 
 Route::get('/login', [loginController::class, 'login']);
