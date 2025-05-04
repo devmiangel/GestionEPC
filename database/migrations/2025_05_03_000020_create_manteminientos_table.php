@@ -22,7 +22,7 @@ return new class extends Migration
             $table->unsignedBigInteger('id_tipomantenimiento');
             $table->foreign('id_tipomantenimiento')->references('id')->on('tipo_manteminientos');
             
-            $table->text('detaller_mantenimiento', 255);
+            $table->text('detalle_mantenimiento', 255);
 
             $table->timestamps();
         });
