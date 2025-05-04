@@ -4,7 +4,26 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class persona extends Model
+class Persona extends Model
 {
-    //
+    protected $table = 'personas';
+
+    protected $fillable = [
+        'primer_nombre',
+        'segundo_nombre',
+        'primer_apellido',
+        'segundo_apellido',
+        'num_documento',
+        'id_tipdocumento'
+    ];
+
+    public function tipoDocumento()
+    {
+        return $this->belongsTo(TipoDocumento::class, 'id_tipdocumento');
+    }
+
+    public function user()
+    {
+        return $this->hasOne(User::class, 'id_persona');
+    }
 }
