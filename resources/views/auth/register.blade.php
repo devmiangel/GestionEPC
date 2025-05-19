@@ -52,21 +52,26 @@
                         </div>
 
                         <div class="row mb-3">
-                            <label for="id_tipdocumento" class="col-md-4 col-form-label text-md-end">{{ __('tipo documento') }}</label>
+                            <label for="id_tipdocumento" class="col-md-4 col-form-label text-md-end">{{ __('Tipo documento') }}</label>
 
                             <div class="col-md-6">
-                                <input id="id_tipdocumento" type="text" name="id_tipdocumento" value="{{ old('id_tipdocumento') }}" required autocomplete="id_tipdocumento" autofocus>
+                                <select id="id_tipdocumento" name="id_tipdocumento" class="form-select" required autofocus>
+                                    <option value="">Seleccione un tipo</option>
+                                    <option value="1" {{ old('id_tipdocumento') == 1 ? 'selected' : '' }}>Cédula de Ciudadanía</option>
+                                    <option value="2" {{ old('id_tipdocumento') == 2 ? 'selected' : '' }}>Cédula de Extranjería</option>
+                                    <option value="3" {{ old('id_tipdocumento') == 3 ? 'selected' : '' }}>Pasaporte</option>
+                                    <option value="4" {{ old('id_tipdocumento') == 4 ? 'selected' : '' }}>NIT</option>
+                                    <option value="5" {{ old('id_tipdocumento') == 5 ? 'selected' : '' }}>Otro</option>
+                                </select>
 
                                 @error('id_tipdocumento')
-                                    <span class="invalid-feedback" role="alert">
+                                    <span class="invalid-feedback d-block" role="alert">
                                         <strong>{{ $message }}</strong>
                                     </span>
                                 @enderror
-
                             </div>
                         </div>
-
-
+                        
                         <div class="row mb-3">
                             <label for="email" class="col-md-4 col-form-label text-md-end">{{ __('Email Address') }}</label>
 
@@ -110,7 +115,19 @@
                                 </button>
                             </div>
                         </div>
+                        @if ($errors->any())
+    <div>
+        <ul>
+            @foreach ($errors->all() as $error)
+                <li>{{ $error }}</li>
+            @endforeach
+        </ul>
+    </div>
+@endif
+
                     </form>
+
+                    
                 </div>
             </div>
         </div>
