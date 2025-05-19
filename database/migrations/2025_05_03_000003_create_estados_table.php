@@ -19,6 +19,14 @@ return new class extends Migration
 
             $table->timestamps();
         });
+
+        DB::table('estados')->insert([
+            ['estado' => 'Ocupado'],
+            ['estado' => 'Libre'],
+            ['estado' => 'Prestado'],
+            ['estado' => 'En Mantenimiento'],
+            ['estado' => 'En Espera'],
+        ]);
     }
 
     /**
