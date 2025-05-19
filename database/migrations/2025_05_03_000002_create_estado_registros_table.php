@@ -18,6 +18,11 @@ return new class extends Migration
 
             $table->timestamps();
         });
+
+        DB::table('estado_registros')->insert([
+            ['estado_registro' => 'Activo'],
+            ['estado_registro' => 'Oculto'],
+        ]);
     }
 
     /**
