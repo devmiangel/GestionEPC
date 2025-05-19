@@ -53,7 +53,9 @@ class RegisterController extends Controller
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
             'primer_nombre' => ['required','string','max:255'],
+            'segundo_nombre' => ['required', 'string', 'max:255'],
             'primer_apellido' => ['required','string','max:255'],
+            'segundo_apellido' => ['required','string','max:255'],
             'num_documento' => ['required','string','max:255','unique:personas'],
             'id_tipdocumento' => ['required','integer'],
         ]);
@@ -69,7 +71,9 @@ class RegisterController extends Controller
     {
         $persona = Persona::create([
             'primer_nombre' => $data['primer_nombre'],
+            'segundo_nombre' => $data['segundo_nombre'],
             'primer_apellido' => $data['primer_apellido'],
+            'segundo_apellido' => $data['segundo_apellido'],
             'num_documento' => $data['num_documento'], 
             'id_tipdocumento' => $data['id_tipdocumento'],
             
