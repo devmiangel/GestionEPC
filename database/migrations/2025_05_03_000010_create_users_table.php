@@ -14,20 +14,20 @@ return new class extends Migration
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->unsignedBigInteger('id_persona');
-            $table->unsignedBigInteger('id_estadoregistro');
+            $table->unsignedBigInteger('id_estadoregistro')->default(1)->nullable();
             $table->rememberToken();
             $table->timestamps();
 
             // Foreign key constraints
             $table->foreign('id_persona')
-                  ->references('id')
-                  ->on('personas')
-                  ->onDelete('cascade');
+                    ->references('id')
+                    ->on('personas')
+                    ->onDelete('cascade');
 
             $table->foreign('id_estadoregistro')
-                  ->references('id')
-                  ->on('estado_registros')
-                  ->onDelete('cascade');
+                    ->references('id')
+                    ->on('estado_registros')
+                    ->onDelete('cascade');
         });
         
         Schema::create('password_reset_tokens', function (Blueprint $table) {

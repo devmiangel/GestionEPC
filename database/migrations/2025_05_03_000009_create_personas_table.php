@@ -15,9 +15,9 @@ return new class extends Migration
             $table->id();
 
             $table->string('primer_nombre', 20);
-            $table->string('segundo_nombre', 20);
+            $table->string('segundo_nombre', 20)->nullable();
             $table->string('primer_apellido', 20);
-            $table->string('segundo_apellido', 20);
+            $table->string('segundo_apellido', 20)->nullable();
             $table->string('num_documento', 20);
             $table->unsignedBigInteger('id_tipdocumento');
             $table->foreign('id_tipdocumento')->references('id')->on('tipo_documentos');

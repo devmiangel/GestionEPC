@@ -18,6 +18,14 @@ return new class extends Migration
 
             $table->timestamps();
         });
+
+        DB::table('tipo_documentos')->insert([
+            ['tipo_documento' => 'Cédula de Ciudadanía'],
+            ['tipo_documento' => 'Cédula de Extranjería'],
+            ['tipo_documento' => 'Pasaporte'],
+            ['tipo_documento' => 'NIT'],
+            ['tipo_documento' => 'Otro'],
+        ]);
     }
 
     /**
