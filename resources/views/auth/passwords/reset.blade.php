@@ -1,65 +1,48 @@
-@extends('layouts.app')
+@extends('layouts.app') 
+
+@section('title', 'Restablecer Contraseña - EPC') 
 
 @section('content')
-<div class="container">
-    <div class="row justify-content-center">
-        <div class="col-md-8">
-            <div class="card">
-                <div class="card-header">{{ __('Reset Password') }}</div>
-
-                <div class="card-body">
-                    <form method="POST" action="{{ route('password.update') }}">
-                        @csrf
-
-                        <input type="hidden" name="token" value="{{ $token }}">
-
-                        <div class="row mb-3">
-                            <label for="email" class="col-md-4 col-form-label text-md-end">{{ __('Email Address') }}</label>
-
-                            <div class="col-md-6">
-                                <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ $email ?? old('email') }}" required autocomplete="email" autofocus>
-
-                                @error('email')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
-                            </div>
-                        </div>
-
-                        <div class="row mb-3">
-                            <label for="password" class="col-md-4 col-form-label text-md-end">{{ __('Password') }}</label>
-
-                            <div class="col-md-6">
-                                <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" required autocomplete="new-password">
-
-                                @error('password')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
-                            </div>
-                        </div>
-
-                        <div class="row mb-3">
-                            <label for="password-confirm" class="col-md-4 col-form-label text-md-end">{{ __('Confirm Password') }}</label>
-
-                            <div class="col-md-6">
-                                <input id="password-confirm" type="password" class="form-control" name="password_confirmation" required autocomplete="new-password">
-                            </div>
-                        </div>
-
-                        <div class="row mb-0">
-                            <div class="col-md-6 offset-md-4">
-                                <button type="submit" class="btn btn-primary">
-                                    {{ __('Reset Password') }}
-                                </button>
-                            </div>
-                        </div>
-                    </form>
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /> <title>Login EPC</title>
+    <link rel="stylesheet" href="{{ asset('styles/Estiloslogin.css') }}">
+    <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+</head>
+<body>
+    <div class="container single-form-page" id="container">
+        <div class="container-form form-login">
+            <form method="POST" action="{{ route('password.email') }}">
+                @csrf
+                <h2>Restablecer Contraseña</h2>
+                <div class="logo">
+                    <img src="{{ asset('img/logo_epc.webp') }}" alt="logo" />
                 </div>
-            </div>
+                <span>Ingrese su correo electrónico para recibir un enlace de restablecimiento.</span>
+
+                <div class="container-input">
+                    <ion-icon name="mail-outline"></ion-icon>
+                    <input type="email" name="email" placeholder="Email" value="{{ old('email') }}" required autofocus />
+                </div>
+
+                <button type="submit">Enviar Enlace de Restablecimiento</button>
+
+                @if (session('status'))
+                    <div class="success-message">
+                        {{ session('status') }}
+                    </div>
+                @endif
+
+                @if ($errors->has('email'))
+                    <div class="error-messages">
+                        <ul>
+                            <li>{{ $errors->first('email') }}</li>
+                        </ul>
+                    </div>
+                @endif
+            </form>
         </div>
     </div>
-</div>
+</body>
 @endsection
