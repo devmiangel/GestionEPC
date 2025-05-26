@@ -11,12 +11,18 @@ class FuncionRolSeeder extends Seeder
     public function run(): void
     {
         $admin = Rol::where('rol', 'Administrador')->first();
+        $coordinador = Rol::where('rol', 'Coordinador')->first();
         $usuario = Rol::where('rol', 'Usuario')->first();
 
         $funciones = Funcion::pluck('id', 'funcion');
 
         // Asignar funciones al rol administrador
         $admin->funciones()->sync([
+            $funciones['ver_dashboard_admin'],
+            $funciones['editar_usuarios'],
+        ]);
+
+        $coordinador->funciones()->sync([
             $funciones['ver_dashboard_admin'],
             $funciones['editar_usuarios'],
         ]);
