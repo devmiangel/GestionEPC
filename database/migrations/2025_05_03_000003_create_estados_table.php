@@ -6,32 +6,16 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     */
     public function up(): void
     {
         Schema::create('estados', function (Blueprint $table) {
             $table->id();
-
             $table->string('estado', 25);
-            $table->string('descripcion',255)->nullable();
-
+            $table->string('descripcion', 255)->nullable();
             $table->timestamps();
         });
-
-        DB::table('estados')->insert([
-            ['estado' => 'Ocupado'],
-            ['estado' => 'Libre'],
-            ['estado' => 'Prestado'],
-            ['estado' => 'En Mantenimiento'],
-            ['estado' => 'En Espera'],
-        ]);
     }
 
-    /**
-     * Reverse the migrations.
-     */
     public function down(): void
     {
         Schema::dropIfExists('estados');

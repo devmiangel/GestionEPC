@@ -1,23 +1,27 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\loginController;
-use Illuminate\Support\Facades\Auth;
+use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\Auth\ForgotPasswordController;
 use App\Http\Controllers\Auth\ResetPasswordController;
+use App\Http\Controllers\DashboardController;
 
 Route::get('/', function () {
-    return view('welcome');
-});
+    return view('auth.login');
+})->name('login');
 
-//Auth::routes();}
+Route::get('/dashboard', function () {
+    return view('dashboard');
+})->middleware('auth')->name('dashboard');
 
-Route::get('/login', function () {
-    return view('login');
-});
+Route::post('/logout', function () {
+    Auth::logout();
+    request()->session()->invalidate();
+    request()->session()->regenerateToken();
+    return redirect('/');
+})->name('logout');
 
-
-Auth::routes(['reset' => false]);
+Route::post('/auth', [AuthController::class, 'handle'])->name('auth.handle');
 
 Route::get('/password/reset', function () {
     return view('auth.verycontra');
@@ -25,10 +29,6 @@ Route::get('/password/reset', function () {
 
 Route::post('/password/email', [ForgotPasswordController::class, 'sendResetLinkEmail'])->name('password.email');
 
-
 Route::get('/password/reset/{token}', [ResetPasswordController::class, 'showResetForm'])->name('password.reset');
 
-
 Route::post('/password/reset', [ResetPasswordController::class, 'reset'])->name('password.update');
-
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

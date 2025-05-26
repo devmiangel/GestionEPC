@@ -30,6 +30,22 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+
+    public function tieneFuncion($nombreFuncion)
+    {
+        foreach ($this->roles as $rol) {
+            if ($rol->funciones->contains('funcion', $nombreFuncion)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public function tieneRol($nombreRol)
+    {
+        return $this->roles->contains('rol', $nombreRol); // Asume que la columna se llama 'rol'
+    }
+
     public function persona()
     {
         return $this->belongsTo(Persona::class, 'id_persona');
