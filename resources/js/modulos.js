@@ -76,3 +76,9 @@ window.addEventListener('scroll', function() {
         main.style.marginTop = '76px';
     }
 });
+function expandirTarjetaModal(elemento) {
+    const detalle = elemento.querySelector('.detalle');
+    if (detalle) {
+        detalle.classList.toggle('visible');
+    }
+}
