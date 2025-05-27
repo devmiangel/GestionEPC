@@ -64,6 +64,17 @@
         <main class="py-4">
             @yield('content')
         </main>
+        <footer class="footer">
+    <div class="footer-content">
+        <p>&copy; {{ date('Y') }} EPC - Todos los derechos reservados.</p>
+        <div class="footer-icons">
+            <a href="#"><ion-icon name="logo-facebook"></ion-icon></a>
+            <a href="#"><ion-icon name="logo-twitter"></ion-icon></a>
+            <a href="#"><ion-icon name="logo-instagram"></ion-icon></a>
+
+        </div>
+    </div>
+</footer>
     </div>
 </body>
 </html>
