@@ -27,14 +27,15 @@ return new class extends Migration
             $table->foreign('id_estadoregistro')->references('id')->on('estado_registros');
 
             $table->string('placa', 10);
-            $table->string('conductor_auxiliar', 100);
-            $table->date('fecha_solicitud');
-            $table->date('fecha_devolucion');
-            $table->date('fecha_soat');
-            $table->date('fecha_tecnomecanica');
-            $table->binary('imagen_vehiculo');
-            $table->date('fecha_ultimo_mantenimiento');
-            $table->string('descripcion_ultimo_mantenimiento', 200);
+            $table->string('conductor_auxiliar', 100)->nullable();
+            $table->date('fecha_solicitud')->nullable();
+            $table->date('fecha_devolucion')->nullable();
+            $table->date('fecha_soat')->nullable();
+            $table->date('fecha_tecnomecanica')->nullable();
+            $table->string('segundo_apellido', 20)->nullable();
+            $table->binary('imagen_vehiculo')->nullable();
+            $table->date('fecha_ultimo_mantenimiento')->nullable();
+            $table->string('descripcion_ultimo_mantenimiento', 200)->nullable();
 
             $table->timestamps();
         });
