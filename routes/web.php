@@ -12,22 +12,17 @@ Route::get('/', function () {
     return view('auth.login');
 })->name('login');
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware('auth')->name('dashboard');
-
 Route::middleware(['auth'])->group(function () {
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+    
     Route::get('/vehiculos', [VehiculoController::class, 'index'])->name('vehiculos.index');
+    Route::get('/vehiculos/agregar', [VehiculoController::class, 'create'])->name('vehiculos.create');
+    Route::get('/vehiculos/eliminar', [VehiculoController::class, 'eliminate'])->name('vehiculos.eliminate');
+    Route::get('/vehiculos/camiones', [VehiculoController::class,'camiones'])->name('vehiculos.camiones');
+    Route::get('/vehiculos/compactadores', [VehiculoController::class,'compactadores'])->name('vehiculos.compactadores');
+    Route::get('/vehiculos/motos', [VehiculoController::class, 'motos'])->name('vehiculos.motos');
+    Route::get('/vehiculos/otros', [VehiculoController::class,'otros'])->name('vehiculos.otros');
 });
-
-Route::get('/vehiculos/agregar', [VehiculoController::class, 'create'])->name('vehiculos.create');
-
-Route::get('/vehiculos/eliminar', [VehiculoController::class, 'eliminate'])->name('vehiculos.eliminate');
-
-Route::get('/vehiculos/camiones', [VehiculoController::class,'camiones'])->name('vehiculos.camiones');
-Route::get('/vehiculos/compactadores', [VehiculoController::class,'compactadores'])->name('vehiculos.compactadores');
-Route::get('/vehiculos/motos', [VehiculoController::class, 'motos'])->name('vehiculos.motos');
-Route::get('/vehiculos/otros', [VehiculoController::class,'otros'])->name('vehiculos.otros');
 
 Route::post('/logout', function () {
     Auth::logout();
