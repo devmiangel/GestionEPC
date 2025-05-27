@@ -33,6 +33,8 @@ return new class extends Migration
             $table->date('fecha_soat');
             $table->date('fecha_tecnomecanica');
             $table->binary('imagen_vehiculo');
+            $table->date('fecha_ultimo_mantenimiento');
+            $table->string('descripcion_ultimo_mantenimiento', 200);
 
             $table->timestamps();
         });
