@@ -5,6 +5,8 @@ use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\Auth\ForgotPasswordController;
 use App\Http\Controllers\Auth\ResetPasswordController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\Modulos\VehiculoController;
+
 
 Route::get('/', function () {
     return view('auth.login');
@@ -14,12 +16,11 @@ Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware('auth')->name('dashboard');
 
-use App\Http\Controllers\Modulos\VehiculoController;
-
 Route::middleware(['auth'])->group(function () {
     Route::get('/vehiculos', [VehiculoController::class, 'index'])->name('vehiculos.index');
 });
 
+Route::get('/vehiculos/agregar', [VehiculoController::class, 'create'])->name('vehiculos.create');
 
 Route::post('/logout', function () {
     Auth::logout();

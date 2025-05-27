@@ -3,7 +3,7 @@
         <i class='bx bx-left-arrow-alt'></i>
     </div>
     <div class="brand">
-        <img src="{{ asset('img/logo_epc.webp') }}" alt="logo_epc">
+        <br><br><br>
     </div>
     <div class="menu-container">
         <div class="search">

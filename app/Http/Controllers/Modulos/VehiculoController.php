@@ -12,4 +12,9 @@ class VehiculoController extends Controller
         // Aquí podrías obtener datos desde base de datos si deseas.
         return view('modulos.vehiculos.index');
     }
+
+    public function create()
+    {
+        return view('modulos.vehiculos.agregar');
+    }
 }
