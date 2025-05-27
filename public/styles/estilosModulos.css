@@ -22,9 +22,12 @@ body {
   font-family: "Cal Sans", sans-serif;
   background-color: #f5f6fa;
   color: #2e2e2e;
-  height: 100vh;
-  width: 100vw;
+  min-height: 100vh;
+  margin: 0;
+  padding: 0;
   display: flex;
+  flex-direction: column;
+  overflow-x: hidden;
 }
 
 /* --------------------------
@@ -32,13 +35,13 @@ body {
 --------------------------- */
 .sidebar {
   position: fixed;
-  top: 0;
+  top: 60px; /* Ajustar según la altura de tu navbar superior */
   left: 0;
-  height: 100vh;
+  height: calc(100vh - 60px);
   width: 20rem;
   background-color: white;
   box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
-  z-index: 1000;
+  z-index: 100;
   display: flex;
   flex-direction: column;
   transition: width 0.3s ease;
@@ -138,8 +141,14 @@ body.sidebar-minimized .sidebar {
   width: 5rem;
 }
 
-body.sidebar-minimized main {
+body.sidebar-minimized .main-content {
   margin-left: 5rem;
+  width: calc(100% - 5rem);
+}
+
+body.sidebar-hidden .main-content {
+  margin-left: 0;
+  width: 100%;
 }
 
 .sidebar.minimize {
@@ -418,4 +427,47 @@ main {
 #modalDetalles {
   margin-top: 20px;
   font-size: 18px;
+}
+
+/* Asegura que el main se sitúe correctamente */
+main {
+  flex-grow: 1;
+  margin-left: 20rem; /* igual al ancho del sidebar */
+  transition: margin-left 0.3s ease;
+}
+
+/* Si el sidebar está minimizado, que el main se corra menos */
+body.sidebar-minimized main {
+  margin-left: 5rem;
+}
+
+/* Si el sidebar está oculto, el main ocupa todo */
+body.sidebar-hidden main {
+  margin-left: 0 !important;
+}
+
+
+html, body {
+  height: 100%;
+  margin: 0;
+}
+
+.d-flex {
+  display: flex;
+  min-height: calc(100vh - 60px); /* Ajustar según la altura de tu navbar superior */
+  position: relative;
+}
+
+.sidebar {
+  width: 20rem;
+  background-color: #f8f9fa; /* o lo que tengas */
+}
+
+.main-content {
+  flex: 1;
+  margin-left: 20rem;
+  padding: 2rem;
+  position: relative;
+  min-height: 100%;
+  width: calc(100% - 20rem);
 }
