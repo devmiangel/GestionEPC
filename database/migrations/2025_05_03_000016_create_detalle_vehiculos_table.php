@@ -27,6 +27,7 @@ return new class extends Migration
             $table->foreign('id_estadoregistro')->references('id')->on('estado_registros');
 
             $table->string('placa', 10);
+            $table->string('Nombre', 100)->nullable();
             $table->string('conductor_auxiliar', 100)->nullable();
             $table->date('fecha_solicitud')->nullable();
             $table->date('fecha_devolucion')->nullable();
