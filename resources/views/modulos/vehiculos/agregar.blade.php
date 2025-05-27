@@ -10,12 +10,13 @@
 
     <link rel="stylesheet" href="{{ asset('styles/vehiculo.css') }}">
     <link rel="stylesheet" href="{{ asset('styles/estiloDashboard.css') }}">
+    <link rel="stylesheet" href="{{ asset('styles/estilosagregarvehiculo.css') }}">
     <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
     <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
 </head>
-<body>
-<main>
-        <div class="actions-vehiculos">
+ <h1 style="text-align: center; margin-top: 20px; font-size: 50px;"><strong></strong></h1>
+        <div class="add-vehicle-container">
+            <div class="actions-vehiculos">
             <a href="{{ route('vehiculos.index') }}" class="btn-agregar-vehiculo">
                 <i class="fas fa-arrow-left"></i> Volver a Vehículos
             </a>
@@ -23,7 +24,7 @@
     
         <h1 class="title">Añadir Vehículo</h1>
         
-        <div class="add-vehicle-container">
+        
             <form id="formAgregarVehiculo" class="add-vehicle-form">
                 <h2><i class="fas fa-plus-circle"></i> Información del Vehículo</h2>
                 
@@ -72,7 +73,8 @@
                 </button>
             </form>
         </div>
-    </main>
+    </div>
+</div>
     <script src="{{ asset('js/vehiculos.js') }}"></script>
     <script src="{{ asset('js/agregarvehiculo.js') }}"></script>
-</body>
+@endsection

@@ -18,10 +18,10 @@
     <div class="content-wrapper">
         <div class="main-content-area"> <h1 style="text-align: center; margin-top: 20px; font-size: 50px;"><strong></strong></h1><br><br>
             <div class="dashboard-buttons">
-                <div><a href="#" class="dashboard-button">Compactadores</a></div>
-                <div><a href="#" class="dashboard-button">Camionetas</a></div>
-                <div><a href="#" class="dashboard-button">Motos</a></div>
-                <div><a href="#" class="dashboard-button">Otros</a></div>
+                <div><a href="{{ route('vehiculos.compactadores') }}" class="dashboard-button">Compactadores</a></div>
+                <div><a href="{{ route('vehiculos.camiones') }}" class="dashboard-button">Camiones</a></div>
+                <div><a href="{{ route('vehiculos.motos') }}" class="dashboard-button">Motos</a></div>
+                <div><a href="{{ route('vehiculos.otros') }}" class="dashboard-button">Otros</a></div>
             </div>
             <br>
             <div class="actions-vehiculos">
@@ -29,7 +29,7 @@
                     <a href="{{ route('vehiculos.create') }}" class="btn-agregar-vehiculo">
                         <i class="fas fa-plus"></i> Añadir Vehículo
                     </a>
-                    <a href="eliminarvehiculo.html" class="btn-eliminar-vehiculo">
+                    <a href="{{ route('vehiculos.eliminate') }}" class="btn-eliminar-vehiculo">
                         <i class="fas fa-trash-alt"></i> Eliminar Vehículo
                     </a>
                 </div>
@@ -43,8 +43,7 @@
                 </div>
             </div>
             <button id="backButton" onclick="showAll()" class="hidden">Volver</button>
-        </div> <br> <footer class="site-footer">
-        </footer>
+        </div> <br>
     </div> 
     <script src="{{ asset('js/vehiculos.js') }}"></script>
     <script src="{{ asset('js/modulos.js') }}"></script>

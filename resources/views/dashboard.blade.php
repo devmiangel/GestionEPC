@@ -17,7 +17,7 @@
     <h1 style="text-align: center; margin-top: 20px; font-size: 50px;"><strong>Bienvenido</strong></h1><br><br>
     <div class="dashboard-buttons">
         <div>
-            <a href="#" class="dashboard-button">
+            <a href="{{ route('vehiculos.index') }}" class="dashboard-button">
                 Vehículos
             </a>
             @auth
