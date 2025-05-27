@@ -1,5 +1,3 @@
-<body>
-
 <div class="sidebar" id="sidebar"> 
     <div class="menu-btn" id="menu-btn">
         <i class='bx bx-left-arrow-alt'></i>
@@ -46,4 +44,3 @@
         </li>
     </ul>
 </div>
-</body>
