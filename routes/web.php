@@ -14,6 +14,13 @@ Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware('auth')->name('dashboard');
 
+use App\Http\Controllers\Modulos\VehiculoController;
+
+Route::middleware(['auth'])->group(function () {
+    Route::get('/vehiculos', [VehiculoController::class, 'index'])->name('vehiculos.index');
+});
+
+
 Route::post('/logout', function () {
     Auth::logout();
     request()->session()->invalidate();
