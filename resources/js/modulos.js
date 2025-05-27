@@ -57,3 +57,22 @@ document.addEventListener("DOMContentLoaded", () => {
 document.getElementById('menuToggleBtn').addEventListener('click', () => {
     document.body.classList.toggle('sidebar-hidden');
     });
+
+    // Manejo del scroll
+window.addEventListener('scroll', function() {
+    const navbar = document.querySelector('.navbar');
+    const sidebar = document.querySelector('.sidebar');
+    const main = document.querySelector('main');
+    
+    if (window.scrollY > 0) {
+        navbar.style.boxShadow = '0 2px 5px rgba(0,0,0,0.1)';
+        sidebar.style.top = '0';
+        sidebar.style.height = '100vh';
+        main.style.marginTop = '0';
+    } else {
+        navbar.style.boxShadow = 'none';
+        sidebar.style.top = '76px';
+        sidebar.style.height = 'calc(100vh - 76px)';
+        main.style.marginTop = '76px';
+    }
+});
