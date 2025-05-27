@@ -16,7 +16,7 @@ body {
 .container {
     background-color: #fff;
     border-radius: 10px;
-    width: 700px; /* reducido de 900px */
+    width: 700px;
     max-width: 100%;
     min-height: 750px;
     position: relative;
