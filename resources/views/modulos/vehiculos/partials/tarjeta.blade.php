@@ -1,5 +1,5 @@
 <div class="vehicle-card">
-    <img src="{{ asset('img/' . $tipo . '.webp') }}" alt="Vehículo">
+    <img src="{{ asset('img/truck.png') }}" alt="Vehículo" />
     <div class="vehicle-plate">{{ $placa }}</div>
     <div class="tarjeta" onclick="expandirTarjetaModal(this)">
         <div class="resumen">DETALLES</div>

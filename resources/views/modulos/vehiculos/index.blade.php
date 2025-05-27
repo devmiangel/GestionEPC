@@ -75,5 +75,4 @@
 
 @push('scripts')
     <script src="{{ asset('js/vehiculos.js') }}"></script>
-    <script src="{{ asset('js/CVehiculos.js') }}"></script>
 @endpush
