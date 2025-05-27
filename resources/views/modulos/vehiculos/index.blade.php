@@ -1,78 +1,52 @@
 @extends('layouts.modulos')
 
-@section('title', 'Vehículos')
+@section('title', 'Vehiculos - EPC')
 
 @section('content')
-    <h1 class="title">VEHICULOS</h1>
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Vehiculos EPC</title>
 
-    {{-- CAMIONES --}}
-    <h2 class="subtitle">CAMIONES</h2>
-    <section id="camiones">
-        <div class="vehicle-grid">
-            @include('modulos.vehiculos.partials.tarjeta', [
-                'tipo' => 'camion',
-                'placa' => 'ABC-123',
-                'marca' => 'Volvo',
-                'año' => 2022,
-                'capacidad' => '10 toneladas',
-                'conductor' => 'Nombre Conductor',
-                'mantenimiento' => '26/05/24',
-                'soat' => 'Activo',
-                'tecnomecanica' => 'Activa'
-            ])
+    <link rel="stylesheet" href="{{ asset('styles/vehiculo.css') }}">
+    <link rel="stylesheet" href="{{ asset('styles/estiloDashboard.css') }}">
+    <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+</head>
+<body>
 
-            {{-- Puedes duplicar este include para más camiones o hacer un loop --}}
-        </div>
-    </section>
+    <div class="content-wrapper">
+        <div class="main-content-area"> <h1 style="text-align: center; margin-top: 20px; font-size: 50px;"><strong></strong></h1><br><br>
+            <div class="dashboard-buttons">
+                <div><a href="#" class="dashboard-button">Compactadores</a></div>
+                <div><a href="#" class="dashboard-button">Camionetas</a></div>
+                <div><a href="#" class="dashboard-button">Motos</a></div>
+                <div><a href="#" class="dashboard-button">Otros</a></div>
+            </div>
+            <br>
+            <div class="actions-vehiculos">
+                <div class="action-buttons">
+                    <a href="agregarvehiculo.html" class="btn-agregar-vehiculo">
+                        <i class="fas fa-plus"></i> Añadir Vehículo
+                    </a>
+                    <a href="eliminarvehiculo.html" class="btn-eliminar-vehiculo">
+                        <i class="fas fa-trash-alt"></i> Eliminar Vehículo
+                    </a>
+                </div>
+            </div>
 
-    {{-- CAMIONETAS --}}
-    <h2 class="subtitle">CAMIONETAS</h2>
-    <section id="camionetas">
-        <div class="vehicle-grid">
-            @include('modulos.vehiculos.partials.tarjeta', [
-                'tipo' => 'car',
-                'placa' => 'DEF-456',
-                'marca' => 'Toyota',
-                'año' => 2021,
-                'capacidad' => '5 pasajeros',
-                'conductor' => 'Conductor 2',
-                'mantenimiento' => '24/05/24',
-                'soat' => 'Activo',
-                'tecnomecanica' => 'Activa'
-            ])
-
-            {{-- Botón de añadir --}}
-            @include('modulos.vehiculos.partials.añadir')
-        </div>
-    </section>
-
-    {{-- MOTOS --}}
-    <h2 class="subtitle">MOTOS</h2>
-    <section id="Motos">
-        <div class="vehicle-grid">
-            @include('modulos.vehiculos.partials.tarjeta', [
-                'tipo' => 'moto2',
-                'placa' => 'GHI-789',
-                'marca' => 'Bajaj',
-                'año' => 2023,
-                'capacidad' => '2 pasajeros',
-                'conductor' => 'Conductor 3',
-                'mantenimiento' => '23/05/24',
-                'soat' => 'Activo',
-                'tecnomecanica' => 'Activa'
-            ])
-
-            @include('modulos.vehiculos.partials.añadir')
-        </div>
-    </section>
-
-    {{-- Modal --}}
-    @include('modulos.vehiculos.partials.modal')
-
-    {{-- Botón Volver --}}
-    <button id="backButton" onclick="showAll()" class="hidden">Volver</button>
-@endsection
-
-@push('scripts')
+            <div id="modalVehiculo" onclick="cerrarModal()">
+                <div class="contenido-modal" onclick="event.stopPropagation()">
+                    <span class="cerrar" onclick="cerrarModal()">&times;</span>
+                    <img id="modalImagen" src="" alt="Imagen del vehículo">
+                    <div id="modalDetalles"></div>
+                </div>
+            </div>
+            <button id="backButton" onclick="showAll()" class="hidden">Volver</button>
+        </div> <br> <footer class="site-footer">
+        </footer>
+    </div> 
     <script src="{{ asset('js/vehiculos.js') }}"></script>
-@endpush
+    <script src="{{ asset('js/modulos.js') }}"></script>
+</body>
+@endsection

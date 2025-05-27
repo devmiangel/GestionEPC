@@ -74,7 +74,8 @@
 
         </div>
     </div>
-</footer>
+    </footer>
     </div>
-</body>
+    <script src="{{ asset('js/modulos.js') }}"></script>
+    </body>
 </html>
