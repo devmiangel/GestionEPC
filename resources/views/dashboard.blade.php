@@ -29,6 +29,25 @@
         @endif
     @endauth
         </div>
+<<<<<<< Updated upstream
+=======
+
+        <div>
+            <a href="{{ route('conductores.index') }}" class="dashboard-button">
+                Conductores
+            </a>
+            @auth
+                @if (auth()->user()->tieneRol('Coordinador'))
+                    <a href="{{ url('/vehiculos/asignar') }}" class="dashboard-buttondos">Asignar</a>
+                @endif
+                @if (auth()->user()->tieneRol('Administrador'))
+                    <a href="{{ url('conductores/modificar') }}" class="dashboard-buttondos">Modificar</a>
+                    <a href="{{ url('vehiculos/asignar') }}" class="dashboard-buttondos">Asignar</a>
+                @endif
+            @endauth
+        </div>
+
+>>>>>>> Stashed changes
         
 
         <a href="#" class="dashboard-button">

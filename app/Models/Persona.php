@@ -19,7 +19,7 @@ class Persona extends Model
 
     public function tipoDocumento()
     {
-        return $this->belongsTo(TipoDocumento::class, 'id_tipdocumento');
+        return $this->belongsTo(\App\Models\TipoDocumento::class, 'id_tipdocumento');
     }
 
     public function user()
