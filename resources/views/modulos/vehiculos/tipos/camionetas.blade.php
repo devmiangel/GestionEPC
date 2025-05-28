@@ -19,11 +19,30 @@
                 @else
                     <img src="{{ asset('img/car.webp') }}" alt="Vehículo {{ $detalle->placa }}">
                 @endif
-                <div class="vehicle-plate">{{ $detalle->placa }}</div>
+                <div class="vehicle-plate {{
+                    match(strtolower($detalle->estadoVehiculo->estado ?? '')) {
+                        'disponible' => 'estado-disponible',
+                        'prestado' => 'estado-prestado',
+                        'fuera de servicio' => 'estado-fuera-servicio',
+                        'inactivo' => 'estado-inactivo',
+                        default => ''
+                    }
+                }}">
+                    {{ $detalle->placa }}
+                    <span style="font-size:10px;display:block;">Estado: {{ $detalle->estadoVehiculo->estado ?? 'Sin estado' }}</span>
+                </div>
                 <div class="tarjeta" onclick="expandirTarjetaModal(this)">
                     <div class="resumen">DETALLES</div>
                     <div class="detalle">
-                        <div class="vehicle-plate">{{ $detalle->placa }}</div>
+                        <div class="vehicle-plate {{
+                    match(strtolower($detalle->estadoVehiculo->estado ?? '')) {
+                        'disponible' => 'estado-disponible',
+                        'prestado' => 'estado-prestado',
+                        'fuera de servicio' => 'estado-fuera-servicio',
+                        'inactivo' => 'estado-inactivo',
+                        default => ''
+                    }
+                }}">{{ $detalle->placa }}</div>
                         <p><strong>Modelo:</strong> {{ is_array($camioneta) ? ($camioneta['modelo_vehiculo'] ?? '') : $camioneta->modelo_vehiculo }}</p>
                         <p><strong>Marca:</strong> {{ is_array($camioneta) ? ($camioneta['marca_vehiculo'] ?? '') : $camioneta->marca_vehiculo }}</p>
                         <p><strong>Año:</strong> {{ $detalle->año ?? 'No registrado' }}</p>

@@ -348,6 +348,31 @@ main {
   padding: 10px;
   font-size: 18px;
   font-weight: bold;
+  transition: background-color 0.3s, color 0.3s, border 0.3s;
+}
+
+.vehicle-plate.estado-disponible {
+    background-color: #4caf50 !important;
+    color: #fff !important;
+    border: 2px solid #388e3c !important;
+}
+
+.vehicle-plate.estado-prestado {
+    background-color: #ffeb3b !important;
+    color: #333 !important;
+    border: 2px solid #fbc02d !important;
+}
+
+.vehicle-plate.estado-fuera-servicio {
+    background-color: #f44336 !important;
+    color: #fff !important;
+    border: 2px solid #b71c1c !important;
+}
+
+.vehicle-plate.estado-inactivo {
+    background-color: #9c27b0 !important;
+    color: #fff !important;
+    border: 2px solid #6a1b9a !important;
 }
 
 .add-vehicle-form {
@@ -654,21 +679,25 @@ main {
 }
 
 .estado-disponible {
-    background-color: #4CAF50; /* Verde */
-    color: white;
+    background-color: #4caf50 !important; /* verde */
+    color: #fff !important;
+    border: 2px solid #388e3c;
 }
 
 .estado-prestado {
-    background-color: #FFC107; /* Amarillo */
-    color: black;
+    background-color: #ffeb3b !important; /* amarillo */
+    color: #333 !important;
+    border: 2px solid #fbc02d;
 }
 
-.estado-fueradeservicio {
-    background-color: #F44336; /* Rojo */
-    color: white;
+.estado-fuera-servicio {
+    background-color: #f44336 !important; /* rojo */
+    color: #fff !important;
+    border: 2px solid #b71c1c;
 }
 
 .estado-inactivo {
-    background-color: #9C27B0; /* Morado */
-    color: white;
+    background-color: #9c27b0 !important; /* violeta */
+    color: #fff !important;
+    border: 2px solid #6a1b9a;
 }

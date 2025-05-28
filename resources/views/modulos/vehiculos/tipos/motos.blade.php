@@ -12,7 +12,18 @@
                     <img src="{{ asset('img/moto2.webp') }}" alt="Vehículo {{ $detalle->placa }}">
                 @endif
                 
-                <div class="vehicle-plate">{{ $detalle->placa }}</div>
+                <div class="vehicle-plate {{
+                    match(strtolower($detalle->estadoVehiculo->estado ?? '')) {
+                        'disponible' => 'estado-disponible',
+                        'prestado' => 'estado-prestado',
+                        'fuera de servicio' => 'estado-fuera-servicio',
+                        'inactivo' => 'estado-inactivo',
+                        default => ''
+                    }
+                }}">
+                    {{ $detalle->placa }}
+                    <span style="font-size:10px;display:block;">Estado: {{ $detalle->estadoVehiculo->estado ?? 'Sin estado' }}</span>
+                </div>
 
                 <div class="tarjeta" onclick="expandirTarjetaModal(this)">
                     <div class="resumen">DETALLES</div>

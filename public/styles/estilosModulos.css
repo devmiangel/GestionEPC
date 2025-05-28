@@ -284,6 +284,30 @@ main {
   font-weight: bold;
 }
 
+.vehicle-plate.estado-disponible {
+    background-color: #4caf50 !important;
+    color: #fff !important;
+    border: 2px solid #388e3c !important;
+}
+
+.vehicle-plate.estado-prestado {
+    background-color: #ffeb3b !important;
+    color: #333 !important;
+    border: 2px solid #fbc02d !important;
+}
+
+.vehicle-plate.estado-fuera-servicio {
+    background-color: #f44336 !important;
+    color: #fff !important;
+    border: 2px solid #b71c1c !important;
+}
+
+.vehicle-plate.estado-inactivo {
+    background-color: #9c27b0 !important;
+    color: #fff !important;
+    border: 2px solid #6a1b9a !important;
+}
+
 .tarjeta {
   cursor: pointer;
   overflow: hidden;

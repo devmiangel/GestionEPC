@@ -11,12 +11,23 @@
                     <img src="data:image/jpeg;base64,{{ base64_encode($detalle->imagen_vehiculo) }}" alt="Vehículo {{ $detalle->placa }}">
                 @else
                     <img src="{{ asset('img/vectorepc.webp') }}" alt="Vehículo {{ $detalle->placa }}">
-                @endif-plate">{{ $detalle->placa }}</div>
+                @endif
 
                 <div class="tarjeta" onclick="expandirTarjetaModal(this)">
                     <div class="resumen">DETALLES</div>
                     <div class="detalle">
-                        <div class="vehicle-plate">{{ $detalle->placa }}</div>nombre
+                        <div class="vehicle-plate {{
+    match(strtolower($detalle->estadoVehiculo->estado ?? '')) {
+        'disponible' => 'estado-disponible',
+        'prestado' => 'estado-prestado',
+        'fuera de servicio' => 'estado-fuera-servicio',
+        'inactivo' => 'estado-inactivo',
+        default => ''
+    }
+}}">
+    {{ $detalle->placa }}
+    <span style="font-size:10px;display:block;">Estado: {{ $detalle->estadoVehiculo->estado ?? 'Sin estado' }}</span>
+</div>nombre
                         <p><strong>Modelo:</strong> {{ $detalle->nombre }}</p>
                         <p><strong>Modelo:</strong> {{ $otros->modelo_vehiculo }}</p>
                         <p><strong>Marca:</strong> {{ $otros->marca_vehiculo }}</p>
