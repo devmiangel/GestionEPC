@@ -17,6 +17,7 @@
                     <ul class="navbar-nav ms-auto">
                         <!-- Botón de alertas -->
                         @auth
+                        @if(Auth::user()->roles && Auth::user()->roles->contains('rol', 'Administrador'))
                         <li class="nav-item dropdown me-2">
                             <a id="alertDropdown" class="nav-link dropdown-toggle position-relative" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <i class="bi bi-bell" style="font-size: 1.5rem;"></i>
@@ -37,6 +38,7 @@
                                 <a href="{{ route('alertas.index') }}" class="dropdown-item text-center text-primary">Ver más</a>
                             </div>
                         </li>
+                        @endif
                         <li class="nav-item dropdown">
                             <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                                 {{ Auth::user()->persona->primer_nombre }} {{ Auth::user()->persona->primer_apellido }}

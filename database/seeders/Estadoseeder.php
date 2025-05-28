@@ -13,10 +13,10 @@ class EstadoSeeder extends Seeder
     public function run(): void
     {
         DB::table('estados')->insert([
-            ['estado' => 'disponible'],
-            ['estado' => 'no disponible'],
-            ['estado' => 'en mantenimiento'],
-            ['estado' => 'en prestamo'],
+            ['estado' => 'Disponible'],//Verde (Activo)
+            ['estado' => 'Prestado'],//Amarillo (En ruta) (Asignado compactadores tractor(operando)) (Prestado para motos o que se presten)
+            ['estado' => 'Fuera de servicio'],//Rojo (Mantenimiento)
+            ['estado' => 'Inactivo'],//Morado
         ]);
     }
 }

@@ -37,7 +37,7 @@ class AlertasController extends Controller
             // Suponiendo que el vehículo tiene un responsable relacionado
             $responsable = $vehiculo->responsable; // Ajusta según tu relación
             // Solo enviar a responsables que sean coordinadores o administradores
-            if ($responsable && $responsable->email && in_array($responsable->rol->nombre ?? '', ['Coordinador', 'Administrador'])) {
+            if ($responsable && $responsable->email && in_array($responsable->rol->nombre ?? '', ['Administrador'])) {
                 $alertas = [];
                 if ($vehiculo->fecha_vencimiento_soat && $vehiculo->fecha_vencimiento_soat <= $hoy->copy()->addDays($diasAlerta)) {
                     $alertas[] = 'SOAT vence el ' . $vehiculo->fecha_vencimiento_soat;
