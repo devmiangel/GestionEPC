@@ -7,14 +7,17 @@
         @foreach ($otros->detalleVehiculo as $detalle)
             <div class="vehicle-card">
                 
-                <img src="{{ asset('img/moto2.webp') }}" alt="Vehículo {{ $detalle->placa }}">
-                
-                <div class="vehicle-plate">{{ $detalle->placa }}</div>
+                @if ($detalle->imagen_vehiculo)
+                    <img src="data:image/jpeg;base64,{{ base64_encode($detalle->imagen_vehiculo) }}" alt="Vehículo {{ $detalle->placa }}">
+                @else
+                    <img src="{{ asset('img/vectorepc.webp') }}" alt="Vehículo {{ $detalle->placa }}">
+                @endif-plate">{{ $detalle->placa }}</div>
 
                 <div class="tarjeta" onclick="expandirTarjetaModal(this)">
                     <div class="resumen">DETALLES</div>
                     <div class="detalle">
-                        <div class="vehicle-plate">{{ $detalle->placa }}</div>
+                        <div class="vehicle-plate">{{ $detalle->placa }}</div>nombre
+                        <p><strong>Modelo:</strong> {{ $detalle->nombre }}</p>
                         <p><strong>Modelo:</strong> {{ $otros->modelo_vehiculo }}</p>
                         <p><strong>Marca:</strong> {{ $otros->marca_vehiculo }}</p>
                         <p><strong>Año:</strong> {{ $detalle->año ?? 'No registrado' }}</p>

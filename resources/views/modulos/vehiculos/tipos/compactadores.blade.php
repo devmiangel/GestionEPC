@@ -6,8 +6,12 @@
     @foreach ($compactadores as $compactadores)
         @foreach ($compactadores->detalleVehiculo as $detalle)
             <div class="vehicle-card">
-                
-                <img src="{{ asset('img/moto2.webp') }}" alt="Vehículo {{ $detalle->placa }}">
+
+                @if ($detalle->imagen_vehiculo)
+                    <img src="data:image/jpeg;base64,{{ base64_encode($detalle->imagen_vehiculo) }}" alt="Vehículo {{ $detalle->placa }}">
+                @else
+                    <img src="{{ asset('img/camion.webp') }}" alt="Vehículo {{ $detalle->placa }}">
+                @endif
                 
                 <div class="vehicle-plate">{{ $detalle->placa }}</div>
 

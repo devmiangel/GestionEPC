@@ -13,7 +13,7 @@
     </div>
     <ul class="menu">
         <li class="menu-item menu-item-static">
-            <a href="#" class="menu-link">
+            <a href="{{ route('dashboard') }}" class="menu-link">
                 <i class='bx bx-home'></i>
                 <span>Home</span>
             </a>

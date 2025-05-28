@@ -42,7 +42,7 @@
         </div>
 
         <div>
-            <a href="#" class="dashboard-button">
+            <a href="{{ route('herramientas.index') }}" class="dashboard-button">
                 Herramientas
             </a>
             @auth

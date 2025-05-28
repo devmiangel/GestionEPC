@@ -14,7 +14,7 @@
     <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
     <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
 </head>
- <h1 style="text-align: center; margin-top: 20px; font-size: 50px;"><strong></strong></h1>
+ <h1 style="text-align: center; margin-top: 10px; font-size: 50px;"><strong></strong></h1>
         <div class="add-vehicle-container">
             <div class="actions-vehiculos">
             <a href="{{ route('vehiculos.index') }}" class="btn-agregar-vehiculo">

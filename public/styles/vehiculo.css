@@ -22,7 +22,7 @@ main {
     padding: 2rem;
     margin-left: 20rem;
     flex-grow: 1;
-    margin-top: 76px;
+    margin-top: 10px;
     transition: margin-top 0.3s ease;
 }
 
@@ -314,8 +314,8 @@ main {
 }
 
 .add-vehicle-form {
-  max-width: 400px;
-  margin: 2rem auto;
+  max-width: 100%;
+  margin: 2rem;
   padding: 2rem;
   background: #fff;
   border-radius: 12px;

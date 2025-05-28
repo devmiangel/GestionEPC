@@ -6,6 +6,7 @@ use App\Http\Controllers\Auth\ForgotPasswordController;
 use App\Http\Controllers\Auth\ResetPasswordController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\Modulos\VehiculoController;
+use App\Http\Controllers\Modulos\HerramientaController;
 
 
 Route::get('/', function () {
@@ -22,6 +23,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/vehiculos/compactadores', [VehiculoController::class,'compactadores'])->name('vehiculos.compactadores');
     Route::get('/vehiculos/motos', [VehiculoController::class, 'motos'])->name('vehiculos.motos');
     Route::get('/vehiculos/otros', [VehiculoController::class,'otros'])->name('vehiculos.otros');
+    Route::get('/herramientas', [HerramientaController::class, 'index'])->name('herramientas.index');
 });
 
 Route::post('/logout', function () {

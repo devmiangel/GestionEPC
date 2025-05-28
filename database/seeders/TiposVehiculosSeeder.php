@@ -12,8 +12,8 @@ class TiposVehiculosSeeder extends Seeder
      */
     public function run(): void
     {
-        DB::table('tipo_documentos')->insert([
-            ['tipo_vehiculo' => 'Camiones'],
+        DB::table('tipo_vehiculos')->insert([
+            ['tipo_vehiculo' => 'Camionetas'],
             ['tipo_vehiculo' => 'Compactadores'],
             ['tipo_vehiculo' => 'Motos'],
             ['tipo_vehiculo' => 'Otro'],
