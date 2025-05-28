@@ -34,14 +34,14 @@
                     <div class="resumen">DETALLES</div>
                     <div class="detalle">
                         <div class="vehicle-plate {{
-                    match(strtolower($detalle->estadoVehiculo->estado ?? '')) {
-                        'disponible' => 'estado-disponible',
-                        'prestado' => 'estado-prestado',
-                        'fuera de servicio' => 'estado-fuera-servicio',
-                        'inactivo' => 'estado-inactivo',
-                        default => ''
-                    }
-                }}">{{ $detalle->placa }}</div>
+                            match(strtolower($detalle->estadoVehiculo->estado ?? '')) {
+                                'disponible' => 'estado-disponible',
+                                'prestado' => 'estado-prestado',
+                                'fuera de servicio' => 'estado-fuera-servicio',
+                                'inactivo' => 'estado-inactivo',
+                                default => ''
+                            }
+                        }}">{{ $detalle->placa }}</div>
                         <p><strong>Modelo:</strong> {{ is_array($camioneta) ? ($camioneta['modelo_vehiculo'] ?? '') : $camioneta->modelo_vehiculo }}</p>
                         <p><strong>Marca:</strong> {{ is_array($camioneta) ? ($camioneta['marca_vehiculo'] ?? '') : $camioneta->marca_vehiculo }}</p>
                         <p><strong>Año:</strong> {{ $detalle->año ?? 'No registrado' }}</p>
@@ -49,6 +49,14 @@
                         <p><strong>Conductor:</strong> {{ $detalle->conductor ?? 'No asignado' }}</p>
                         <p><strong>Soat:</strong> {{ $detalle->soat_estado ?? 'No registrado' }}</p>
                         <p><strong>Tecnomecánica:</strong> {{ $detalle->tecno_estado ?? 'No registrada' }}</p>
+                        @if(strtolower($detalle->estadoVehiculo->estado ?? '') === 'prestado')
+                            <form method="POST" action="{{ route('vehiculos.devolver') }}" style="margin-top:1rem;">
+                                @csrf
+                                <button type="submit" class="btn btn-warning">Devolver</button>
+                            </form>
+                        @elseif(strtolower($detalle->estadoVehiculo->estado ?? '') === 'disponible')
+                            <a href="{{ route('vehiculos.asignar') }}" class="btn btn-success" style="margin-top:1rem;">Asignar</a>
+                        @endif
                     </div>
                 </div>
             </div>

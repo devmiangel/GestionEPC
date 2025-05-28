@@ -36,6 +36,14 @@
                         <p><strong>Último mantenimiento:</strong> {{ $detalle->ultimo_mantenimiento ?? 'No registrado' }}</p>
                         <p><strong>Soat:</strong> {{ $detalle->soat_estado ?? 'No registrado' }}</p>
                         <p><strong>Tecnomecánica:</strong> {{ $detalle->tecno_estado ?? 'No registrada' }}</p>
+                        @if(strtolower($detalle->estadoVehiculo->estado ?? '') === 'prestado')
+                            <form method="POST" action="{{ route('vehiculos.devolver') }}" style="margin-top:1rem;">
+                                @csrf
+                                <button type="submit" class="btn btn-warning">Devolver</button>
+                            </form>
+                        @elseif(strtolower($detalle->estadoVehiculo->estado ?? '') === 'disponible')
+                            <a href="{{ route('vehiculos.asignar') }}" class="btn btn-success" style="margin-top:1rem;">Asignar</a>
+                        @endif
                     </div>
                 </div>
             </div>
