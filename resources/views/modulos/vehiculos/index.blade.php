@@ -42,7 +42,6 @@
                     <div id="modalDetalles"></div>
                 </div>
             </div>
-            <button id="backButton" onclick="showAll()" class="hidden">Volver</button>
         </div> <br>
     </div> 
     <script src="{{ asset('js/vehiculos.js') }}"></script>
