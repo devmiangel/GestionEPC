@@ -17,8 +17,8 @@ return new class extends Migration
             $table->unsignedBigInteger('id_vehiculo');
             $table->foreign('id_vehiculo')->references('id')->on('vehiculos');
 
-            $table->unsignedBigInteger('user_id');
-            $table->foreign('user_id')->references('id')->on('users');
+            $table->unsignedBigInteger('persona_id');
+            $table->foreign('persona_id')->references('id')->on('personas');
 
             $table->unsignedBigInteger('id_estado');
             $table->foreign('id_estado')->references('id')->on('estados');
