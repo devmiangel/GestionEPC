@@ -16,6 +16,7 @@ class DatabaseSeeder extends Seeder
             FuncionRolSeeder::class,
             TipoDocumentoSeeder::class,
             EstadoRegistroSeeder::class,
+            TiposVehiculosSeeder::class,
         ]);
     }
 }
