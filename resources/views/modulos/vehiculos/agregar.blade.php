@@ -25,14 +25,15 @@
                 </a>
             </div>
 
-            <form id="formAgregarVehiculo" class="add-vehicle-form">
+            <form id="formAgregarVehiculo" class="add-vehicle-form" method="POST" action="{{ route('vehiculos.store') }}" enctype="multipart/form-data">
+                @csrf
                 <h2><i class="fas fa-plus-circle"></i> Información del Vehículo</h2>
 
                 <div class="form-group">
                     <label for="tipoVehiculo">Tipo de Vehículo:</label>
                     <select id="tipoVehiculo" name="tipoVehiculo" required>
                         <option value="">Seleccione un tipo</option>
-                        <option value="camion">Camión</option>
+                        <option value="camioneta">Camión</option>
                         <option value="camioneta">Camioneta</option>
                         <option value="moto">Moto</option>
                     </select>
@@ -101,6 +102,18 @@
                     <textarea id="descripcionUltimoMantenimiento" name="descripcionUltimoMantenimiento" rows="3" placeholder="Detalles del último mantenimiento..."></textarea>
                 </div>
 
+                <div class="form-group">
+                    <label for="persona_id">Conductor/Persona asignada:</label>
+                    <select id="persona_id" name="persona_id" required>
+                        <option value="">Seleccione una persona</option>
+                        @foreach(App\Models\Persona::all() as $persona)
+                            <option value="{{ $persona->id }}">
+                                {{ $persona->primer_nombre }} {{ $persona->primer_apellido }} - {{ $persona->num_documento }}
+                            </option>
+                        @endforeach
+                    </select>
+                </div>
+
                 <button type="submit" class="btn-submit">
                     <i class="fas fa-save"></i> Guardar Vehículo
                 </button>
@@ -109,6 +122,5 @@
     </div>
 </div>
 
-<script src="{{ asset('js/vehiculos.js') }}"></script>
-<script src="{{ asset('js/agregarvehiculo.js') }}"></script>
+@vite('resources/js/agregarvehiculo.js')
 @endsection

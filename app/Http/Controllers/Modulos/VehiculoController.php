@@ -7,6 +7,9 @@ use Illuminate\Http\Request;
 use App\Models\Vehiculo;
 use App\Models\DetalleVehiculo;
 use App\Models\TipoVehiculo;
+use App\Models\Estado;
+use App\Models\Persona;
+
 
 class VehiculoController extends Controller
 {
@@ -27,6 +30,22 @@ class VehiculoController extends Controller
             $query->where('id_estadoregistro', 1); // 1 = visible/activo
         }])->get();
         return view('modulos.vehiculos.eliminar', compact('vehiculos'));
+    }
+
+    public function show($id)
+    {
+        $vehiculo = Vehiculo::with('detalleVehiculo.estado')->findOrFail($id);
+        $estados = Estado::all();
+        return view('modulos.vehiculos.show', compact('vehiculo', 'estados'));
+    }
+
+    public function cambiarEstado(Request $request, Vehiculo $vehiculo)
+    {
+        $detalleVehiculo = $vehiculo->detalleVehiculo;
+        $detalleVehiculo->id_estado = $request->id_estado;
+        $detalleVehiculo->save();
+    
+        return redirect()->back()->with('success', 'Estado del vehículo actualizado correctamente');
     }
 
     public function destroy($id)
@@ -52,107 +71,35 @@ class VehiculoController extends Controller
         }
     }
 
-    public function camiones()
+    public function camionetas()
     {
-        $camiones = Vehiculo::with(['detalleVehiculo', 'tipoVehiculo'])
-                        ->where('id_tipovehiculo', 1)
-                        ->get()
-                        ->map(function($vehiculo) {
-                            $detalle = $vehiculo->detalleVehiculo->first();
-                            return [
-                                'id' => $vehiculo->id,
-                                'placa' => $detalle ? $detalle->placa : 'No registrada',
-                                'marca_vehiculo' => $vehiculo->marca_vehiculo,
-                                'modelo_vehiculo' => $vehiculo->modelo_vehiculo,
-                                'tipo_vehiculo' => $vehiculo->tipoVehiculo->tipo_vehiculo,
-                                'estado' => $detalle && $detalle->estado ? $detalle->estado->estado : 'No registrado',
-                                'año' => $detalle ? $detalle->año : 'No registrado',
-                                'capacidad' => $detalle ? $detalle->capacidad : 'No registrada',
-                                'conductor' => $detalle ? $detalle->conductor : 'No asignado',
-                                'ultimo_mantenimiento' => $detalle ? $detalle->fecha_ultimo_mantenimiento : 'No registrado',
-                                'soat_estado' => $detalle ? $detalle->fecha_soat : 'No registrado',
-                                'tecno_estado' => $detalle ? $detalle->tecno_estado : 'No registrada',
-                                'imagen_vehiculo' => $detalle && $detalle->imagen_vehiculo ? base64_encode($detalle->imagen_vehiculo) : null
-                            ];
-                        });
-        return view('modulos.vehiculos.tipos.camiones', compact('camiones'));
+        $camionetas = Vehiculo::with(['detalleVehiculo', 'tipoVehiculo'])
+            ->where('id_tipovehiculo', 1)
+            ->get();
+        return view('modulos.vehiculos.tipos.camionetas', compact('camionetas'));
     }
 
     public function compactadores()
     {
         $compactadores = Vehiculo::with(['detalleVehiculo', 'tipoVehiculo'])
-                        ->where('id_tipovehiculo', 2)
-                        ->get()
-                        ->map(function($vehiculo) {
-                            $detalle = $vehiculo->detalleVehiculo->first();
-                            return [
-                                'id' => $vehiculo->id,
-                                'placa' => $detalle ? $detalle->placa : 'No registrada',
-                                'marca_vehiculo' => $vehiculo->marca_vehiculo,
-                                'modelo_vehiculo' => $vehiculo->modelo_vehiculo,
-                                'tipo_vehiculo' => $vehiculo->tipoVehiculo->tipo_vehiculo,
-                                'estado' => $detalle && $detalle->estado ? $detalle->estado->estado : 'No registrado',
-                                'año' => $detalle ? $detalle->año : 'No registrado',
-                                'capacidad' => $detalle ? $detalle->capacidad : 'No registrada',
-                                'conductor' => $detalle ? $detalle->conductor : 'No asignado',
-                                'ultimo_mantenimiento' => $detalle ? $detalle->fecha_ultimo_mantenimiento : 'No registrado',
-                                'soat_estado' => $detalle ? $detalle->fecha_soat : 'No registrado',
-                                'tecno_estado' => $detalle ? $detalle->tecno_estado : 'No registrada',
-                                'imagen_vehiculo' => $detalle && $detalle->imagen_vehiculo ? base64_encode($detalle->imagen_vehiculo) : null
-                            ];
-                        });
+            ->where('id_tipovehiculo', 2)
+            ->get();
         return view('modulos.vehiculos.tipos.compactadores', compact('compactadores'));
     }
 
     public function motos()
     {
         $motos = Vehiculo::with(['detalleVehiculo', 'tipoVehiculo'])
-                        ->where('id_tipovehiculo', 3)
-                        ->get()
-                        ->map(function($vehiculo) {
-                            $detalle = $vehiculo->detalleVehiculo->first();
-                            return [
-                                'id' => $vehiculo->id,
-                                'placa' => $detalle ? $detalle->placa : 'No registrada',
-                                'marca_vehiculo' => $vehiculo->marca_vehiculo,
-                                'modelo_vehiculo' => $vehiculo->modelo_vehiculo,
-                                'tipo_vehiculo' => $vehiculo->tipoVehiculo->tipo_vehiculo,
-                                'estado' => $detalle && $detalle->estado ? $detalle->estado->estado : 'No registrado',
-                                'año' => $detalle ? $detalle->año : 'No registrado',
-                                'capacidad' => $detalle ? $detalle->capacidad : 'No registrada',
-                                'conductor' => $detalle ? $detalle->conductor : 'No asignado',
-                                'ultimo_mantenimiento' => $detalle ? $detalle->fecha_ultimo_mantenimiento : 'No registrado',
-                                'soat_estado' => $detalle ? $detalle->fecha_soat : 'No registrado',
-                                'tecno_estado' => $detalle ? $detalle->tecno_estado : 'No registrada',
-                                'imagen_vehiculo' => $detalle && $detalle->imagen_vehiculo ? base64_encode($detalle->imagen_vehiculo) : null
-                            ];
-                        });
+            ->where('id_tipovehiculo', 3)
+            ->get();
         return view('modulos.vehiculos.tipos.motos', compact('motos'));
     }
 
     public function otros()
     {
         $otros = Vehiculo::with(['detalleVehiculo', 'tipoVehiculo'])
-                        ->where('id_tipovehiculo', 4)
-                        ->get()
-                        ->map(function($vehiculo) {
-                            $detalle = $vehiculo->detalleVehiculo->first();
-                            return [
-                                'id' => $vehiculo->id,
-                                'placa' => $detalle ? $detalle->placa : 'No registrada',
-                                'marca_vehiculo' => $vehiculo->marca_vehiculo,
-                                'modelo_vehiculo' => $vehiculo->modelo_vehiculo,
-                                'tipo_vehiculo' => $vehiculo->tipoVehiculo->tipo_vehiculo,
-                                'estado' => $detalle && $detalle->estado ? $detalle->estado->estado : 'No registrado',
-                                'año' => $detalle ? $detalle->año : 'No registrado',
-                                'capacidad' => $detalle ? $detalle->capacidad : 'No registrada',
-                                'conductor' => $detalle ? $detalle->conductor : 'No asignado',
-                                'ultimo_mantenimiento' => $detalle ? $detalle->fecha_ultimo_mantenimiento : 'No registrado',
-                                'soat_estado' => $detalle ? $detalle->fecha_soat : 'No registrado',
-                                'tecno_estado' => $detalle ? $detalle->tecno_estado : 'No registrada',
-                                'imagen_vehiculo' => $detalle && $detalle->imagen_vehiculo ? base64_encode($detalle->imagen_vehiculo) : null
-                            ];
-                        });
+            ->where('id_tipovehiculo', 4)
+            ->get();
         return view('modulos.vehiculos.tipos.otros', compact('otros'));
     }
 
@@ -207,7 +154,6 @@ class VehiculoController extends Controller
             'marcaVehiculo' => 'required|string',
             'placa' => 'required|string|max:10',
             'modelo' => 'required|string',
-            'anio' => 'required|integer',
             'color' => 'required|string',
             'fechaSoat' => 'required|date',
             'fechaSolicitud' => 'required|date',
@@ -218,7 +164,7 @@ class VehiculoController extends Controller
 
         // Map the vehicle type to the corresponding id_tipovehiculo
         $tipoVehiculoMap = [
-            'camion' => 1,        // Camiones
+            'camioneta' => 1,        // camionetas
             'compactador' => 2,   // Compactadores
             'moto' => 3,          // Motos
             'otro' => 4           // Otros
@@ -241,7 +187,7 @@ class VehiculoController extends Controller
         // Create the vehicle details
         $detalleVehiculo = DetalleVehiculo::create([
             'id_vehiculo' => $vehiculo->id,
-            'user_id' => auth()->id(),
+            'persona_id' => $request->persona_id, // Asignar persona seleccionada
             'id_estado' => 1, // Estado activo por defecto
             'id_estadoregistro' => 1, // Estado de registro activo por defecto
             'placa' => $request->placa,

@@ -50,7 +50,7 @@
                                 <a href="{{ route('herramientas.edit', $herramienta->id) }}" class="btn btn-warning btn-sm">
                                     <i class="fas fa-edit"></i> Modificar
                                 </a>
-                                <a href="{{ route('herramientas.asignar.form') }}" class="btn btn-info btn-sm">
+                                <a href="{{ route('herramientas.asignar') }}" class="btn btn-info btn-sm">
                                     <i class="fas fa-user-plus"></i> Asignar
                                 </a>
                             </td>
@@ -70,6 +70,6 @@
         </div> <br>
     </div> 
     <script src="{{ asset('js/vehiculos.js') }}"></script>
-    <script src="{{ asset('js/modulos.js') }}"></script>
+    {{-- <script src="{{ asset('js/modulos.js') }}"></script> --}}
 </body>
 @endsection

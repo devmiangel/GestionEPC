@@ -33,6 +33,20 @@ class PruebaAlertasSeeder extends Seeder
             'id_tipdocumento' => '1'
         ]);
 
+        // Personas adicionales (deben crearse antes de usarse)
+        $personaExtra1 = Persona::firstOrCreate([
+            'primer_nombre' => 'Extra1',
+            'primer_apellido' => 'Persona',
+            'num_documento' => '111111111',
+            'id_tipdocumento' => '1'
+        ]);
+        $personaExtra2 = Persona::firstOrCreate([
+            'primer_nombre' => 'Extra2',
+            'primer_apellido' => 'Persona',
+            'num_documento' => '222222222',
+            'id_tipdocumento' => '1'
+        ]);
+
         // 3. Crear usuarios y asociar roles y personas
         $userAdmin = User::firstOrCreate([
             'email' => 'admin@prueba.com',
@@ -67,14 +81,23 @@ class PruebaAlertasSeeder extends Seeder
             'marca_vehiculo' => 'Mazda',
             'id_tipovehiculo' => $tipoVehiculoId,
         ]);
-
-        
+        // Vehículo 3 y 4
+        $vehiculo3 = Vehiculo::create([
+            'modelo_vehiculo' => '2019',
+            'marca_vehiculo' => 'Chevrolet',
+            'id_tipovehiculo' => $tipoVehiculoId,
+        ]);
+        $vehiculo4 = Vehiculo::create([
+            'modelo_vehiculo' => '2018',
+            'marca_vehiculo' => 'Ford',
+            'id_tipovehiculo' => $tipoVehiculoId,
+        ]);
 
         // Crear detalles de vehículos con fechas próximas a vencer y responsables
         DB::table('detalle_vehiculos')->insert([
             [
                 'id_vehiculo' => $vehiculo1->id,
-                'user_id' => $userAdmin->id,
+                'persona_id' => $userAdmin->id,
                 'id_estado' => 1, // Ajusta según tu seeder de estados
                 'id_estadoregistro' => 1, // Ajusta según tu seeder de estado_registros
                 'placa' => 'AAA111',
@@ -84,7 +107,6 @@ class PruebaAlertasSeeder extends Seeder
                 'fecha_devolucion' => null,
                 'fecha_soat' => now()->addDays(5),
                 'fecha_tecnomecanica' => now()->addDays(10),
-                'segundo_apellido' => null,
                 'imagen_vehiculo' => null,
                 'fecha_ultimo_mantenimiento' => now()->subMonths(6),
                 'descripcion_ultimo_mantenimiento' => 'Cambio de aceite',
@@ -93,7 +115,7 @@ class PruebaAlertasSeeder extends Seeder
             ],
             [
                 'id_vehiculo' => $vehiculo2->id,
-                'user_id' => $userCoord->id,
+                'persona_id' => $userCoord->id,
                 'id_estado' => 1,
                 'id_estadoregistro' => 1,
                 'placa' => 'BBB222',
@@ -103,7 +125,6 @@ class PruebaAlertasSeeder extends Seeder
                 'fecha_devolucion' => null,
                 'fecha_soat' => now()->addDays(7),
                 'fecha_tecnomecanica' => now()->addDays(14),
-                'segundo_apellido' => null,
                 'imagen_vehiculo' => null,
                 'fecha_ultimo_mantenimiento' => now()->subMonths(5),
                 'descripcion_ultimo_mantenimiento' => 'Revisión general',
@@ -111,5 +132,256 @@ class PruebaAlertasSeeder extends Seeder
                 'updated_at' => now(),
             ],
         ]);
+
+        // Detalles de vehículos adicionales
+        DB::table('detalle_vehiculos')->insert([
+            [
+                'id_vehiculo' => $vehiculo3->id,
+                'persona_id' => $personaExtra1->id,
+                'id_estado' => 2, // Prestado
+                'id_estadoregistro' => 1,
+                'placa' => 'CCC333',
+                'Nombre' => 'Vehículo Extra1',
+                'conductor_auxiliar' => null,
+                'fecha_solicitud' => now()->subDays(1),
+                'fecha_devolucion' => null,
+                'fecha_soat' => now()->addDays(3),
+                'fecha_tecnomecanica' => now()->addDays(8),
+                'imagen_vehiculo' => null,
+                'fecha_ultimo_mantenimiento' => now()->subMonths(4),
+                'descripcion_ultimo_mantenimiento' => 'Cambio de frenos',
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            [
+                'id_vehiculo' => $vehiculo4->id,
+                'persona_id' => $personaExtra2->id,
+                'id_estado' => 3, // Fuera de servicio
+                'id_estadoregistro' => 1,
+                'placa' => 'DDD444',
+                'Nombre' => 'Vehículo Extra2',
+                'conductor_auxiliar' => null,
+                'fecha_solicitud' => now()->subDays(5),
+                'fecha_devolucion' => null,
+                'fecha_soat' => now()->addDays(2),
+                'fecha_tecnomecanica' => now()->addDays(5),
+                'imagen_vehiculo' => null,
+                'fecha_ultimo_mantenimiento' => now()->subMonths(2),
+                'descripcion_ultimo_mantenimiento' => 'Cambio de llantas',
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+        ]);
+
+        // Compactador
+        $compactador1 = Vehiculo::create([
+            'modelo_vehiculo' => '2022',
+            'marca_vehiculo' => 'Volvo',
+            'id_tipovehiculo' => 2, // Compactador
+        ]);
+        $compactador2 = Vehiculo::create([
+            'modelo_vehiculo' => '2021',
+            'marca_vehiculo' => 'Caterpillar',
+            'id_tipovehiculo' => 2,
+        ]);
+        DB::table('detalle_vehiculos')->insert([
+            [
+                'id_vehiculo' => $compactador1->id,
+                'persona_id' => $personaExtra1->id,
+                'id_estado' => 1,
+                'id_estadoregistro' => 1,
+                'placa' => 'COM111',
+                'Nombre' => 'Compactador 1',
+                'conductor_auxiliar' => null,
+                'fecha_solicitud' => now()->subDays(2),
+                'fecha_devolucion' => null,
+                'fecha_soat' => now()->addDays(10),
+                'fecha_tecnomecanica' => now()->addDays(20),
+                'imagen_vehiculo' => null,
+                'fecha_ultimo_mantenimiento' => now()->subMonths(2),
+                'descripcion_ultimo_mantenimiento' => 'Revisión hidráulica',
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            [
+                'id_vehiculo' => $compactador2->id,
+                'persona_id' => $personaExtra2->id,
+                'id_estado' => 2,
+                'id_estadoregistro' => 1,
+                'placa' => 'COM222',
+                'Nombre' => 'Compactador 2',
+                'conductor_auxiliar' => null,
+                'fecha_solicitud' => now()->subDays(3),
+                'fecha_devolucion' => null,
+                'fecha_soat' => now()->addDays(12),
+                'fecha_tecnomecanica' => now()->addDays(22),
+                'imagen_vehiculo' => null,
+                'fecha_ultimo_mantenimiento' => now()->subMonths(3),
+                'descripcion_ultimo_mantenimiento' => 'Cambio de rodillos',
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+        ]);
+        // Motos
+        $moto1 = Vehiculo::create([
+            'modelo_vehiculo' => '2023',
+            'marca_vehiculo' => 'Yamaha',
+            'id_tipovehiculo' => 3,
+        ]);
+        $moto2 = Vehiculo::create([
+            'modelo_vehiculo' => '2022',
+            'marca_vehiculo' => 'Honda',
+            'id_tipovehiculo' => 3,
+        ]);
+        DB::table('detalle_vehiculos')->insert([
+            [
+                'id_vehiculo' => $moto1->id,
+                'persona_id' => $personaExtra1->id,
+                'id_estado' => 1,
+                'id_estadoregistro' => 1,
+                'placa' => 'MOT111',
+                'Nombre' => 'Moto 1',
+                'conductor_auxiliar' => null,
+                'fecha_solicitud' => now()->subDays(1),
+                'fecha_devolucion' => null,
+                'fecha_soat' => now()->addDays(8),
+                'fecha_tecnomecanica' => now()->addDays(16),
+                'imagen_vehiculo' => null,
+                'fecha_ultimo_mantenimiento' => now()->subMonths(1),
+                'descripcion_ultimo_mantenimiento' => 'Cambio de aceite',
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            [
+                'id_vehiculo' => $moto2->id,
+                'persona_id' => $personaExtra2->id,
+                'id_estado' => 2,
+                'id_estadoregistro' => 1,
+                'placa' => 'MOT222',
+                'Nombre' => 'Moto 2',
+                'conductor_auxiliar' => null,
+                'fecha_solicitud' => now()->subDays(2),
+                'fecha_devolucion' => null,
+                'fecha_soat' => now()->addDays(9),
+                'fecha_tecnomecanica' => now()->addDays(18),
+                'imagen_vehiculo' => null,
+                'fecha_ultimo_mantenimiento' => now()->subMonths(2),
+                'descripcion_ultimo_mantenimiento' => 'Cambio de llantas',
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+        ]);
+        // Otros
+        $otro1 = Vehiculo::create([
+            'modelo_vehiculo' => '2020',
+            'marca_vehiculo' => 'John Deere',
+            'id_tipovehiculo' => 4,
+        ]);
+        $otro2 = Vehiculo::create([
+            'modelo_vehiculo' => '2017',
+            'marca_vehiculo' => 'Kubota',
+            'id_tipovehiculo' => 4,
+        ]);
+        DB::table('detalle_vehiculos')->insert([
+            [
+                'id_vehiculo' => $otro1->id,
+                'persona_id' => $personaExtra1->id,
+                'id_estado' => 1,
+                'id_estadoregistro' => 1,
+                'placa' => 'OTR111',
+                'Nombre' => 'Otro 1',
+                'conductor_auxiliar' => null,
+                'fecha_solicitud' => now()->subDays(4),
+                'fecha_devolucion' => null,
+                'fecha_soat' => now()->addDays(11),
+                'fecha_tecnomecanica' => now()->addDays(21),
+                'imagen_vehiculo' => null,
+                'fecha_ultimo_mantenimiento' => now()->subMonths(5),
+                'descripcion_ultimo_mantenimiento' => 'Revisión eléctrica',
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            [
+                'id_vehiculo' => $otro2->id,
+                'persona_id' => $personaExtra2->id,
+                'id_estado' => 2,
+                'id_estadoregistro' => 1,
+                'placa' => 'OTR222',
+                'Nombre' => 'Otro 2',
+                'conductor_auxiliar' => null,
+                'fecha_solicitud' => now()->subDays(6),
+                'fecha_devolucion' => null,
+                'fecha_soat' => now()->addDays(13),
+                'fecha_tecnomecanica' => now()->addDays(23),
+                'imagen_vehiculo' => null,
+                'fecha_ultimo_mantenimiento' => now()->subMonths(6),
+                'descripcion_ultimo_mantenimiento' => 'Cambio de filtro',
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+        ]);
+
+        // 5. Crear mantenimientos de prueba para los detalles de vehículos
+        $tipoMantId = DB::table('tipo_mantenimientos')->insertGetId([
+            'mantenimiento' => 'General',
+            'created_at' => now(),
+            'updated_at' => now(),
+        ]);
+        $detalleVehiculos = DB::table('detalle_vehiculos')->get();
+        foreach ($detalleVehiculos as $detalle) {
+            DB::table('mantenimientos')->insert([
+                [
+                    'id_detallevehiculo' => $detalle->id,
+                    'fecha_mantenimiento' => now()->subMonths(6),
+                    'id_tipomantenimiento' => $tipoMantId,
+                    'detalles_mantenimiento' => 'Cambio de aceite',
+                    'created_at' => now(),
+                    'updated_at' => now(),
+                ],
+                [
+                    'id_detallevehiculo' => $detalle->id,
+                    'fecha_mantenimiento' => now()->subMonths(3),
+                    'id_tipomantenimiento' => $tipoMantId,
+                    'detalles_mantenimiento' => 'Revisión general',
+                    'created_at' => now(),
+                    'updated_at' => now(),
+                ],
+            ]);
+        }
+        // Más mantenimientos para todos los detalles
+        $tipoMantId2 = DB::table('tipo_mantenimientos')->insertGetId([
+            'mantenimiento' => 'Correctivo',
+            'created_at' => now(),
+            'updated_at' => now(),
+        ]);
+        foreach ($detalleVehiculos as $detalle) {
+            DB::table('mantenimientos')->insert([
+                [
+                    'id_detallevehiculo' => $detalle->id,
+                    'fecha_mantenimiento' => now()->subMonths(1),
+                    'id_tipomantenimiento' => $tipoMantId2,
+                    'detalles_mantenimiento' => 'Cambio de batería',
+                    'created_at' => now(),
+                    'updated_at' => now(),
+                ],
+            ]);
+        }
+        // Más roles y usuarios
+        $rolMecanico = Rol::firstOrCreate(['rol' => 'Mecánico']);
+        $personaMecanico = Persona::firstOrCreate([
+            'primer_nombre' => 'Meca',
+            'primer_apellido' => 'Nico',
+            'num_documento' => '333333333',
+            'id_tipdocumento' => '1'
+        ]);
+        $userMecanico = User::firstOrCreate([
+            'email' => 'mecanico@prueba.com',
+        ], [
+            'password' => Hash::make('password'),
+            'id_persona' => $personaMecanico->id,
+        ]);
+        if (method_exists($userMecanico, 'roles')) {
+            $userMecanico->roles()->sync([$rolMecanico->id]);
+        }
     }
 }

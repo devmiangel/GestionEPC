@@ -12,7 +12,17 @@
                     <img src="{{ asset('img/moto2.webp') }}" alt="Vehículo {{ $detalle->placa }}">
                 @endif
                 
-                <div class="vehicle-plate">{{ $detalle->placa }}</div>
+                <div class="vehicle-plate {{
+                    match(strtolower($detalle->estadoVehiculo->estado ?? '')) {
+                        'disponible' => 'estado-disponible',
+                        'prestado' => 'estado-prestado',
+                        'fuera de servicio' => 'estado-fuera-servicio',
+                        'inactivo' => 'estado-inactivo',
+                        default => ''
+                    }
+                }}">
+                    {{ $detalle->placa }}
+                </div>
 
                 <div class="tarjeta" onclick="expandirTarjetaModal(this)">
                     <div class="resumen">DETALLES</div>
@@ -26,11 +36,27 @@
                         <p><strong>Último mantenimiento:</strong> {{ $detalle->ultimo_mantenimiento ?? 'No registrado' }}</p>
                         <p><strong>Soat:</strong> {{ $detalle->soat_estado ?? 'No registrado' }}</p>
                         <p><strong>Tecnomecánica:</strong> {{ $detalle->tecno_estado ?? 'No registrada' }}</p>
+                        @if(strtolower($detalle->estadoVehiculo->estado ?? '') === 'prestado')
+                            <form method="POST" action="{{ route('vehiculos.devolver') }}" style="margin-top:1rem;">
+                                @csrf
+                                <button type="submit" class="btn btn-warning">Devolver</button>
+                            </form>
+                        @elseif(strtolower($detalle->estadoVehiculo->estado ?? '') === 'disponible')
+                            <a href="{{ route('vehiculos.asignar') }}" class="btn btn-success" style="margin-top:1rem;">Asignar</a>
+                        @endif
                     </div>
                 </div>
             </div>
         @endforeach
     @endforeach
 
+</div>
+
+<div id="modalVehiculo" onclick="cerrarModal()">
+    <div class="contenido-modal" onclick="event.stopPropagation()">
+        <span class="cerrar" onclick="cerrarModal()">&times;</span>
+        <img id="modalImagen" src="" alt="Imagen del vehículo">
+        <div id="modalDetalles"></div>
+    </div>
 </div>
 @endsection

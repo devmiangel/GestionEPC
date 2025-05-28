@@ -12,12 +12,23 @@ class HistorialController extends Controller
     public function index()
     {
         // Unimos los elementos de vehículos y herramientas para mostrar en el historial
-        $vehiculos = Vehiculo::all()->map(function($v) {
+        $vehiculos = Vehiculo::with(['tipoVehiculo', 'detalleVehiculo.persona'])->get()->map(function($v) {
+            $detalle = $v->detalleVehiculo->first();
+            $tipoVehiculo = $v->tipoVehiculo ? $v->tipoVehiculo->tipo_vehiculo : '';
+            $placa = $detalle ? $detalle->placa : '';
+            $conductor = $detalle && $detalle->persona
+                ? trim($detalle->persona->primer_nombre . ' ' . $detalle->persona->primer_apellido)
+                : 'No asignado';
             return [
                 'id' => $v->id,
                 'tipo' => 'Vehículo',
-                'nombre' => $v->placa,
-                'fecha_adquisicion' => $v->fecha_adquisicion,
+                'marca' => $v->marca_vehiculo ?? '',
+                'modelo' => $v->modelo_vehiculo ?? '',
+                'tipo_vehiculo' => $tipoVehiculo,
+                'placa' => $placa,
+                'usuario' => $conductor,
+                'nombre' => $placa ?? ($v->nombre ?? ''),
+                'fecha_adquisicion' => $v->fecha_adquisicion ?? '',
                 'estado' => $v->estado ?? 'Desconocido',
             ];
         });
@@ -25,9 +36,9 @@ class HistorialController extends Controller
             return [
                 'id' => $h->id,
                 'tipo' => 'Herramienta',
-                'nombre' => $h->nombre,
-                'fecha_adquisicion' => $h->fecha_adquisicion,
-                'estado' => $h->estado ?? 'Desconocido',
+                'nombre' => isset($h->nombre) ? $h->nombre : (isset($h->descripcion) ? $h->descripcion : ''),
+                'fecha_adquisicion' => isset($h->fecha_adquisicion) ? $h->fecha_adquisicion : '',
+                'estado' => isset($h->estado) ? $h->estado : 'Desconocido',
             ];
         });
         $items = $vehiculos->concat($herramientas);
@@ -48,5 +59,20 @@ class HistorialController extends Controller
         // Ejemplo simple:
         // $item = ...;
         // return view('modulos.historial.editar', compact('item'));
+    }
+
+    public function historialHerramienta($id)
+    {
+        $herramienta = \App\Models\Herramienta::with(['tipoHerramienta', 'estado', 'estadoRegistro', 'prestamos'])->findOrFail($id);
+        // Puedes agregar más relaciones según lo que quieras mostrar
+        return view('modulos.historial.herramienta', compact('herramienta'));
+    }
+
+    public function historialVehiculo($id)
+    {
+        $vehiculo = \App\Models\Vehiculo::with(['tipoVehiculo', 'detalleVehiculo.persona'])->findOrFail($id);
+        // Puedes agregar más relaciones según lo que quieras mostrar
+        $items = []; // Para evitar error de variable indefinida en el layout
+        return view('modulos.historial.vehiculo', compact('vehiculo', 'items'));
     }
 }

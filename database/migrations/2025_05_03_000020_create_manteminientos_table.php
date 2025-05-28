@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('manteminientos', function (Blueprint $table) {
+        Schema::create('mantenimientos', function (Blueprint $table) {
             $table->id();
 
             $table->unsignedBigInteger('id_detallevehiculo');
@@ -20,9 +20,8 @@ return new class extends Migration
             $table->date('fecha_mantenimiento');
 
             $table->unsignedBigInteger('id_tipomantenimiento');
-            $table->foreign('id_tipomantenimiento')->references('id')->on('tipo_manteminientos');
-            
-            $table->text('detalles_mantenimiento', 255);
+            $table->foreign('id_tipomantenimiento')->references('id')->on('tipo_mantenimientos');
+            $table->string('detalles_mantenimiento', 255);
 
             $table->timestamps();
         });
@@ -33,6 +32,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('manteminientos');
+        Schema::dropIfExists('mantenimientos');
     }
 };

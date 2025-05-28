@@ -18,15 +18,15 @@
         <tbody>
             @foreach($items as $item)
             <tr>
-                <td>{{ $item->tipo }}</td>
-                <td>{{ $item->nombre ?? $item->descripcion }}</td>
-                <td>{{ $item->fecha_adquisicion }}</td>
+                <td>{{ is_array($item) ? ($item['tipo'] ?? '') : $item->tipo }}</td>
+                <td>{{ is_array($item) ? ($item['nombre'] ?? $item['descripcion'] ?? '') : ($item->nombre ?? $item->descripcion) }}</td>
+                <td>{{ is_array($item) ? ($item['fecha_adquisicion'] ?? '') : $item->fecha_adquisicion }}</td>
                 <td>
-                    <a href="{{ route('historial.mantenimientos', $item->id) }}" class="btn btn-info btn-sm">Ver Historial</a>
+                    <a href="{{ route('historial.mantenimientos', is_array($item) ? ($item['id'] ?? '') : $item->id) }}" class="btn btn-info btn-sm">Ver Historial</a>
                 </td>
-                <td>{{ $item->estado }}</td>
+                <td>{{ is_array($item) ? ($item['estado'] ?? '') : $item->estado }}</td>
                 <td>
-                    <a href="{{ route('historial.editar', $item->id) }}" class="btn btn-warning btn-sm">Editar</a>
+                    <a href="{{ route('historial.editar', is_array($item) ? ($item['id'] ?? '') : $item->id) }}" class="btn btn-warning btn-sm">Editar</a>
                 </td>
             </tr>
             @endforeach

@@ -8,26 +8,32 @@
         <thead>
             <tr>
                 <th>Tipo</th>
-                <th>Nombre/Descripción</th>
-                <th>Fecha de Adquisición</th>
+                <th>Marca</th>
+                <th>Modelo</th>
+                <th>Tipo de Vehículo</th>
+                <th>Placa</th>
+                <th>Usuario Asignado</th>
                 <th>Historial de Mantenimiento</th>
                 <th>Estado Actual</th>
-                <th>Acciones</th>
             </tr>
         </thead>
         <tbody>
             @foreach($items as $item)
             <tr>
-                <td>{{ $item->tipo }}</td>
-                <td>{{ $item->nombre ?? $item->descripcion }}</td>
-                <td>{{ $item->fecha_adquisicion }}</td>
+                <td>{{ is_array($item) ? ($item['tipo'] ?? '') : $item->tipo }}</td>
+                <td>{{ is_array($item) ? ($item['marca'] ?? '') : $item->marca }}</td>
+                <td>{{ is_array($item) ? ($item['modelo'] ?? '') : $item->modelo }}</td>
+                <td>{{ is_array($item) ? ($item['tipo_vehiculo'] ?? '') : $item->tipo_vehiculo }}</td>
+                <td>{{ is_array($item) ? ($item['placa'] ?? '') : $item->placa }}</td>
+                <td>{{ is_array($item) ? ($item['usuario'] ?? '') : $item->usuario }}</td>
                 <td>
-                    <a href="{{ route('historial.mantenimientos', $item->id) }}" class="btn btn-info btn-sm">Ver Historial</a>
+                    @if((is_array($item) ? ($item['tipo'] ?? '') : $item->tipo) === 'Vehículo')
+                        <a href="{{ route('historial.vehiculo', is_array($item) ? ($item['id'] ?? '') : $item->id) }}" class="btn btn-info btn-sm">Ver Hoja de Vida</a>
+                    @else
+                        <a href="{{ route('historial.herramienta', is_array($item) ? ($item['id'] ?? '') : $item->id) }}" class="btn btn-info btn-sm">Ver Hoja de Vida</a>
+                    @endif
                 </td>
-                <td>{{ $item->estado }}</td>
-                <td>
-                    <a href="{{ route('historial.editar', $item->id) }}" class="btn btn-warning btn-sm">Editar</a>
-                </td>
+                <td>{{ is_array($item) ? ($item['estado'] ?? '') : $item->estado }}</td>
             </tr>
             @endforeach
         </tbody>

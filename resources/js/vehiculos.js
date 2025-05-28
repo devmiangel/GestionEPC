@@ -7,16 +7,33 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 function expandirTarjetaModal(tarjeta) {
-    const imgSrc = tarjeta.parentElement.querySelector('img')?.src || '';
+    // Busca el modal y sus elementos
+    const modal = document.getElementById('modalVehiculo');
+    const modalImagen = document.getElementById('modalImagen');
+    const modalDetalles = document.getElementById('modalDetalles');
+
+    // Cerrar cualquier modal abierto antes
+    if (modal) {
+        modal.style.display = 'none';
+    }
+
+    // Busca la imagen dentro de la tarjeta
+    const img = tarjeta.closest('.vehicle-card').querySelector('img');
+    const imgSrc = img ? img.src : '';
+    // Busca los detalles
     const detalles = tarjeta.querySelector('.detalle').innerHTML;
 
-    document.getElementById('modalImagen').src = imgSrc;
-    document.getElementById('modalDetalles').innerHTML = detalles;
-    document.getElementById('modalVehiculo').style.display = 'flex';
+    // Asigna la imagen y los detalles al modal
+    if (modalImagen) modalImagen.src = imgSrc;
+    if (modalDetalles) modalDetalles.innerHTML = detalles;
+    if (modal) modal.style.display = 'flex';
 }
 
 function cerrarModal() {
-    document.getElementById('modalVehiculo').style.display = 'none';
+    const modal = document.getElementById('modalVehiculo');
+    if (modal) {
+        modal.style.display = 'none';
+    }
 }
 
 function showDetails(item) {
@@ -80,3 +97,6 @@ window.onclick = function(event) {
         modal.style.display = 'none';
     }
 }
+
+window.expandirTarjetaModal = expandirTarjetaModal;
+window.cerrarModal = cerrarModal;

@@ -75,11 +75,14 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 });
 
-document.getElementById('menuToggleBtn').addEventListener('click', () => {
-    document.body.classList.toggle('sidebar-hidden');
+const menuToggleBtn = document.getElementById('menuToggleBtn');
+if (menuToggleBtn) {
+    menuToggleBtn.addEventListener('click', () => {
+        document.body.classList.toggle('sidebar-hidden');
     });
+}
 
-    // Manejo del scroll
+// Manejo del scroll
 window.addEventListener('scroll', function() {
     const navbar = document.querySelector('.navbar');
     const sidebar = document.querySelector('.sidebar');

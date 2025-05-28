@@ -25,7 +25,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/vehiculos/agregar', [VehiculoController::class, 'create'])->name('vehiculos.create');
     Route::post('/vehiculos', [VehiculoController::class, 'store'])->name('vehiculos.store');
     Route::get('/vehiculos/eliminar', [VehiculoController::class, 'eliminate'])->name('vehiculos.eliminate');
-    Route::get('/vehiculos/camiones', [VehiculoController::class,'camiones'])->name('vehiculos.camiones');
+    Route::get('/vehiculos/camionetas', [VehiculoController::class,'camionetas'])->name('vehiculos.camionetas');
     Route::get('/vehiculos/compactadores', [VehiculoController::class,'compactadores'])->name('vehiculos.compactadores');
     Route::get('/vehiculos/motos', [VehiculoController::class, 'motos'])->name('vehiculos.motos');
     Route::get('/vehiculos/otros', [VehiculoController::class,'otros'])->name('vehiculos.otros');
@@ -75,9 +75,14 @@ Route::middleware(['auth'])->group(function () {
     // Rutas para modificar y asignar vehículos
     Route::get('/vehiculos/modificar/{vehiculo}', [VehiculoController::class, 'edit'])->name('vehiculos.edit');
     Route::put('/vehiculos/modificar/{vehiculo}', [VehiculoController::class, 'update'])->name('vehiculos.update');
-    Route::get('/vehiculos/asignar', [VehiculoController::class, 'asignarForm'])->name('vehiculos.asignar.form');
+    Route::get('/vehiculos/asignar', [VehiculoController::class, 'asignarForm'])->name('vehiculos.asignar');
     Route::post('/vehiculos/asignar', [VehiculoController::class, 'asignar'])->name('vehiculos.asignar');
+    Route::post('/vehiculos/devolver', [VehiculoController::class, 'devolver'])->name('vehiculos.devolver');
     Route::delete('/vehiculos/{id}', [VehiculoController::class, 'destroy'])->name('vehiculos.destroy');
+    Route::patch('/vehiculos/{vehiculo}/estado', [VehiculoController::class, 'cambiarEstado'])->name('vehiculos.cambiarEstado');
+    
+    Route::get('/historial/herramienta/{id}', [\App\Http\Controllers\Modulos\HistorialController::class, 'historialHerramienta'])->name('historial.herramienta');
+    Route::get('/historial/vehiculo/{id}', [\App\Http\Controllers\Modulos\HistorialController::class, 'historialVehiculo'])->name('historial.vehiculo');
 });
 
 Route::post('/logout', function () {

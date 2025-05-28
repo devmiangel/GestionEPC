@@ -26,6 +26,6 @@
 </div>
     </div>
 </div>
-<script src="{{ asset('js/modulos.js') }}"></script>
+{{-- <script src="{{ asset('js/modulos.js') }}"></script> --}}
 <script src="{{ asset('js/herramientas.js') }}"></script>
 @endsection

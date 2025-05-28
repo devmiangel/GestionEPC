@@ -15,7 +15,7 @@
         </div>
     @endif
     <h1>Asignar Vehículo</h1>
-    <form action="{{ route('vehiculos.asignar') }}" method="POST">
+    <form action="{{ route('vehiculos.devolver') }}" method="POST">
         @csrf
         <div class="mb-3">
             <label for="tipo_vehiculo_id" class="form-label">Tipo de Vehículo</label>
@@ -59,7 +59,7 @@
                 <span class="input-group-text"><i class="fas fa-chevron-down"></i></span>
             </div>
         </div>
-        <button type="submit" class="btn btn-success">Asignar</button>
+        <button type="submit" class="btn btn-success">Devolver</button>
         <a href="{{ route('vehiculos.index') }}" class="btn btn-secondary">Cancelar</a>
         <a href="http://127.0.0.1:8000/conductores" class="btn btn-primary" style="margin-left: 10px;">Crear Conductor</a>
     </form>
