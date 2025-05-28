@@ -36,7 +36,7 @@
                     <option value="">Seleccione un vehículo</option>
                     @foreach($vehiculos as $vehiculo)
                         @if($vehiculo->vehiculo)
-                            <option value="{{ $vehiculo->id }}" data-tipo="{{ $vehiculo->vehiculo->id_tipovehiculo }}">
+                            <option value="{{ $vehiculo->vehiculo->id }}" data-tipo="{{ $vehiculo->vehiculo->id_tipovehiculo }}">
                                 {{ $vehiculo->placa }} - {{ $vehiculo->vehiculo->modelo_vehiculo }}
                             </option>
                         @endif
