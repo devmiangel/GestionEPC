@@ -1,8 +1,19 @@
-/* Base styles for the body */
-body {
+/* Asegura que el body y el contenedor principal ocupen toda la altura */
+html, body {
+    height: 100%;
     margin: 0;
     font-family: 'Segoe UI', sans-serif;
     background-color: #f7f7f7;
+}
+
+#app {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+main {
+    flex: 1;
 }
 
 /* Main container for the dashboard content */
@@ -12,7 +23,7 @@ body {
     margin: 0 auto;
 }
 
-/* Styles for the dashboard header (if present) */
+/* Styles for the dashboard header */
 .dashboard-header {
     display: flex;
     justify-content: space-between;
@@ -42,7 +53,7 @@ body {
     font-weight: 500;
 }
 
-/* Styles for secondary buttons (e.g., logout) */
+/* Secondary button styles */
 .btn-secondary {
     padding: 10px 20px;
     background-color: #e53935;
@@ -60,8 +71,8 @@ body {
 
 .dashboard-buttons {
     display: flex;
-    justify-content: center; /* Centers the groups of buttons horizontally */
-    flex-wrap: wrap; /* Allows groups to wrap to the next line on smaller screens */
+    justify-content: center;
+    flex-wrap: wrap;
     gap: 60px;
 }
 
@@ -99,7 +110,6 @@ body {
     border-color: #000;
 }
 
-/* Styles for any span elements inside dashboard buttons (if used for sub-text) */
 .dashboard-button span {
     display: block;
     margin-top: 15px;
@@ -129,7 +139,6 @@ body {
     border-color: #000;
 }
 
-/* Styles for any span elements inside dashboard buttons (if used for sub-text) */
 .dashboard-buttondos span {
     display: block;
     margin-top: 15px;
@@ -138,14 +147,14 @@ body {
     color: red;
 }
 
+/* Footer ajustado para quedar al final de la pantalla */
 .footer {
     background-color: #136ea7;
     color: #ecf0f1;
     padding: 20px 0;
     text-align: center;
-    margin-top: 50px;
-    position: relative;
     width: 100%;
+    margin-top: auto; /* Esto hace que se quede al fondo si hay poco contenido */
 }
 
 .footer-content {

@@ -29,6 +29,38 @@ body {
   flex-direction: column;
   overflow-x: hidden;
 }
+.footer {
+  background-color: #136ea7;
+  color: #ecf0f1;
+  padding: 20px 0;
+  text-align: center;
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  z-index: 1000;
+}
+
+.footer-content {
+  max-width: 1000px;
+  margin: auto;
+}
+
+.footer-icons a {
+  color: #ecf0f1;
+  margin: 0 10px;
+  font-size: 20px;
+  text-decoration: none;
+  transition: color 0.3s;
+}
+
+.footer-icons a:hover {
+  color: #1abc9c;
+}
+
+/* Ajuste para el contenido principal */
+main {
+  padding-bottom: 80px; /* Espacio para el footer */
+}
 
 /* --------------------------
    SIDEBAR

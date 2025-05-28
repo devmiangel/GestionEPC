@@ -22,7 +22,7 @@ main {
     padding: 2rem;
     margin-left: 20rem;
     flex-grow: 1;
-    margin-top: 10px;
+    margin-top: 76px;
     transition: margin-top 0.3s ease;
 }
 
@@ -39,11 +39,11 @@ main {
     margin-bottom: 1rem;
 }
 
-.sidebar {
+sidebar {
     position: fixed;
-    top: 76px;
+    top: 0;
     left: 0;
-    height: calc(100vh - 76px);
+    height: 100vh;
     width: 20rem;
     background-color: white;
     box-shadow: 2px 0 5px rgba(0,0,0,0.1);
@@ -51,7 +51,15 @@ main {
     display: flex;
     flex-direction: column;
     overflow-y: auto;
-    transition: top 0.3s ease, height 0.3s ease;
+    transition: width 0.3s ease;
+}
+
+main {
+    padding: 2rem;
+    margin-left: 20rem;
+    flex-grow: 1;
+    margin-top: 0;
+    transition: margin-left 0.3s ease;
 }
 
 .sidebar.minimize {
@@ -220,25 +228,54 @@ main {
     margin-top: 0.3rem;
 }
 /* Contenedor en cuadrícula */
-.vehicle-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-  gap: 2rem;
-  padding: 2rem;
-  justify-items: center;
+/* Reset del body */
+/* Contenedor principal */
+body {
+    font-family: "Cal Sans", sans-serif;
+    background-color: #f5f6fa;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    width: 100%;
+    color: #2e2e2e;
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
 }
 
+main {
+    flex: 1;
+    position: relative;
+    padding-bottom: 60px; /* Espacio para el footer */
+}
 
-/* Tarjeta individual */
+.vehicle-grid {
+    position: relative;
+    margin-left: 20rem;
+    transition: margin-left 0.3s ease;
+}
+
+.vehicle-category {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 60px;
+    background-color: #0072bc;
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    z-index: 9999;
+}
+
+.sidebar-hidden .vehicle-category {
+    left: 0;
+}
+/* Ajuste para el contenido principal */
 .vehicle-card {
-  background-color: white;
-  border-radius: 15px;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-  overflow: hidden;
-  text-align: center;
-  width: 100%;
-  max-width: 300px;
-  transition: transform 0.3s ease;
+    padding-bottom: 80px; /* Espacio para el footer fijo */
 }
 .vehicle-añadir {
   background-color: white;
@@ -314,8 +351,8 @@ main {
 }
 
 .add-vehicle-form {
-  max-width: 100%;
-  margin: 2rem;
+  max-width: 400px;
+  margin: 2rem auto;
   padding: 2rem;
   background: #fff;
   border-radius: 12px;
