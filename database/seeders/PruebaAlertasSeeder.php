@@ -67,8 +67,17 @@ class PruebaAlertasSeeder extends Seeder
             'marca_vehiculo' => 'Mazda',
             'id_tipovehiculo' => $tipoVehiculoId,
         ]);
-
-        
+        // Vehículo 3 y 4
+        $vehiculo3 = Vehiculo::create([
+            'modelo_vehiculo' => '2019',
+            'marca_vehiculo' => 'Chevrolet',
+            'id_tipovehiculo' => $tipoVehiculoId,
+        ]);
+        $vehiculo4 = Vehiculo::create([
+            'modelo_vehiculo' => '2018',
+            'marca_vehiculo' => 'Ford',
+            'id_tipovehiculo' => $tipoVehiculoId,
+        ]);
 
         // Crear detalles de vehículos con fechas próximas a vencer y responsables
         DB::table('detalle_vehiculos')->insert([
@@ -108,6 +117,42 @@ class PruebaAlertasSeeder extends Seeder
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
+            [
+                'id_vehiculo' => $vehiculo3->id,
+                'persona_id' => $personaExtra1->id,
+                'id_estado' => 2, // Prestado
+                'id_estadoregistro' => 1,
+                'placa' => 'CCC333',
+                'Nombre' => 'Vehículo Extra1',
+                'conductor_auxiliar' => null,
+                'fecha_solicitud' => now()->subDays(1),
+                'fecha_devolucion' => null,
+                'fecha_soat' => now()->addDays(3),
+                'fecha_tecnomecanica' => now()->addDays(8),
+                'imagen_vehiculo' => null,
+                'fecha_ultimo_mantenimiento' => now()->subMonths(4),
+                'descripcion_ultimo_mantenimiento' => 'Cambio de frenos',
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            [
+                'id_vehiculo' => $vehiculo4->id,
+                'persona_id' => $personaExtra2->id,
+                'id_estado' => 3, // Fuera de servicio
+                'id_estadoregistro' => 1,
+                'placa' => 'DDD444',
+                'Nombre' => 'Vehículo Extra2',
+                'conductor_auxiliar' => null,
+                'fecha_solicitud' => now()->subDays(5),
+                'fecha_devolucion' => null,
+                'fecha_soat' => now()->addDays(2),
+                'fecha_tecnomecanica' => now()->addDays(5),
+                'imagen_vehiculo' => null,
+                'fecha_ultimo_mantenimiento' => now()->subMonths(2),
+                'descripcion_ultimo_mantenimiento' => 'Cambio de llantas',
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
         ]);
 
         // 5. Crear mantenimientos de prueba para los detalles de vehículos
@@ -136,6 +181,41 @@ class PruebaAlertasSeeder extends Seeder
                     'updated_at' => now(),
                 ],
             ]);
+        }
+        // Más mantenimientos para todos los detalles
+        $tipoMantId2 = DB::table('tipo_mantenimientos')->insertGetId([
+            'mantenimiento' => 'Correctivo',
+            'created_at' => now(),
+            'updated_at' => now(),
+        ]);
+        foreach ($detalleVehiculos as $detalle) {
+            DB::table('mantenimientos')->insert([
+                [
+                    'id_detallevehiculo' => $detalle->id,
+                    'fecha_mantenimiento' => now()->subMonths(1),
+                    'id_tipomantenimiento' => $tipoMantId2,
+                    'detalles_mantenimiento' => 'Cambio de batería',
+                    'created_at' => now(),
+                    'updated_at' => now(),
+                ],
+            ]);
+        }
+        // Más roles y usuarios
+        $rolMecanico = Rol::firstOrCreate(['rol' => 'Mecánico']);
+        $personaMecanico = Persona::firstOrCreate([
+            'primer_nombre' => 'Meca',
+            'primer_apellido' => 'Nico',
+            'num_documento' => '333333333',
+            'id_tipdocumento' => '1'
+        ]);
+        $userMecanico = User::firstOrCreate([
+            'email' => 'mecanico@prueba.com',
+        ], [
+            'password' => Hash::make('password'),
+            'id_persona' => $personaMecanico->id,
+        ]);
+        if (method_exists($userMecanico, 'roles')) {
+            $userMecanico->roles()->sync([$rolMecanico->id]);
         }
     }
 }

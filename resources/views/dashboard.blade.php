@@ -13,11 +13,11 @@
             </a>
             @auth
                 @if (auth()->user()->tieneRol('Coordinador'))
-                    <a href="{{ route('vehiculos.asignar.form') }}" class="dashboard-buttondos">Asignar</a>
+                    <a href="{{ route('vehiculos.asignar') }}" class="dashboard-buttondos">Asignar</a>
                 @endif
                 @if (auth()->user()->tieneRol('Administrador'))
                     <a href="{{ route('vehiculos.edit', 1) }}" class="dashboard-buttondos">Modificar</a>
-                    <a href="{{ route('vehiculos.asignar.form') }}" class="dashboard-buttondos">Asignar</a>
+                    <a href="{{ route('vehiculos.asignar') }}" class="dashboard-buttondos">Asignar</a>
                 @endif
             @endauth
         </div>
@@ -28,11 +28,11 @@
             </a>
             @auth
                 @if (auth()->user()->tieneRol('Coordinador'))
-                    <a href="{{ route('herramientas.asignar.form') }}" class="dashboard-buttondos">Asignar</a>
+                    <a href="{{ route('herramientas.asignar') }}" class="dashboard-buttondos">Asignar</a>
                 @endif
                 @if (auth()->user()->tieneRol('Administrador'))
                     <a href="{{ route('herramientas.edit', 1) }}" class="dashboard-buttondos">Modificar</a>
-                    <a href="{{ route('herramientas.asignar.form') }}" class="dashboard-buttondos">Asignar</a>
+                    <a href="{{ route('herramientas.asignar') }}" class="dashboard-buttondos">Asignar</a>
                 @endif
             @endauth
         </div>
