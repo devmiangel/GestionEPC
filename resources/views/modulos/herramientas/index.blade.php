@@ -21,10 +21,10 @@
             <br>
             <div class="actions-herramientas">
                 <div class="action-buttons">
-                    <a href="#" class="btn-agregar-vehiculo">
+                    <a href="{{ route('herramientas.create') }}" class="btn-agregar-vehiculo">
                         <i class="fas fa-plus"></i> Añadir Herramienta
                     </a>
-                    <a href="#" class="btn-eliminar-vehiculo">
+                    <a href="{{ route('herramientas.eliminate') }}" class="btn-eliminar-vehiculo">
                         <i class="fas fa-trash-alt"></i> Eliminar Herramienta
                     </a>
                 </div>

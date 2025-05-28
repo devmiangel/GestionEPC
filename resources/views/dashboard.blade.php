@@ -23,7 +23,7 @@
         </div>
 
         <div>
-            <a href="#" class="dashboard-button">
+            <a href="{{ route('herramientas.index') }}" class="dashboard-button">
                 Herramientas
             </a>
             @auth
@@ -49,6 +49,19 @@
                     <a href="#" class="dashboard-buttondos">Modificar</a>
                     <a href="#" class="dashboard-buttondos">Asignar</a>
                 @endif
+            @endauth
+        </div>
+
+        
+            @auth
+                @if (auth()->user()->tieneRol('Coordinador') || auth()->user()->tieneRol('Administrador'))
+                <div>
+                    <a href="{{ route('historial.index') }}" class="dashboard-button">
+                        Historial
+                    </a>
+                    </div>
+                @endif
+
             @endauth
         </div>
     </div>

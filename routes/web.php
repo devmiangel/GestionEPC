@@ -30,10 +30,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/conductores', [ConductorController::class, 'index'])->name('conductores.index');
     Route::get('/conductores/agregar', [ConductorController::class, 'create'])->name('conductores.create');
     Route::get('/conductores/eliminar', [ConductorController::class, 'eliminate'])->name('conductores.eliminate');
-    // Rutas de alertas
-    Route::get('/alertas', [AlertasController::class, 'index'])->name('alertas.index');
-    // Si quieres exponer el envío manual de alertas (opcional):
-    // Route::post('/alertas/enviar', [AlertasController::class, 'enviarAlertas'])->name('alertas.enviar');
+    
 });
 
 Route::post('/logout', function () {
