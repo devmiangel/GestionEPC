@@ -30,6 +30,12 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/conductores', [ConductorController::class, 'index'])->name('conductores.index');
     Route::get('/conductores/agregar', [ConductorController::class, 'create'])->name('conductores.create');
     Route::get('/conductores/eliminar', [ConductorController::class, 'eliminate'])->name('conductores.eliminate');
+    Route::get('/conductores/modificar/{conductor}', [ConductorController::class, 'edit'])->name('conductores.edit');
+    Route::put('/conductores/modificar/{conductor}', [ConductorController::class, 'update'])->name('conductores.update');
+    
+    // Rutas para asignación de conductores
+    Route::get('/conductores/asignar', [ConductorController::class, 'asignarForm'])->name('conductores.asignar.form');
+    Route::post('/conductores/asignar', [ConductorController::class, 'asignar'])->name('conductores.asignar');
     
     // Rutas de alertas
     Route::get('/alertas', [AlertasController::class, 'index'])->name('alertas.index');
@@ -44,6 +50,18 @@ Route::middleware(['auth'])->group(function () {
     Route::delete('/historial/{item}', [\App\Http\Controllers\Modulos\HistorialController::class, 'destroy'])->name('historial.destroy');
     Route::get('/historial/mantenimientos/{item}', [\App\Http\Controllers\Modulos\HistorialController::class, 'mantenimientos'])->name('historial.mantenimientos');
     Route::get('/historial/editar/{item}', [\App\Http\Controllers\Modulos\HistorialController::class, 'editar'])->name('historial.editar');
+    
+    // Rutas para modificar y asignar herramientas
+    Route::get('/herramientas/modificar/{herramienta}', [HerramientaController::class, 'edit'])->name('herramientas.edit');
+    Route::put('/herramientas/modificar/{herramienta}', [HerramientaController::class, 'update'])->name('herramientas.update');
+    Route::get('/herramientas/asignar', [HerramientaController::class, 'asignarForm'])->name('herramientas.asignar.form');
+    Route::post('/herramientas/asignar', [HerramientaController::class, 'asignar'])->name('herramientas.asignar');
+    
+    // Rutas para modificar y asignar vehículos
+    Route::get('/vehiculos/modificar/{vehiculo}', [VehiculoController::class, 'edit'])->name('vehiculos.edit');
+    Route::put('/vehiculos/modificar/{vehiculo}', [VehiculoController::class, 'update'])->name('vehiculos.update');
+    Route::get('/vehiculos/asignar', [VehiculoController::class, 'asignarForm'])->name('vehiculos.asignar.form');
+    Route::post('/vehiculos/asignar', [VehiculoController::class, 'asignar'])->name('vehiculos.asignar');
 });
 
 Route::post('/logout', function () {

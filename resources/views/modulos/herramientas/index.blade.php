@@ -30,6 +30,36 @@
                 </div>
             </div>
 
+            <div class="table-responsive mt-4">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>Nombre</th>
+                            <th>Tipo</th>
+                            <th>Descripción</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach($herramientas as $herramienta)
+                        <tr>
+                            <td>{{ $herramienta->nombre }}</td>
+                            <td>{{ $herramienta->tipo_herramienta_id }}</td>
+                            <td>{{ $herramienta->descripcion }}</td>
+                            <td>
+                                <a href="{{ route('herramientas.edit', $herramienta->id) }}" class="btn btn-warning btn-sm">
+                                    <i class="fas fa-edit"></i> Modificar
+                                </a>
+                                <a href="{{ route('herramientas.asignar.form') }}" class="btn btn-info btn-sm">
+                                    <i class="fas fa-user-plus"></i> Asignar
+                                </a>
+                            </td>
+                        </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
+
             <div id="modalvehiculo" onclick="cerrarModal()">
                 <div class="contenido-modal" onclick="event.stopPropagation()">
                     <span class="cerrar" onclick="cerrarModal()">&times;</span>

@@ -10,8 +10,8 @@ class HerramientaController extends Controller
 {
     public function index()
     {
-        // Aquí podrías obtener datos desde base de datos si deseas.
-        return view('modulos.herramientas.index');
+        $herramientas = Herramienta::all();
+        return view('modulos.herramientas.index', compact('herramientas'));
     }
 
     public function create()
@@ -65,5 +65,42 @@ class HerramientaController extends Controller
         ]);
         Herramienta::create($request->all());
         return redirect()->route('herramientas.index')->with('success', 'Herramienta agregada correctamente.');
+    }
+
+    public function edit($id)
+    {
+        $herramienta = Herramienta::findOrFail($id);
+        return view('modulos.herramientas.edit', compact('herramienta'));
+    }
+
+    public function update(Request $request, $id)
+    {
+        $request->validate([
+            'nombre' => 'required|string|max:255',
+            'tipo_herramienta_id' => 'required|integer',
+            'descripcion' => 'nullable|string',
+        ]);
+        $herramienta = Herramienta::findOrFail($id);
+        $herramienta->update($request->all());
+        return redirect()->route('herramientas.index')->with('success', 'Herramienta actualizada correctamente.');
+    }
+
+    public function asignarForm()
+    {
+        $herramientas = Herramienta::all();
+        $personas = \App\Models\Persona::all();
+        return view('modulos.herramientas.asignar', compact('herramientas', 'personas'));
+    }
+
+    public function asignar(Request $request)
+    {
+        $request->validate([
+            'herramienta_id' => 'required|exists:herramientas,id',
+            'persona_id' => 'required|exists:personas,id',
+        ]);
+        $herramienta = Herramienta::findOrFail($request->herramienta_id);
+        $herramienta->persona_id = $request->persona_id;
+        $herramienta->save();
+        return redirect()->route('herramientas.index')->with('success', 'Herramienta asignada correctamente.');
     }
 }

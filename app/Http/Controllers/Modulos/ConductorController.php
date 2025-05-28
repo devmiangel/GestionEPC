@@ -47,7 +47,7 @@ class ConductorController extends Controller
     public function edit($id)
     {
         $conductor = Persona::findOrFail($id);
-        return view('modulos.conductores.editar', compact('conductor'));
+        return view('modulos.conductores.edit', ['conductor' => $conductor]);
     }
 
     public function update(Request $request, $id)
@@ -61,5 +61,24 @@ class ConductorController extends Controller
         $conductor = Persona::findOrFail($id);
         $conductor->update($request->all());
         return redirect()->route('conductores.index')->with('success', 'Conductor actualizado correctamente.');
+    }
+
+    public function asignarForm()
+    {
+        $vehiculos = \App\Models\Vehiculo::all();
+        $conductores = Persona::all();
+        return view('modulos.conductores.asignar', compact('vehiculos', 'conductores'));
+    }
+
+    public function asignar(Request $request)
+    {
+        $request->validate([
+            'vehiculo_id' => 'required|exists:vehiculos,id',
+            'conductor_id' => 'required|exists:personas,id',
+        ]);
+        $vehiculo = \App\Models\Vehiculo::findOrFail($request->vehiculo_id);
+        $vehiculo->conductor_id = $request->conductor_id;
+        $vehiculo->save();
+        return redirect()->route('conductores.index')->with('success', 'Conductor asignado correctamente al vehículo.');
     }
 }
