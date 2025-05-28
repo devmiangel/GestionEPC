@@ -119,10 +119,17 @@ class VehiculoController extends Controller
             'vehiculo_id' => 'required|exists:vehiculos,id',
             'persona_id' => 'required|exists:personas,id',
         ]);
-        $vehiculo = \App\Models\Vehiculo::findOrFail($request->vehiculo_id);
-        $vehiculo->persona_id = $request->persona_id;
-        $vehiculo->save();
-        return redirect()->route('vehiculos.index')->with('success', 'Vehículo asignado correctamente.');
+        // Buscar el detalle del vehículo activo (id_estadoregistro = 1)
+        $detalle = \App\Models\DetalleVehiculo::where('id_vehiculo', $request->vehiculo_id)
+            ->where('id_estadoregistro', 1)
+            ->first();
+        if ($detalle) {
+            $detalle->persona_id = $request->persona_id;
+            $detalle->save();
+            return redirect()->route('vehiculos.index')->with('success', 'Vehículo asignado correctamente.');
+        } else {
+            return redirect()->back()->with('error', 'No se encontró el detalle del vehículo para asignar.');
+        }
     }
 
     // Mostrar formulario de edición de vehículo
