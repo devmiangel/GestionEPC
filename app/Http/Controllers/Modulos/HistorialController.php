@@ -60,4 +60,18 @@ class HistorialController extends Controller
         // $item = ...;
         // return view('modulos.historial.editar', compact('item'));
     }
+
+    public function historialHerramienta($id)
+    {
+        $herramienta = \App\Models\Herramienta::with(['tipoHerramienta', 'estado', 'estadoRegistro', 'prestamos'])->findOrFail($id);
+        // Puedes agregar más relaciones según lo que quieras mostrar
+        return view('modulos.historial.herramienta', compact('herramienta'));
+    }
+
+    public function historialVehiculo($id)
+    {
+        $vehiculo = \App\Models\Vehiculo::with(['tipoVehiculo', 'detalleVehiculo.persona'])->findOrFail($id);
+        // Puedes agregar más relaciones según lo que quieras mostrar
+        return view('modulos.historial.vehiculo', compact('vehiculo'));
+    }
 }

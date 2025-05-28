@@ -27,7 +27,11 @@
                 <td>{{ is_array($item) ? ($item['placa'] ?? '') : $item->placa }}</td>
                 <td>{{ is_array($item) ? ($item['usuario'] ?? '') : $item->usuario }}</td>
                 <td>
-                    <a href="{{ route('historial.mantenimientos', is_array($item) ? ($item['id'] ?? '') : $item->id) }}" class="btn btn-info btn-sm">Ver Historial</a>
+                    @if((is_array($item) ? ($item['tipo'] ?? '') : $item->tipo) === 'Vehículo')
+                        <a href="{{ route('historial.vehiculo', is_array($item) ? ($item['id'] ?? '') : $item->id) }}" class="btn btn-info btn-sm">Ver Hoja de Vida</a>
+                    @else
+                        <a href="{{ route('historial.herramienta', is_array($item) ? ($item['id'] ?? '') : $item->id) }}" class="btn btn-info btn-sm">Ver Hoja de Vida</a>
+                    @endif
                 </td>
                 <td>{{ is_array($item) ? ($item['estado'] ?? '') : $item->estado }}</td>
             </tr>

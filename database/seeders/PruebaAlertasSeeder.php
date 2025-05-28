@@ -74,7 +74,7 @@ class PruebaAlertasSeeder extends Seeder
         DB::table('detalle_vehiculos')->insert([
             [
                 'id_vehiculo' => $vehiculo1->id,
-                'user_id' => $userAdmin->id,
+                'persona_id' => $userAdmin->id,
                 'id_estado' => 1, // Ajusta según tu seeder de estados
                 'id_estadoregistro' => 1, // Ajusta según tu seeder de estado_registros
                 'placa' => 'AAA111',
@@ -92,7 +92,7 @@ class PruebaAlertasSeeder extends Seeder
             ],
             [
                 'id_vehiculo' => $vehiculo2->id,
-                'user_id' => $userCoord->id,
+                'persona_id' => $userCoord->id,
                 'id_estado' => 1,
                 'id_estadoregistro' => 1,
                 'placa' => 'BBB222',
@@ -109,5 +109,33 @@ class PruebaAlertasSeeder extends Seeder
                 'updated_at' => now(),
             ],
         ]);
+
+        // 5. Crear mantenimientos de prueba para los detalles de vehículos
+        $tipoMantId = DB::table('tipo_mantenimientos')->insertGetId([
+            'mantenimiento' => 'General',
+            'created_at' => now(),
+            'updated_at' => now(),
+        ]);
+        $detalleVehiculos = DB::table('detalle_vehiculos')->get();
+        foreach ($detalleVehiculos as $detalle) {
+            DB::table('mantenimientos')->insert([
+                [
+                    'id_detallevehiculo' => $detalle->id,
+                    'fecha_mantenimiento' => now()->subMonths(6),
+                    'id_tipomantenimiento' => $tipoMantId,
+                    'detalles_mantenimiento' => 'Cambio de aceite',
+                    'created_at' => now(),
+                    'updated_at' => now(),
+                ],
+                [
+                    'id_detallevehiculo' => $detalle->id,
+                    'fecha_mantenimiento' => now()->subMonths(3),
+                    'id_tipomantenimiento' => $tipoMantId,
+                    'detalles_mantenimiento' => 'Revisión general',
+                    'created_at' => now(),
+                    'updated_at' => now(),
+                ],
+            ]);
+        }
     }
 }
