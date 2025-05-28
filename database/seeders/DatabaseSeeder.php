@@ -18,6 +18,7 @@ class DatabaseSeeder extends Seeder
             EstadoRegistroSeeder::class,
             TiposVehiculosSeeder::class,
             Estadoseeder::class,
+            TipoAlertasSeeder::class,
         ]);
     }
 }

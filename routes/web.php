@@ -16,7 +16,10 @@ Route::get('/', function () {
 })->name('login');
 
 Route::middleware(['auth'])->group(function () {
-    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+    Route::get('/dashboard', function() {
+        app(\App\Http\Controllers\Auth\AlertasController::class)->enviarAlertas();
+        return app(\App\Http\Controllers\DashboardController::class)->index();
+    })->name('dashboard');
     
     Route::get('/vehiculos', [VehiculoController::class, 'index'])->name('vehiculos.index');
     Route::get('/vehiculos/agregar', [VehiculoController::class, 'create'])->name('vehiculos.create');
@@ -39,6 +42,7 @@ Route::middleware(['auth'])->group(function () {
     
     // Rutas de alertas
     Route::get('/alertas', [AlertasController::class, 'index'])->name('alertas.index');
+    
     // Si quieres exponer el envío manual de alertas (opcional):
     // Route::post('/alertas/enviar', [AlertasController::class, 'enviarAlertas'])->name('alertas.enviar');
     

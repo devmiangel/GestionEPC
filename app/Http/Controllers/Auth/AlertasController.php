@@ -6,6 +6,9 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Vehiculo;
 use App\Models\User;
+use App\Models\Alerta;
+use App\Models\TipoAlerta;
+use App\Models\DetalleVehiculo;
 use Illuminate\Support\Facades\Mail;
 use Carbon\Carbon;
 
@@ -19,47 +22,87 @@ class AlertasController extends Controller
         $hoy = Carbon::now();
         $diasAlerta = 15; // Días antes del vencimiento para alertar
 
-        // Buscar vehículos con SOAT, técnico-mecánica o mantenimiento próximos a vencer
-        $vehiculos = Vehiculo::where(function($query) use ($hoy, $diasAlerta) {
-            $query->whereDate('fecha_vencimiento_soat', '<=', $hoy->copy()->addDays($diasAlerta))
-                  ->whereDate('fecha_vencimiento_soat', '>=', $hoy)
+        // Buscar detalles de vehículos con SOAT, técnico-mecánica o mantenimiento próximos a vencer
+        $detalles = DetalleVehiculo::where(function($query) use ($hoy, $diasAlerta) {
+            $query->whereDate('fecha_soat', '<=', $hoy->copy()->addDays($diasAlerta))
+                  ->whereDate('fecha_soat', '>=', $hoy)
                 ->orWhere(function($q) use ($hoy, $diasAlerta) {
-                    $q->whereDate('fecha_vencimiento_tecnomecanica', '<=', $hoy->copy()->addDays($diasAlerta))
-                      ->whereDate('fecha_vencimiento_tecnomecanica', '>=', $hoy);
+                    $q->whereDate('fecha_tecnomecanica', '<=', $hoy->copy()->addDays($diasAlerta))
+                      ->whereDate('fecha_tecnomecanica', '>=', $hoy);
                 })
                 ->orWhere(function($q) use ($hoy, $diasAlerta) {
-                    $q->whereDate('fecha_proximo_mantenimiento', '<=', $hoy->copy()->addDays($diasAlerta))
-                      ->whereDate('fecha_proximo_mantenimiento', '>=', $hoy);
+                    $q->whereDate('fecha_ultimo_mantenimiento', '<=', $hoy->copy()->addDays($diasAlerta))
+                      ->whereDate('fecha_ultimo_mantenimiento', '>=', $hoy);
                 });
         })->get();
 
-        foreach ($vehiculos as $vehiculo) {
-            // Suponiendo que el vehículo tiene un responsable relacionado
-            $responsable = $vehiculo->responsable; // Ajusta según tu relación
-            // Solo enviar a responsables que sean coordinadores o administradores
-            if ($responsable && $responsable->email && in_array($responsable->rol->nombre ?? '', ['Administrador'])) {
-                $alertas = [];
-                if ($vehiculo->fecha_vencimiento_soat && $vehiculo->fecha_vencimiento_soat <= $hoy->copy()->addDays($diasAlerta)) {
-                    $alertas[] = 'SOAT vence el ' . $vehiculo->fecha_vencimiento_soat;
+        // Obtener todos los administradores
+        $admins = \App\Models\User::whereHas('roles', function($q) {
+            $q->where('rol', 'Administrador');
+        })->get();
+
+        foreach ($detalles as $detalle) {
+            foreach ($admins as $admin) {
+                // SOAT
+                if ($detalle->fecha_soat && $detalle->fecha_soat <= $hoy->copy()->addDays($diasAlerta)) {
+                    $tipoAlerta = TipoAlerta::where('tipo_alerta', 'Preventiva')->first();
+                    $existe = Alerta::where('user_id', $admin->id)
+                        ->where('id_detallevehiculo', $detalle->id)
+                        ->where('id_tipoalerta', $tipoAlerta->id)
+                        ->where('email_alerta', 'SOAT vence el ' . $detalle->fecha_soat)
+                        ->exists();
+                    if (!$existe) {
+                        $this->registrarYEnviarAlerta($admin, $detalle, $tipoAlerta, 'SOAT vence el ' . $detalle->fecha_soat);
+                    }
                 }
-                if ($vehiculo->fecha_vencimiento_tecnomecanica && $vehiculo->fecha_vencimiento_tecnomecanica <= $hoy->copy()->addDays($diasAlerta)) {
-                    $alertas[] = 'Revisión técnico-mecánica vence el ' . $vehiculo->fecha_vencimiento_tecnomecanica;
+                // Tecnomecánica
+                if ($detalle->fecha_tecnomecanica && $detalle->fecha_tecnomecanica <= $hoy->copy()->addDays($diasAlerta)) {
+                    $tipoAlerta = TipoAlerta::where('tipo_alerta', 'Preventiva')->first();
+                    $existe = Alerta::where('user_id', $admin->id)
+                        ->where('id_detallevehiculo', $detalle->id)
+                        ->where('id_tipoalerta', $tipoAlerta->id)
+                        ->where('email_alerta', 'Revisión técnico-mecánica vence el ' . $detalle->fecha_tecnomecanica)
+                        ->exists();
+                    if (!$existe) {
+                        $this->registrarYEnviarAlerta($admin, $detalle, $tipoAlerta, 'Revisión técnico-mecánica vence el ' . $detalle->fecha_tecnomecanica);
+                    }
                 }
-                if ($vehiculo->fecha_proximo_mantenimiento && $vehiculo->fecha_proximo_mantenimiento <= $hoy->copy()->addDays($diasAlerta)) {
-                    $alertas[] = 'Mantenimiento preventivo programado para el ' . $vehiculo->fecha_proximo_mantenimiento;
-                }
-                if (count($alertas)) {
-                    Mail::raw(
-                        "Atención: El vehículo {$vehiculo->placa} tiene documentos próximos a vencer:\n" . implode("\n", $alertas),
-                        function ($message) use ($responsable, $vehiculo) {
-                            $message->to($responsable->email)
-                                    ->subject('Alerta de vencimiento de documentos de vehículo');
-                        }
-                    );
+                // Mantenimiento
+                if ($detalle->fecha_ultimo_mantenimiento && $detalle->fecha_ultimo_mantenimiento <= $hoy->copy()->addDays($diasAlerta)) {
+                    $tipoAlerta = TipoAlerta::where('tipo_alerta', 'Preventiva')->first();
+                    $existe = Alerta::where('user_id', $admin->id)
+                        ->where('id_detallevehiculo', $detalle->id)
+                        ->where('id_tipoalerta', $tipoAlerta->id)
+                        ->where('email_alerta', 'Mantenimiento preventivo programado para el ' . $detalle->fecha_ultimo_mantenimiento)
+                        ->exists();
+                    if (!$existe) {
+                        $this->registrarYEnviarAlerta($admin, $detalle, $tipoAlerta, 'Mantenimiento preventivo programado para el ' . $detalle->fecha_ultimo_mantenimiento);
+                    }
                 }
             }
         }
-        return response()->json(['message' => 'Alertas enviadas.']);
+    }
+
+    private function registrarYEnviarAlerta($responsable, $detalle, $tipoAlerta, $mensaje)
+    {
+        if (!$tipoAlerta) return;
+        // Registrar en la base de datos
+        Alerta::create([
+            'user_id' => auth()->id(), // usuario autenticado actual
+            'id_detallevehiculo' => $detalle->id,
+            'email_alerta' => $mensaje, // el mensaje de la alerta
+            'id_tipoalerta' => $tipoAlerta->id,
+            'id_estadoregistro' => 1, // Activo
+            'mensaje' => $mensaje,
+        ]);
+        // Enviar correo
+        Mail::raw(
+            "Atención: {$mensaje}",
+            function ($message) use ($responsable) {
+                $message->to($responsable->email)
+                        ->subject('Alerta de vencimiento de documentos de vehículo');
+            }
+        );
     }
 
     /**

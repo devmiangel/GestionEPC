@@ -30,7 +30,20 @@
                                     $alertas = Auth::user()->alertas()->latest()->take(3)->get();
                                 @endphp
                                 @forelse($alertas as $alerta)
-                                    <span class="dropdown-item text-wrap">{{ $alerta->mensaje ?? $alerta->titulo ?? 'Alerta' }}</span>
+                                    @php
+                                        $tipo = '';
+                                        $mensaje = strtolower($alerta->email_alerta ?? '');
+                                        if(str_contains($mensaje, 'soat')) {
+                                            $tipo = 'SOAT';
+                                        } elseif(str_contains($mensaje, 'técnico-mecánica') || str_contains($mensaje, 'tecnomecánica') || str_contains($mensaje, 'tecnomecanica')) {
+                                            $tipo = 'Tecnomecánica';
+                                        } elseif(str_contains($mensaje, 'mantenimiento')) {
+                                            $tipo = 'Mantenimiento';
+                                        }
+                                    @endphp
+                                    <span class="dropdown-item text-wrap">
+                                        {{ $alerta->detalleVehiculo->placa ?? 'Sin placa' }} - {{ $tipo }}
+                                    </span>
                                 @empty
                                     <span class="dropdown-item">No hay alertas nuevas.</span>
                                 @endforelse
