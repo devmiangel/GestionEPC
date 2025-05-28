@@ -26,7 +26,6 @@
     }
 }}">
     {{ $detalle->placa }}
-    <span style="font-size:10px;display:block;">Estado: {{ $detalle->estadoVehiculo->estado ?? 'Sin estado' }}</span>
 </div>nombre
                         <p><strong>Modelo:</strong> {{ $detalle->nombre }}</p>
                         <p><strong>Modelo:</strong> {{ $otros->modelo_vehiculo }}</p>

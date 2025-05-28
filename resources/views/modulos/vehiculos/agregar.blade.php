@@ -25,7 +25,8 @@
                 </a>
             </div>
 
-            <form id="formAgregarVehiculo" class="add-vehicle-form">
+            <form id="formAgregarVehiculo" class="add-vehicle-form" method="POST" action="{{ route('vehiculos.store') }}" enctype="multipart/form-data">
+                @csrf
                 <h2><i class="fas fa-plus-circle"></i> Información del Vehículo</h2>
 
                 <div class="form-group">
@@ -109,5 +110,5 @@
     </div>
 </div>
 
-<script src="{{ asset('js/agregarvehiculo.js') }}"></script>
+@vite('resources/js/agregarvehiculo.js')
 @endsection

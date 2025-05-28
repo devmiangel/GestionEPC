@@ -22,7 +22,6 @@
                     }
                 }}">
                     {{ $detalle->placa }}
-                    <span style="font-size:10px;display:block;">Estado: {{ $detalle->estadoVehiculo->estado ?? 'Sin estado' }}</span>
                 </div>
 
                 <div class="tarjeta" onclick="expandirTarjetaModal(this)">
