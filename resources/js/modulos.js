@@ -12,28 +12,46 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
-
-
     // Menús desplegables
     menuItemsDropDown.forEach((menuItem) => {
-        menuItem.addEventListener('click', () => {
-            const subMenu = menuItem.querySelector('.sub-menu');
-            const isActive = menuItem.classList.toggle('sub-menu-toggle');
-            if (subMenu) {
-                subMenu.style.height = isActive ? `${subMenu.scrollHeight + 6}px` : '0';
-                subMenu.style.padding = isActive ? '0.2rem 0' : '0';
-            }
+        const menuLink = menuItem.querySelector('.menu-link');
+        const subMenu = menuItem.querySelector('.sub-menu');
+        const arrow = menuLink.querySelector('.bxs-down-arrow');
 
-            menuItemsDropDown.forEach((item) => {
-                if (item !== menuItem) {
-                    const otherSubmenu = item.querySelector('.sub-menu');
-                    if (otherSubmenu) {
-                        item.classList.remove('sub-menu-toggle');
-                        otherSubmenu.style.height = '0';
-                        otherSubmenu.style.padding = '0';
-                    }
+        menuLink.addEventListener('click', (e) => {
+            // Si el menú está minimizado, no hacer nada
+            if (sidebar.classList.contains('minimize')) return;
+
+            // Si el clic fue en el ícono de flecha o en el span, prevenir la navegación
+            if (e.target === arrow || e.target === arrow.parentElement) {
+                e.preventDefault();
+                const isActive = menuItem.classList.toggle('sub-menu-toggle');
+                
+                // Rotar la flecha
+                arrow.style.transform = isActive ? 'rotate(180deg)' : 'rotate(0)';
+                
+                // Ajustar la altura del submenu
+                if (subMenu) {
+                    subMenu.style.height = isActive ? `${subMenu.scrollHeight}px` : '0';
+                    subMenu.style.padding = isActive ? '0.4rem 0' : '0';
                 }
-            });
+
+                // Cerrar otros submenús
+                menuItemsDropDown.forEach((item) => {
+                    if (item !== menuItem) {
+                        const otherSubmenu = item.querySelector('.sub-menu');
+                        const otherArrow = item.querySelector('.bxs-down-arrow');
+                        if (otherSubmenu) {
+                            item.classList.remove('sub-menu-toggle');
+                            otherSubmenu.style.height = '0';
+                            otherSubmenu.style.padding = '0';
+                            if (otherArrow) {
+                                otherArrow.style.transform = 'rotate(0)';
+                            }
+                        }
+                    }
+                });
+            }
         });
     });
 
@@ -44,10 +62,14 @@ document.addEventListener("DOMContentLoaded", () => {
 
             menuItemsDropDown.forEach((item) => {
                 const subMenu = item.querySelector('.sub-menu');
+                const arrow = item.querySelector('.bxs-down-arrow');
                 if (subMenu) {
                     item.classList.remove('sub-menu-toggle');
                     subMenu.style.height = '0';
                     subMenu.style.padding = '0';
+                    if (arrow) {
+                        arrow.style.transform = 'rotate(0)';
+                    }
                 }
             });
         });

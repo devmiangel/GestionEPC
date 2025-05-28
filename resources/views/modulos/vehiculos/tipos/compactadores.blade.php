@@ -1,37 +1,119 @@
-@extends('layouts.vehiculos')
+@extends('layouts.modulos')
+
+@section('title', 'Compactadores')
 
 @section('content')
-<div class="vehicle-grid">
-
-    @foreach ($compactadores as $compactadores)
-        @foreach ($compactadores->detalleVehiculo as $detalle)
+<div class="container">
+    <h1>Compactadores</h1>
+    
+    <div class="vehicle-grid">
+        @foreach($compactadores as $compactador)
             <div class="vehicle-card">
-
-                @if ($detalle->imagen_vehiculo)
-                    <img src="data:image/jpeg;base64,{{ base64_encode($detalle->imagen_vehiculo) }}" alt="Vehículo {{ $detalle->placa }}">
+                @if($compactador['imagen_vehiculo'])
+                    <img src="data:image/jpeg;base64,{{ $compactador['imagen_vehiculo'] }}" alt="Imagen del vehículo">
                 @else
-                    <img src="{{ asset('img/camion.webp') }}" alt="Vehículo {{ $detalle->placa }}">
+                    <img src="{{ asset('img/camion.webp') }}" alt="Imagen por defecto">
                 @endif
-                
-                <div class="vehicle-plate">{{ $detalle->placa }}</div>
-
-                <div class="tarjeta" onclick="expandirTarjetaModal(this)">
-                    <div class="resumen">DETALLES</div>
-                    <div class="detalle">
-                        <div class="vehicle-plate">{{ $detalle->placa }}</div>
-                        <p><strong>Modelo:</strong> {{ $compactadores->modelo_vehiculo }}</p>
-                        <p><strong>Marca:</strong> {{ $compactadores->marca_vehiculo }}</p>
-                        <p><strong>Año:</strong> {{ $detalle->año ?? 'No registrado' }}</p>
-                        <p><strong>Capacidad:</strong> {{ $detalle->capacidad ?? '2' }} pasajeros</p>
-                        <p><strong>Conductor:</strong> {{ $detalle->conductor ?? 'No asignado' }}</p>
-                        <p><strong>Último mantenimiento:</strong> {{ $detalle->ultimo_mantenimiento ?? 'No registrado' }}</p>
-                        <p><strong>Soat:</strong> {{ $detalle->soat_estado ?? 'No registrado' }}</p>
-                        <p><strong>Tecnomecánica:</strong> {{ $detalle->tecno_estado ?? 'No registrada' }}</p>
-                    </div>
+                <div class="vehicle-plate">{{ $compactador['placa'] }}</div>
+                <div class="vehicle-info">
+                    <p><strong>Marca:</strong> {{ $compactador['marca_vehiculo'] }}</p>
+                    <p><strong>Modelo:</strong> {{ $compactador['modelo_vehiculo'] }}</p>
+                    <p><strong>Estado:</strong> {{ $compactador['estado'] }}</p>
                 </div>
+                <button 
+                    class="btn-details" 
+                    data-vehiculo='{"placa":"{{ $compactador['placa'] }}","marca_vehiculo":"{{ $compactador['marca_vehiculo'] }}","modelo_vehiculo":"{{ $compactador['modelo_vehiculo'] }}","estado":"{{ $compactador['estado'] }}","imagen_vehiculo":"{{ $compactador['imagen_vehiculo'] }}"}'
+                >
+                    <i class="fas fa-info-circle"></i> Ver Detalles
+                </button>
             </div>
         @endforeach
-    @endforeach
+    </div>
 
+    <!-- Modal para detalles del vehículo -->
+    <div id="modalVehiculo" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="cerrarModal()">&times;</span>
+            <img id="modalImagen" src="" alt="Imagen del vehículo">
+            <div id="modalDetalles"></div>
+        </div>
+    </div>
 </div>
+
+<style>
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.7);
+    justify-content: center;
+    align-items: center;
+}
+
+.modal-content {
+    background-color: #fefefe;
+    margin: auto;
+    padding: 20px;
+    border-radius: 8px;
+    max-width: 800px;
+    width: 90%;
+    max-height: 90vh;
+    overflow-y: auto;
+    position: relative;
+}
+
+.close {
+    position: absolute;
+    right: 20px;
+    top: 10px;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.detalles-vehiculo {
+    margin-top: 20px;
+}
+
+.detalle-item {
+    margin: 10px 0;
+    padding: 5px 0;
+    border-bottom: 1px solid #eee;
+}
+
+.btn-details {
+    background-color: #136ea7;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-top: 10px;
+    transition: background-color 0.3s;
+}
+
+.btn-details:hover {
+    background-color: #0d4f7c;
+}
+
+#modalImagen {
+    max-width: 100%;
+    height: auto;
+    border-radius: 4px;
+    margin-bottom: 20px;
+}
+
+.vehicle-card img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    border-radius: 4px;
+}
+</style>
+
+<script src="{{ asset('js/vehiculos.js') }}"></script>
 @endsection

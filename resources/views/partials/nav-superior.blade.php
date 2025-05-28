@@ -1,4 +1,4 @@
-<nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
+<nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm"  style="position: sticky; top: 0;">
             <div class="container">
                 <a class="navbar-brand" href="{{ route('dashboard') }}">
                     <img src="{{ asset('img/logo_epc.webp') }}" alt="logo" style="width: 50px; height: 50px; border-radius: 50%;">

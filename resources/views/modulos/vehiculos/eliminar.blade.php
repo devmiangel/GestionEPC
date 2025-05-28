@@ -1,56 +1,116 @@
 @extends('layouts.modulos')
 
-@section('title', 'Vehiculos - EPC')
+@section('title', 'Eliminar Vehículos')
 
 @section('content')
-<head>
-    <title>Eliminar</title>
-
-    <link rel="stylesheet" href="{{ asset('styles/vehiculo.css') }}">
-    <link rel="stylesheet" href="{{ asset('styles/estiloDashboard.css') }}">
-    <link rel="stylesheet" href="{{ asset('styles/estiloseliminarvehiculo.css') }}">
-    <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
-    <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
-</head>
-<div class="actions-vehiculos">
-            <a href="vehiculos.html" class="btn-volver">
-                <i class="fas fa-arrow-left"></i> Volver a Vehículos
-            </a>
-        </div>
-        
-        <h1 class="title">Eliminar Vehículo</h1>
-        
-        <div class="delete-vehicle-container">
-            <div class="search-filter">
-                <div class="search-box">
-                    <i class="fas fa-search"></i>
-                    <input type="text" id="searchInput" placeholder="Buscar por placa...">
-                </div>
-                <select id="filterType">
-                    <option value="all">Todos los vehículos</option>
-                    <option value="camion">Camiones</option>
-                    <option value="camioneta">Camionetas</option>
-                    <option value="moto">Motos</option>
-                </select>
-            </div>
-            
-            <div class="vehicle-list" id="vehicleList">
-                
-            </div>
-            
-            <div class="delete-confirm-modal" id="deleteModal">
-                <div class="modal-content">
-                    <span class="close-modal" id="closeModal">&times;</span>
-                    <h3>Confirmar Eliminación</h3>
-                    <p id="modalMessage">¿Estás seguro que deseas eliminar este vehículo?</p>
-                    <div class="modal-actions">
-                        <button id="confirmDelete" class="btn-delete">Eliminar</button>
-                        <button id="cancelDelete" class="btn-cancel">Cancelar</button>
+<div class="container">
+    <h1>Eliminar Vehículos</h1>
+    
+    <div class="vehicle-grid">
+        @foreach($vehiculos as $vehiculo)
+            @if($vehiculo->detalleVehiculo->first())
+                <div class="vehicle-card" id="vehiculo-{{ $vehiculo->id }}">
+                    @if($vehiculo->detalleVehiculo->first()->imagen_vehiculo)
+                        <img src="data:image/jpeg;base64,{{ base64_encode($vehiculo->detalleVehiculo->first()->imagen_vehiculo) }}" alt="Imagen del vehículo">
+                    @else
+                        <img src="{{ asset('img/car.webp') }}" alt="Imagen por defecto">
+                    @endif
+                    <div class="vehicle-plate">{{ $vehiculo->detalleVehiculo->first()->placa }}</div>
+                    <div class="vehicle-info">
+                        <p><strong>Marca:</strong> {{ $vehiculo->marca_vehiculo }}</p>
+                        <p><strong>Modelo:</strong> {{ $vehiculo->modelo_vehiculo }}</p>
+                        <p><strong>Estado:</strong> {{ $vehiculo->detalleVehiculo->first()->estado->estado ?? 'No registrado' }}</p>
                     </div>
+                    <button onclick="eliminarVehiculo({{ $vehiculo->id }})" class="btn-delete">
+                        <i class="fas fa-trash"></i> Eliminar
+                    </button>
                 </div>
-            </div>
-        </div>
+            @endif
+        @endforeach
+    </div>
 </div>
-    <script src="{{ asset('js/vehiculos.js') }}"></script>
-    <script src="{{ asset('js/agregarvehiculo.js') }}"></script>
+
+<style>
+.vehicle-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 20px;
+    padding: 20px;
+}
+
+.vehicle-card {
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    padding: 15px;
+    transition: transform 0.2s;
+}
+
+.vehicle-card:hover {
+    transform: translateY(-5px);
+}
+
+.vehicle-card img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    border-radius: 4px;
+}
+
+.vehicle-plate {
+    font-size: 1.2em;
+    font-weight: bold;
+    margin: 10px 0;
+    color: #136ea7;
+}
+
+.vehicle-info {
+    margin: 10px 0;
+}
+
+.btn-delete {
+    background-color: #dc3545;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 4px;
+    cursor: pointer;
+    width: 100%;
+    margin-top: 10px;
+    transition: background-color 0.3s;
+}
+
+.btn-delete:hover {
+    background-color: #c82333;
+}
+</style>
+
+<script>
+function eliminarVehiculo(id) {
+    if (confirm('¿Está seguro de que desea eliminar este vehículo?')) {
+        fetch(`/vehiculos/${id}`, {
+            method: 'DELETE',
+            headers: {
+                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                // Eliminar la tarjeta del vehículo del DOM
+                document.getElementById(`vehiculo-${id}`).remove();
+                alert('Vehículo eliminado correctamente');
+            } else {
+                alert('Error al eliminar el vehículo');
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('Error al eliminar el vehículo');
+        });
+    }
+}
+</script>
 @endsection

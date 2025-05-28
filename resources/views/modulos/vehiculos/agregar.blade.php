@@ -25,7 +25,8 @@
                 </a>
             </div>
 
-            <form id="formAgregarVehiculo" class="add-vehicle-form">
+            <form id="formAgregarVehiculo" class="add-vehicle-form" method="POST" action="{{ route('vehiculos.store') }}" enctype="multipart/form-data">
+                @csrf
                 <h2><i class="fas fa-plus-circle"></i> Información del Vehículo</h2>
 
                 <div class="form-group">
@@ -33,8 +34,9 @@
                     <select id="tipoVehiculo" name="tipoVehiculo" required>
                         <option value="">Seleccione un tipo</option>
                         <option value="camion">Camión</option>
-                        <option value="camioneta">Camioneta</option>
+                        <option value="compactador">Compactador</option>
                         <option value="moto">Moto</option>
+                        <option value="otro">Otro</option>
                     </select>
                 </div>
 
@@ -98,7 +100,7 @@
 
                 <div class="form-group">
                     <label for="descripcionUltimoMantenimiento">Descripción Último Mantenimiento:</label>
-                    <textarea id="descripcionUltimoMantenimiento" name="descripcionUltimoMantenimiento" rows="3" placeholder="Detalles del último mantenimiento..."></textarea>
+                    <textarea id="descripcionUltimoMantenimiento" name="descripcionUltimoMantenimiento" rows="3" placeholder="Detalles del último mantenimiento..." required></textarea>
                 </div>
 
                 <button type="submit" class="btn-submit">

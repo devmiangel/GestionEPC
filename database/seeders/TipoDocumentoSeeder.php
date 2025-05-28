@@ -13,8 +13,8 @@ class TipoDocumentoSeeder extends Seeder
             ['tipo_documento' => 'Cédula de Ciudadanía'],
             ['tipo_documento' => 'Cédula de Extranjería'],
             ['tipo_documento' => 'Pasaporte'],
-            ['tipo_documento' => 'NIT'],
-            ['tipo_documento' => 'Otro'],
+            ['tipo_documento' => 'Tarjeta de Identidad'],
+            ['tipo_documento' => 'Permiso Especial de Permanencia'],
         ]);
     }
 }

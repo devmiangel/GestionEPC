@@ -21,7 +21,8 @@ class HerramientaController extends Controller
 
     public function eliminate()
     {
-        return view('modulos.herramientas.eliminar');
+        $herramientas = Herramienta::all();
+        return view('modulos.herramientas.eliminar', compact('herramientas'));
     }
 
     public function mecanicas()

@@ -24,16 +24,18 @@ class AlertasController extends Controller
 
         // Buscar detalles de vehículos con SOAT, técnico-mecánica o mantenimiento próximos a vencer
         $detalles = DetalleVehiculo::where(function($query) use ($hoy, $diasAlerta) {
-            $query->whereDate('fecha_soat', '<=', $hoy->copy()->addDays($diasAlerta))
-                  ->whereDate('fecha_soat', '>=', $hoy)
-                ->orWhere(function($q) use ($hoy, $diasAlerta) {
-                    $q->whereDate('fecha_tecnomecanica', '<=', $hoy->copy()->addDays($diasAlerta))
-                      ->whereDate('fecha_tecnomecanica', '>=', $hoy);
-                })
-                ->orWhere(function($q) use ($hoy, $diasAlerta) {
-                    $q->whereDate('fecha_ultimo_mantenimiento', '<=', $hoy->copy()->addDays($diasAlerta))
-                      ->whereDate('fecha_ultimo_mantenimiento', '>=', $hoy);
-                });
+            $query->where(function($q) use ($hoy, $diasAlerta) {
+                $q->whereDate('fecha_soat', '<=', $hoy->copy()->addDays($diasAlerta))
+                  ->whereDate('fecha_soat', '>=', $hoy);
+            })
+            ->orWhere(function($q) use ($hoy, $diasAlerta) {
+                $q->whereDate('fecha_tecnomecanica', '<=', $hoy->copy()->addDays($diasAlerta))
+                  ->whereDate('fecha_tecnomecanica', '>=', $hoy);
+            })
+            ->orWhere(function($q) use ($hoy, $diasAlerta) {
+                $q->whereDate('fecha_ultimo_mantenimiento', '<=', $hoy->copy()->addDays($diasAlerta))
+                  ->whereDate('fecha_ultimo_mantenimiento', '>=', $hoy);
+            });
         })->get();
 
         // Obtener todos los administradores
