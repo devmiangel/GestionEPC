@@ -1,5 +1,9 @@
 @extends('layouts.app')
 
+    <link rel="stylesheet" href="{{ asset('styles/estilosModulos.css') }}">
+    <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" />
+
 @section('content')
 <div class="container">
     <h2 class="mb-4">Mis Alertas</h2>
