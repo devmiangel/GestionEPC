@@ -102,6 +102,18 @@
                     <textarea id="descripcionUltimoMantenimiento" name="descripcionUltimoMantenimiento" rows="3" placeholder="Detalles del último mantenimiento..."></textarea>
                 </div>
 
+                <div class="form-group">
+                    <label for="persona_id">Conductor/Persona asignada:</label>
+                    <select id="persona_id" name="persona_id" required>
+                        <option value="">Seleccione una persona</option>
+                        @foreach(App\Models\Persona::all() as $persona)
+                            <option value="{{ $persona->id }}">
+                                {{ $persona->primer_nombre }} {{ $persona->primer_apellido }} - {{ $persona->num_documento }}
+                            </option>
+                        @endforeach
+                    </select>
+                </div>
+
                 <button type="submit" class="btn-submit">
                     <i class="fas fa-save"></i> Guardar Vehículo
                 </button>

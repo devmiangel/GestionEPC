@@ -154,7 +154,6 @@ class VehiculoController extends Controller
             'marcaVehiculo' => 'required|string',
             'placa' => 'required|string|max:10',
             'modelo' => 'required|string',
-            'anio' => 'required|integer',
             'color' => 'required|string',
             'fechaSoat' => 'required|date',
             'fechaSolicitud' => 'required|date',
@@ -188,7 +187,7 @@ class VehiculoController extends Controller
         // Create the vehicle details
         $detalleVehiculo = DetalleVehiculo::create([
             'id_vehiculo' => $vehiculo->id,
-            'user_id' => auth()->id(),
+            'persona_id' => $request->persona_id, // Asignar persona seleccionada
             'id_estado' => 1, // Estado activo por defecto
             'id_estadoregistro' => 1, // Estado de registro activo por defecto
             'placa' => $request->placa,
