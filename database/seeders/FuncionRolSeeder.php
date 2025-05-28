@@ -16,20 +16,32 @@ class FuncionRolSeeder extends Seeder
 
         $funciones = Funcion::pluck('id', 'funcion');
 
-        // Asignar funciones al rol administrador
         $admin->funciones()->sync([
+            $funciones['editar_todos_registros'],
+            $funciones['gestionar_roles'],
+            $funciones['restaurar_elementos_ocultos'],
+            $funciones['asignar_elementos'],
+            $funciones['ver_dashboard_general'],
             $funciones['ver_dashboard_admin'],
             $funciones['editar_usuarios'],
+            $funciones['ver_usuarios'],
+            $funciones['ver_elementos'],
+            $funciones['ver_elementos_ocultos'],
+            $funciones['ver_prestamos'],
+            $funciones['ver_historial'],
         ]);
 
         $coordinador->funciones()->sync([
-            $funciones['ver_dashboard_admin'],
-            $funciones['editar_usuarios'],
+            $funciones['asignar_elementos'],
+            $funciones['ver_dashboard_general'],
+            $funciones['ver_usuarios'],
+            $funciones['ver_prestamos'],
         ]);
 
-        // Asignar solo una función al rol usuario
         $usuario->funciones()->sync([
-            $funciones['ver_dashboard_admin'],
+            $funciones['ver_dashboard_general'],
+            $funciones['ver_elementos'],
+
         ]);
     }
 }
