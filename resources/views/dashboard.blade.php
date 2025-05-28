@@ -3,40 +3,76 @@
 @section('title', 'Dashboard - EPC')
 
 @section('content')
-<head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Dashboard EPC</title>
-    <link rel="stylesheet" href="{{ asset('styles/estiloDashboard.css') }}">
-    <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
-    <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
-</head>
-
 <div class="dashboard-page">
+    <h1 style="text-align: center; margin-top: 20px; font-size: 50px;"><strong>Bienvenido</strong></h1><br><br>
 
-
-<h1 style="text-align: center; margin-top: 20px;">Bienvenido</h1><br>
     <div class="dashboard-buttons">
         <div>
-            <a href="#" class="dashboard-button">
-            Vehículos
+            <a href="{{ route('vehiculos.index') }}" class="dashboard-button">
+                Vehículos
             </a>
-                    @auth
-        @if (auth()->user()->tieneRol('Administrador'))
-            <a href="#" class="dashboard-button">
-                Modificar Vehículos
-            </a>
-        @endif
-    @endauth
+            @auth
+                @if (auth()->user()->tieneRol('Coordinador'))
+                    <a href="{{ route('vehiculos.asignar.form') }}" class="dashboard-buttondos">Asignar</a>
+                @endif
+                @if (auth()->user()->tieneRol('Administrador'))
+                    <a href="{{ route('vehiculos.edit', 1) }}" class="dashboard-buttondos">Modificar</a>
+                    <a href="{{ route('vehiculos.asignar.form') }}" class="dashboard-buttondos">Asignar</a>
+                @endif
+            @endauth
         </div>
-        
 
-        <a href="#" class="dashboard-button">
-            Herramientas
-        </a>
-        <a href="#" class="dashboard-button">
-            Conductores
-        </a>
+        <div>
+            <a href="{{ route('herramientas.index') }}" class="dashboard-button">
+                Herramientas
+            </a>
+            @auth
+                @if (auth()->user()->tieneRol('Coordinador'))
+                    <a href="{{ route('herramientas.asignar.form') }}" class="dashboard-buttondos">Asignar</a>
+                @endif
+                @if (auth()->user()->tieneRol('Administrador'))
+                    <a href="{{ route('herramientas.edit', 1) }}" class="dashboard-buttondos">Modificar</a>
+                    <a href="{{ route('herramientas.asignar.form') }}" class="dashboard-buttondos">Asignar</a>
+                @endif
+            @endauth
+        </div>
+
+        <div>
+            <a href="{{ route('conductores.index') }}" class="dashboard-button">
+                Conductores
+            </a>
+            @auth
+                @if (auth()->user()->tieneRol('Coordinador'))
+                    <a href="{{ route('conductores.asignar.form') }}" class="dashboard-buttondos">Asignar</a>
+                @endif
+                @if (auth()->user()->tieneRol('Administrador'))
+                    <a href="{{ route('conductores.edit', 1) }}" class="dashboard-buttondos">Modificar</a>
+                    <a href="{{ route('conductores.asignar.form') }}" class="dashboard-buttondos">Asignar</a>
+                @endif
+            @endauth
+        </div>
+
+        
+            @auth
+                @if (auth()->user()->tieneRol('Coordinador') || auth()->user()->tieneRol('Administrador'))
+                <div>
+                    <a href="{{ route('historial.index') }}" class="dashboard-button">
+                        Historial
+                    </a>
+                    </div>
+                @endif
+
+            @endauth
+        </div>
     </div>
 </div>
 @endsection
+
+@push('styles')
+    <link rel="stylesheet" href="{{ asset('styles/estiloDashboard.css') }}">
+@endpush
+
+@push('scripts')
+    <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+@endpush
