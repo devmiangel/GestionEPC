@@ -18,30 +18,23 @@
                 <span>Home</span>
             </a>
         </li>
-        <li class="menu-item menu-item-dropdown">
+        <li class="menu-item menu-item-static">
             <a href="{{ route('vehiculos.index') }}" class="menu-link">
                 <i class='bx bxs-car'></i>
                 <span>Vehículos</span>
-                <i class='bx bxs-down-arrow'></i>
             </a>
-            <ul class="sub-menu">
-                <li><a href="{{ route('vehiculos.compactadores') }}" class="sub-menu-link"><i class='bx bxs-truck'></i> Compactadores</a></li>
-                <li><a href="{{ route('vehiculos.camiones') }}" class="sub-menu-link"><i class='bx bxs-car bx-flip-horizontal'></i> Camiones</a></li>
-                <li><a href="{{ route('vehiculos.motos') }}" class="sub-menu-link"><i class="material-symbols-outlined">two_wheeler</i> Motos</a></li>
-                <li><a href="{{ route('vehiculos.otros') }}" class="sub-menu-link"><i class='bx bx-car'></i> Otros</a></li>
-            </ul>
         </li>
-        <li class="menu-item menu-item-dropdown">
+        <li class="menu-item menu-item-static">
             <a href="{{ route('herramientas.index') }}" class="menu-link">
                 <i class='bx bx-wrench'></i>
                 <span>Herramientas</span>
-                <i class='bx bxs-down-arrow'></i>
             </a>
-            <ul class="sub-menu">
-                <li><a href="{{ route('herramientas.create') }}" class="sub-menu-link"><i class='bx bx-plus'></i> Agregar</a></li>
-                <li><a href="{{ route('herramientas.eliminate') }}" class="sub-menu-link"><i class='bx bx-trash'></i> Eliminar</a></li>
-                <li><a href="{{ route('herramientas.asignar.form') }}" class="sub-menu-link"><i class='bx bx-user-plus'></i> Asignar</a></li>
-            </ul>
+        </li>
+        <li class="menu-item menu-item-static">
+            <a href="{{ route('conductores.index') }}" class="menu-link">
+                <i class='bx bx-id-card'></i>
+                <span>Conductores</span>
+            </a>
         </li>
     </ul>
 </div>
