@@ -15,7 +15,7 @@ class DetalleVehiculo extends Model
 
     protected $fillable = [
         'id_vehiculo',
-        'user_id',
+        'persona_id',
         'id_estado',
         'id_estadoregistro',
         'placa',
@@ -32,9 +32,9 @@ class DetalleVehiculo extends Model
         return $this->belongsTo(Vehiculo::class, 'id_vehiculo');
     }
 
-    public function usuario()
+    public function persona()
     {
-        return $this->belongsTo(User::class, 'user_id');
+        return $this->belongsTo(User::class, 'persona_id');
     }
 
     public function estado()

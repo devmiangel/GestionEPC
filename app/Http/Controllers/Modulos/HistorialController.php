@@ -12,13 +12,24 @@ class HistorialController extends Controller
     public function index()
     {
         // Unimos los elementos de vehículos y herramientas para mostrar en el historial
-        $vehiculos = Vehiculo::all()->map(function($v) {
+        $vehiculos = Vehiculo::with(['tipoVehiculo', 'detalleVehiculo.persona'])->get()->map(function($v) {
+            $detalle = $v->detalleVehiculo->first();
+            $tipoVehiculo = $v->tipoVehiculo ? $v->tipoVehiculo->tipo_vehiculo : '';
+            $placa = $detalle ? $detalle->placa : '';
+            $conductor = $detalle && $detalle->persona
+                ? trim($detalle->persona->primer_nombre . ' ' . $detalle->persona->primer_apellido)
+                : 'No asignado';
             return [
                 'id' => $v->id,
                 'tipo' => 'Vehículo',
-                'nombre' => isset($v->placa) ? $v->placa : (isset($v->nombre) ? $v->nombre : ''),
-                'fecha_adquisicion' => isset($v->fecha_adquisicion) ? $v->fecha_adquisicion : '',
-                'estado' => isset($v->estado) ? $v->estado : 'Desconocido',
+                'marca' => $v->marca_vehiculo ?? '',
+                'modelo' => $v->modelo_vehiculo ?? '',
+                'tipo_vehiculo' => $tipoVehiculo,
+                'placa' => $placa,
+                'usuario' => $conductor,
+                'nombre' => $placa ?? ($v->nombre ?? ''),
+                'fecha_adquisicion' => $v->fecha_adquisicion ?? '',
+                'estado' => $v->estado ?? 'Desconocido',
             ];
         });
         $herramientas = Herramienta::all()->map(function($h) {

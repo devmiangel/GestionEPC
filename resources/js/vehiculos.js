@@ -99,3 +99,4 @@ window.onclick = function(event) {
 }
 
 window.expandirTarjetaModal = expandirTarjetaModal;
+window.cerrarModal = cerrarModal;

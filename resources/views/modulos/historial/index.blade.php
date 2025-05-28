@@ -20,16 +20,16 @@
         <tbody>
             @foreach($items as $item)
             <tr>
-                <td>{{ $item->tipo }}</td>
-                <td>{{ $item->marca }}</td>
-                <td>{{ $item->modelo }}</td>
-                <td>{{ $item->tipo_vehiculo }}</td>
-                <td>{{ $item->placa }}</td>
-                <td>{{ $item->usuario }}</td>
+                <td>{{ is_array($item) ? ($item['tipo'] ?? '') : $item->tipo }}</td>
+                <td>{{ is_array($item) ? ($item['marca'] ?? '') : $item->marca }}</td>
+                <td>{{ is_array($item) ? ($item['modelo'] ?? '') : $item->modelo }}</td>
+                <td>{{ is_array($item) ? ($item['tipo_vehiculo'] ?? '') : $item->tipo_vehiculo }}</td>
+                <td>{{ is_array($item) ? ($item['placa'] ?? '') : $item->placa }}</td>
+                <td>{{ is_array($item) ? ($item['usuario'] ?? '') : $item->usuario }}</td>
                 <td>
-                    <a href="{{ route('historial.mantenimientos', $item->id) }}" class="btn btn-info btn-sm">Ver Historial</a>
+                    <a href="{{ route('historial.mantenimientos', is_array($item) ? ($item['id'] ?? '') : $item->id) }}" class="btn btn-info btn-sm">Ver Historial</a>
                 </td>
-                <td>{{ $item->estado }}</td>
+                <td>{{ is_array($item) ? ($item['estado'] ?? '') : $item->estado }}</td>
             </tr>
             @endforeach
         </tbody>
