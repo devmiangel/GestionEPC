@@ -51,6 +51,19 @@
                 @endif
             @endauth
         </div>
+
+        
+            @auth
+                @if (auth()->user()->tieneRol('Coordinador') || auth()->user()->tieneRol('Administrador'))
+                <div>
+                    <a href="{{ route('historial.index') }}" class="dashboard-button">
+                        Historial
+                    </a>
+                    </div>
+                @endif
+
+            @endauth
+        </div>
     </div>
 </div>
 @endsection

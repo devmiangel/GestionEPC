@@ -32,6 +32,14 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/conductores', [ConductorController::class, 'index'])->name('conductores.index');
     Route::get('/conductores/agregar', [ConductorController::class, 'create'])->name('conductores.create');
     Route::get('/conductores/eliminar', [ConductorController::class, 'eliminate'])->name('conductores.eliminate');
+    Route::get('/historial', [\App\Http\Controllers\Modulos\HistorialController::class, 'index'])->name('historial.index');
+    Route::get('/historial/eliminar/{item}', function($item) {
+        // Puedes pasar el item al view según tu lógica
+        return view('modulos.historial.eliminar', compact('item'));
+    })->name('historial.eliminar');
+    Route::delete('/historial/{item}', [\App\Http\Controllers\Modulos\HistorialController::class, 'destroy'])->name('historial.destroy');
+    Route::get('/historial/mantenimientos/{item}', [\App\Http\Controllers\Modulos\HistorialController::class, 'mantenimientos'])->name('historial.mantenimientos');
+    Route::get('/historial/editar/{item}', [\App\Http\Controllers\Modulos\HistorialController::class, 'editar'])->name('historial.editar');
 });
 
 Route::post('/logout', function () {
