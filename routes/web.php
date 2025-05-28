@@ -25,6 +25,9 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/vehiculos/motos', [VehiculoController::class, 'motos'])->name('vehiculos.motos');
     Route::get('/vehiculos/otros', [VehiculoController::class,'otros'])->name('vehiculos.otros');
     Route::get('/herramientas', [HerramientaController::class, 'index'])->name('herramientas.index');
+    Route::get('/herramientas/agregar', [HerramientaController::class, 'create'])->name('herramientas.create');
+    Route::get('/herramientas/eliminar', [HerramientaController::class, 'eliminate'])->name('herramientas.eliminate');
+    Route::post('/herramientas', [HerramientaController::class, 'store'])->name('herramientas.store');
     
     Route::get('/conductores', [ConductorController::class, 'index'])->name('conductores.index');
     Route::get('/conductores/agregar', [ConductorController::class, 'create'])->name('conductores.create');

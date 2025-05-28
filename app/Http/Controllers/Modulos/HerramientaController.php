@@ -55,4 +55,15 @@ class HerramientaController extends Controller
                         ->get();
         return view('modulos.herramientas.tipos.otros', compact('otros'));
     }
+
+    public function store(Request $request)
+    {
+        $request->validate([
+            'nombre' => 'required|string|max:255',
+            'tipo_herramienta_id' => 'required|integer',
+            'descripcion' => 'nullable|string',
+        ]);
+        Herramienta::create($request->all());
+        return redirect()->route('herramientas.index')->with('success', 'Herramienta agregada correctamente.');
+    }
 }
