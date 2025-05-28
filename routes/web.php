@@ -6,6 +6,7 @@ use App\Http\Controllers\Auth\ForgotPasswordController;
 use App\Http\Controllers\Auth\ResetPasswordController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\Modulos\VehiculoController;
+use Illuminate\Support\Facades\Auth;
 
 
 Route::get('/', function () {

@@ -2,17 +2,15 @@
 
 @section('title', 'Vehiculos - EPC')
 
-@section('content')
-<head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Vehiculos EPC</title>
+@section('link')
+<link rel="stylesheet" href="{{ asset('styles/vehiculo.css') }}">
+<link rel="stylesheet" href="{{ asset('styles/estiloDashboard.css') }}">
+<script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+<script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+@endsection
 
-    <link rel="stylesheet" href="{{ asset('styles/vehiculo.css') }}">
-    <link rel="stylesheet" href="{{ asset('styles/estiloDashboard.css') }}">
-    <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
-    <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
-</head>
+@section('content')
+
 <body>
 
     <div class="content-wrapper">

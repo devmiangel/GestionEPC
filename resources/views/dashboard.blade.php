@@ -2,22 +2,16 @@
 
 @section('title', 'Dashboard - EPC')
 
-@section('content')
-<head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Dashboard EPC</title>
-    
+@section('link')
     <link rel="stylesheet" href="{{ asset('styles/estiloDashboard.css') }}">
-    <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
-    <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
-</head>
+@endsection
 
+@section('content')
 <div class="dashboard-page">
     <h1 style="text-align: center; margin-top: 20px; font-size: 50px;"><strong>Bienvenido</strong></h1><br><br>
     <div class="dashboard-buttons">
         <div>
-            <a href="#" class="dashboard-button">
+            <a href="{{ route('vehiculos')}}" class="dashboard-button">
                 Vehículos
             </a>
             @auth

@@ -8,17 +8,16 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <title>{{ config('app.name', 'EPC') }}</title>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
 
-    <!-- Fonts -->
-    <link rel="dns-prefetch" href="//fonts.bunny.net">
-    <link href="https://fonts.bunny.net/css?family=Nunito" rel="stylesheet">
+    @yield('link')
 
-    <!-- Scripts -->
+
     @vite(['resources/sass/app.scss', 'resources/js/app.js'])
 </head>
 <body>
     <div id="app">
-        <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
+        <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm" style="position: sticky; top: 0; z-index: 1000;">
             <div class="container">
                 <a class="navbar-brand" href="{{ url('/') }}">
                     <img src="{{ asset('img/logo_epc.webp') }}" alt="logo" style="width: 50px; height: 50px; border-radius: 50%;">
@@ -64,17 +63,11 @@
         <main class="py-4">
             @yield('content')
         </main>
-        <footer class="footer">
-    <div class="footer-content">
-        <p>&copy; {{ date('Y') }} EPC - Todos los derechos reservados.</p>
-        <div class="footer-icons">
-            <a href="#"><ion-icon name="logo-facebook"></ion-icon></a>
-            <a href="#"><ion-icon name="logo-twitter"></ion-icon></a>
-            <a href="#"><ion-icon name="logo-instagram"></ion-icon></a>
-
-        </div>
-    </div>
-    </footer>
+        <footer class="footer" style="z-index: 2000">
+            <div class="footer-content">
+                <p>&copy; {{ date('Y') }} EPC - Todos los derechos reservados.</p>
+            </div>
+        </footer>
     </div>
     <script src="{{ asset('js/modulos.js') }}"></script>
     </body>
