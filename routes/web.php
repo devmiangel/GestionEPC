@@ -35,6 +35,15 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/alertas', [AlertasController::class, 'index'])->name('alertas.index');
     // Si quieres exponer el envío manual de alertas (opcional):
     // Route::post('/alertas/enviar', [AlertasController::class, 'enviarAlertas'])->name('alertas.enviar');
+    
+    Route::get('/historial', [\App\Http\Controllers\Modulos\HistorialController::class, 'index'])->name('historial.index');
+    Route::get('/historial/eliminar/{item}', function($item) {
+        // Puedes pasar el item al view según tu lógica
+        return view('modulos.historial.eliminar', compact('item'));
+    })->name('historial.eliminar');
+    Route::delete('/historial/{item}', [\App\Http\Controllers\Modulos\HistorialController::class, 'destroy'])->name('historial.destroy');
+    Route::get('/historial/mantenimientos/{item}', [\App\Http\Controllers\Modulos\HistorialController::class, 'mantenimientos'])->name('historial.mantenimientos');
+    Route::get('/historial/editar/{item}', [\App\Http\Controllers\Modulos\HistorialController::class, 'editar'])->name('historial.editar');
 });
 
 Route::post('/logout', function () {
