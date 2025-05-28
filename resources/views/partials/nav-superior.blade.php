@@ -15,8 +15,28 @@
 
                     <!-- Right Side Of Navbar -->
                     <ul class="navbar-nav ms-auto">
-                        <!-- Authentication Links -->
+                        <!-- Botón de alertas -->
                         @auth
+                        <li class="nav-item dropdown me-2">
+                            <a id="alertDropdown" class="nav-link dropdown-toggle position-relative" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <i class="bi bi-bell" style="font-size: 1.5rem;"></i>
+                                {{-- <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">{{ Auth::user()->alertas()->unread()->count() }}</span> --}}
+                            </a>
+                            <div class="dropdown-menu dropdown-menu-end" aria-labelledby="alertDropdown" style="min-width: 300px;">
+                                <span class="dropdown-item-text fw-bold">Alertas</span>
+                                <div class="dropdown-divider"></div>
+                                @php
+                                    $alertas = Auth::user()->alertas()->latest()->take(3)->get();
+                                @endphp
+                                @forelse($alertas as $alerta)
+                                    <span class="dropdown-item text-wrap">{{ $alerta->mensaje ?? $alerta->titulo ?? 'Alerta' }}</span>
+                                @empty
+                                    <span class="dropdown-item">No hay alertas nuevas.</span>
+                                @endforelse
+                                <div class="dropdown-divider"></div>
+                                <a href="{{ route('alertas.index') }}" class="dropdown-item text-center text-primary">Ver más</a>
+                            </div>
+                        </li>
                         <li class="nav-item dropdown">
                             <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                                 {{ Auth::user()->persona->primer_nombre }} {{ Auth::user()->persona->primer_apellido }}
@@ -34,7 +54,7 @@
                                 </form>
                             </div>
                         </li>
-                    @endauth
+                        @endauth
 
                     </ul>
                 </div>

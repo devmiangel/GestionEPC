@@ -13,7 +13,7 @@ html, body {
 }
 
 main {
-    flex: 1;
+    flex: 1 0 auto;
 }
 
 /* Main container for the dashboard content */
@@ -155,6 +155,7 @@ main {
     text-align: center;
     width: 100%;
     margin-top: auto; /* Esto hace que se quede al fondo si hay poco contenido */
+    flex-shrink: 0;
 }
 
 .footer-content {

@@ -43,6 +43,5 @@ class FuncionRolSeeder extends Seeder
             $funciones['ver_elementos'],
 
         ]);
-
-        }
+    }
 }
