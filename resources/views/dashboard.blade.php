@@ -38,7 +38,7 @@
         </div>
 
         <div>
-            <a href="#" class="dashboard-button">
+            <a href="{{ route('conductores.index') }}" class="dashboard-button">
                 Conductores
             </a>
             @auth
