@@ -7,6 +7,9 @@ use Illuminate\Http\Request;
 use App\Models\Vehiculo;
 use App\Models\DetalleVehiculo;
 use App\Models\TipoVehiculo;
+use App\Models\Estado;
+use App\Models\Persona;
+
 
 class VehiculoController extends Controller
 {
@@ -27,6 +30,22 @@ class VehiculoController extends Controller
             $query->where('id_estadoregistro', 1); // 1 = visible/activo
         }])->get();
         return view('modulos.vehiculos.eliminar', compact('vehiculos'));
+    }
+
+    public function show($id)
+    {
+        $vehiculo = Vehiculo::with('detalleVehiculo.estado')->findOrFail($id);
+        $estados = Estado::all();
+        return view('modulos.vehiculos.show', compact('vehiculo', 'estados'));
+    }
+
+    public function cambiarEstado(Request $request, Vehiculo $vehiculo)
+    {
+        $detalleVehiculo = $vehiculo->detalleVehiculo;
+        $detalleVehiculo->id_estado = $request->id_estado;
+        $detalleVehiculo->save();
+    
+        return redirect()->back()->with('success', 'Estado del vehículo actualizado correctamente');
     }
 
     public function destroy($id)

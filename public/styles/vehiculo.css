@@ -652,3 +652,23 @@ main {
 .footer-icons a:hover {
     color: #1abc9c;
 }
+
+.estado-disponible {
+    background-color: #4CAF50; /* Verde */
+    color: white;
+}
+
+.estado-prestado {
+    background-color: #FFC107; /* Amarillo */
+    color: black;
+}
+
+.estado-fueradeservicio {
+    background-color: #F44336; /* Rojo */
+    color: white;
+}
+
+.estado-inactivo {
+    background-color: #9C27B0; /* Morado */
+    color: white;
+}

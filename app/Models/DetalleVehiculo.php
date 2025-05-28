@@ -31,13 +31,13 @@ class DetalleVehiculo extends Model
     {
         return $this->belongsTo(Vehiculo::class, 'id_vehiculo');
     }
-
+    
     public function persona()
     {
         return $this->belongsTo(User::class, 'persona_id');
     }
 
-    public function estado()
+    public function estadoVehiculo()
     {
         return $this->belongsTo(Estado::class, 'id_estado');
     }

@@ -78,6 +78,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/vehiculos/asignar', [VehiculoController::class, 'asignarForm'])->name('vehiculos.asignar.form');
     Route::post('/vehiculos/asignar', [VehiculoController::class, 'asignar'])->name('vehiculos.asignar');
     Route::delete('/vehiculos/{id}', [VehiculoController::class, 'destroy'])->name('vehiculos.destroy');
+    Route::patch('/vehiculos/{vehiculo}/estado', [VehiculoController::class, 'cambiarEstado'])->name('vehiculos.cambiarEstado');
     
     Route::get('/historial/herramienta/{id}', [\App\Http\Controllers\Modulos\HistorialController::class, 'historialHerramienta'])->name('historial.herramienta');
     Route::get('/historial/vehiculo/{id}', [\App\Http\Controllers\Modulos\HistorialController::class, 'historialVehiculo'])->name('historial.vehiculo');
