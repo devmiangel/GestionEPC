@@ -32,7 +32,7 @@
                     <label for="tipoVehiculo">Tipo de Vehículo:</label>
                     <select id="tipoVehiculo" name="tipoVehiculo" required>
                         <option value="">Seleccione un tipo</option>
-                        <option value="camion">Camión</option>
+                        <option value="camioneta">Camión</option>
                         <option value="camioneta">Camioneta</option>
                         <option value="moto">Moto</option>
                     </select>
@@ -109,6 +109,5 @@
     </div>
 </div>
 
-<script src="{{ asset('js/vehiculos.js') }}"></script>
 <script src="{{ asset('js/agregarvehiculo.js') }}"></script>
 @endsection

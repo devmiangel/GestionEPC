@@ -28,7 +28,7 @@
                 </div>
                 <select id="filterType">
                     <option value="all">Todos los vehículos</option>
-                    <option value="camion">Camiones</option>
+                    <option value="camioneta">Camiones</option>
                     <option value="camioneta">Camionetas</option>
                     <option value="moto">Motos</option>
                 </select>
@@ -51,6 +51,5 @@
             </div>
         </div>
 </div>
-    <script src="{{ asset('js/vehiculos.js') }}"></script>
     <script src="{{ asset('js/agregarvehiculo.js') }}"></script>
 @endsection

@@ -432,20 +432,47 @@ main {
     margin-left: 5rem;
 }
 
-/* Modal de detalles de vehículo */
 #modalVehiculo {
     display: none;
     position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    background-color: rgba(0,0,0,0.85);
+    top: 0; left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.85);
     z-index: 9999;
     justify-content: center;
     align-items: center;
-    transition: opacity 0.2s;
 }
+
+#modalVehiculo .contenido-modal {
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    max-width: 800px;
+    width: 90%;
+    position: relative;
+}
+
+#modalVehiculo .cerrar {
+    position: absolute;
+    top: 10px;
+    right: 20px;
+    font-size: 24px;
+    cursor: pointer;
+}
+
+#modalImagen {
+    width: 100%;
+    max-height: 400px;
+    object-fit: cover;
+    border-radius: 10px;
+}
+
+#modalDetalles {
+    margin-top: 20px;
+    font-size: 18px;
+}
+
 
 #modalVehiculo.active {
     display: flex;

@@ -70,6 +70,6 @@
         </div> <br>
     </div> 
     <script src="{{ asset('js/vehiculos.js') }}"></script>
-    <script src="{{ asset('js/modulos.js') }}"></script>
+    {{-- <script src="{{ asset('js/modulos.js') }}"></script> --}}
 </body>
 @endsection

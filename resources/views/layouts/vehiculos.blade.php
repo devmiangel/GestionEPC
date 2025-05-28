@@ -1,5 +1,7 @@
 @extends('layouts.modulos')
 
+@vite(['resources/js/vehiculos.js', 'resources/js/modulos.js'])
+
 @section('links')
     <link rel="stylesheet" href="{{ asset('styles/vehiculo.css') }}">
     <link rel="stylesheet" href="{{ asset('styles/estiloDashboard.css') }}">
@@ -9,7 +11,7 @@
 <main class="main-content">
     <div class="vehicle-grid">
         <div class="vehicle-card">
-            {{-- Contenido de vehículos --}}
+            @yield('content')
         </div>
     </div>
 

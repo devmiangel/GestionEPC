@@ -19,7 +19,7 @@
         <div class="main-content-area"> <h1 style="text-align: center; margin-top: 20px; font-size: 50px;"><strong>Vehiculos</strong></h1><br><br>
             <div class="dashboard-buttons">
                 <div><a href="{{ route('vehiculos.compactadores') }}" class="dashboard-button">Compactadores</a></div>
-                <div><a href="{{ route('vehiculos.camiones') }}" class="dashboard-button">Camiones</a></div>
+                <div><a href="{{ route('vehiculos.camionetas') }}" class="dashboard-button">Camionetas</a></div>
                 <div><a href="{{ route('vehiculos.motos') }}" class="dashboard-button">Motos</a></div>
                 <div><a href="{{ route('vehiculos.otros') }}" class="dashboard-button">Otros</a></div>
             </div>
@@ -44,7 +44,7 @@
             </div>
         </div> <br>
     </div> 
-    <script src="{{ asset('js/vehiculos.js') }}"></script>
-    <script src="{{ asset('js/modulos.js') }}"></script>
+    {{-- <script src="{{ asset('js/vehiculos.js') }}"></script> --}}
+    {{-- <script src="{{ asset('js/modulos.js') }}"></script> --}}
 </body>
 @endsection

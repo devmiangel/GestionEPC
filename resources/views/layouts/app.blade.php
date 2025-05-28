@@ -13,10 +13,10 @@
     <link rel="dns-prefetch" href="//fonts.bunny.net">
     <link href="https://fonts.bunny.net/css?family=Nunito" rel="stylesheet">
     <!-- Bootstrap Icons CDN -->
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
 
     <!-- Estilos base -->
-    <link rel="stylesheet" href="{{ asset('styles/estilosDashboard.css') }}">
+    <link rel="stylesheet" href="{{ asset('styles/estiloDashboard.css') }}">
 
     <!-- Estilos adicionales de vistas -->
     @stack('styles')
@@ -26,7 +26,7 @@
 </head>
 <body>
     <div id="app">
-            @include('partials.nav-superior')
+        @include('partials.nav-superior')
 
         <main class="py-4">
             @yield('content')
@@ -43,9 +43,6 @@
             </div>
         </footer>
     </div>
-
-    <!-- Scripts globales -->
-    <script src="{{ asset('js/modulos.js') }}"></script>
 
     <!-- Scripts adicionales de vistas -->
     @stack('scripts')

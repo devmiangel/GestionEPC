@@ -16,18 +16,18 @@ class HistorialController extends Controller
             return [
                 'id' => $v->id,
                 'tipo' => 'Vehículo',
-                'nombre' => $v->placa,
-                'fecha_adquisicion' => $v->fecha_adquisicion,
-                'estado' => $v->estado ?? 'Desconocido',
+                'nombre' => isset($v->placa) ? $v->placa : (isset($v->nombre) ? $v->nombre : ''),
+                'fecha_adquisicion' => isset($v->fecha_adquisicion) ? $v->fecha_adquisicion : '',
+                'estado' => isset($v->estado) ? $v->estado : 'Desconocido',
             ];
         });
         $herramientas = Herramienta::all()->map(function($h) {
             return [
                 'id' => $h->id,
                 'tipo' => 'Herramienta',
-                'nombre' => $h->nombre,
-                'fecha_adquisicion' => $h->fecha_adquisicion,
-                'estado' => $h->estado ?? 'Desconocido',
+                'nombre' => isset($h->nombre) ? $h->nombre : (isset($h->descripcion) ? $h->descripcion : ''),
+                'fecha_adquisicion' => isset($h->fecha_adquisicion) ? $h->fecha_adquisicion : '',
+                'estado' => isset($h->estado) ? $h->estado : 'Desconocido',
             ];
         });
         $items = $vehiculos->concat($herramientas);

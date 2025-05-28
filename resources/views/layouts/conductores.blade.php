@@ -20,6 +20,5 @@
             </div>
         </div>
     </div>
-    <script src="{{ asset('js/modulos.js') }}"></script>
     <script src="{{ asset('js/conductores.js') }}"></script>
 @endsection

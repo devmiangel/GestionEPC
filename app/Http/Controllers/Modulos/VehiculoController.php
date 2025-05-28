@@ -52,107 +52,35 @@ class VehiculoController extends Controller
         }
     }
 
-    public function camiones()
+    public function camionetas()
     {
-        $camiones = Vehiculo::with(['detalleVehiculo', 'tipoVehiculo'])
-                        ->where('id_tipovehiculo', 1)
-                        ->get()
-                        ->map(function($vehiculo) {
-                            $detalle = $vehiculo->detalleVehiculo->first();
-                            return [
-                                'id' => $vehiculo->id,
-                                'placa' => $detalle ? $detalle->placa : 'No registrada',
-                                'marca_vehiculo' => $vehiculo->marca_vehiculo,
-                                'modelo_vehiculo' => $vehiculo->modelo_vehiculo,
-                                'tipo_vehiculo' => $vehiculo->tipoVehiculo->tipo_vehiculo,
-                                'estado' => $detalle && $detalle->estado ? $detalle->estado->estado : 'No registrado',
-                                'año' => $detalle ? $detalle->año : 'No registrado',
-                                'capacidad' => $detalle ? $detalle->capacidad : 'No registrada',
-                                'conductor' => $detalle ? $detalle->conductor : 'No asignado',
-                                'ultimo_mantenimiento' => $detalle ? $detalle->fecha_ultimo_mantenimiento : 'No registrado',
-                                'soat_estado' => $detalle ? $detalle->fecha_soat : 'No registrado',
-                                'tecno_estado' => $detalle ? $detalle->tecno_estado : 'No registrada',
-                                'imagen_vehiculo' => $detalle && $detalle->imagen_vehiculo ? base64_encode($detalle->imagen_vehiculo) : null
-                            ];
-                        });
-        return view('modulos.vehiculos.tipos.camiones', compact('camiones'));
+        $camionetas = Vehiculo::with(['detalleVehiculo', 'tipoVehiculo'])
+            ->where('id_tipovehiculo', 1)
+            ->get();
+        return view('modulos.vehiculos.tipos.camionetas', compact('camionetas'));
     }
 
     public function compactadores()
     {
         $compactadores = Vehiculo::with(['detalleVehiculo', 'tipoVehiculo'])
-                        ->where('id_tipovehiculo', 2)
-                        ->get()
-                        ->map(function($vehiculo) {
-                            $detalle = $vehiculo->detalleVehiculo->first();
-                            return [
-                                'id' => $vehiculo->id,
-                                'placa' => $detalle ? $detalle->placa : 'No registrada',
-                                'marca_vehiculo' => $vehiculo->marca_vehiculo,
-                                'modelo_vehiculo' => $vehiculo->modelo_vehiculo,
-                                'tipo_vehiculo' => $vehiculo->tipoVehiculo->tipo_vehiculo,
-                                'estado' => $detalle && $detalle->estado ? $detalle->estado->estado : 'No registrado',
-                                'año' => $detalle ? $detalle->año : 'No registrado',
-                                'capacidad' => $detalle ? $detalle->capacidad : 'No registrada',
-                                'conductor' => $detalle ? $detalle->conductor : 'No asignado',
-                                'ultimo_mantenimiento' => $detalle ? $detalle->fecha_ultimo_mantenimiento : 'No registrado',
-                                'soat_estado' => $detalle ? $detalle->fecha_soat : 'No registrado',
-                                'tecno_estado' => $detalle ? $detalle->tecno_estado : 'No registrada',
-                                'imagen_vehiculo' => $detalle && $detalle->imagen_vehiculo ? base64_encode($detalle->imagen_vehiculo) : null
-                            ];
-                        });
+            ->where('id_tipovehiculo', 2)
+            ->get();
         return view('modulos.vehiculos.tipos.compactadores', compact('compactadores'));
     }
 
     public function motos()
     {
         $motos = Vehiculo::with(['detalleVehiculo', 'tipoVehiculo'])
-                        ->where('id_tipovehiculo', 3)
-                        ->get()
-                        ->map(function($vehiculo) {
-                            $detalle = $vehiculo->detalleVehiculo->first();
-                            return [
-                                'id' => $vehiculo->id,
-                                'placa' => $detalle ? $detalle->placa : 'No registrada',
-                                'marca_vehiculo' => $vehiculo->marca_vehiculo,
-                                'modelo_vehiculo' => $vehiculo->modelo_vehiculo,
-                                'tipo_vehiculo' => $vehiculo->tipoVehiculo->tipo_vehiculo,
-                                'estado' => $detalle && $detalle->estado ? $detalle->estado->estado : 'No registrado',
-                                'año' => $detalle ? $detalle->año : 'No registrado',
-                                'capacidad' => $detalle ? $detalle->capacidad : 'No registrada',
-                                'conductor' => $detalle ? $detalle->conductor : 'No asignado',
-                                'ultimo_mantenimiento' => $detalle ? $detalle->fecha_ultimo_mantenimiento : 'No registrado',
-                                'soat_estado' => $detalle ? $detalle->fecha_soat : 'No registrado',
-                                'tecno_estado' => $detalle ? $detalle->tecno_estado : 'No registrada',
-                                'imagen_vehiculo' => $detalle && $detalle->imagen_vehiculo ? base64_encode($detalle->imagen_vehiculo) : null
-                            ];
-                        });
+            ->where('id_tipovehiculo', 3)
+            ->get();
         return view('modulos.vehiculos.tipos.motos', compact('motos'));
     }
 
     public function otros()
     {
         $otros = Vehiculo::with(['detalleVehiculo', 'tipoVehiculo'])
-                        ->where('id_tipovehiculo', 4)
-                        ->get()
-                        ->map(function($vehiculo) {
-                            $detalle = $vehiculo->detalleVehiculo->first();
-                            return [
-                                'id' => $vehiculo->id,
-                                'placa' => $detalle ? $detalle->placa : 'No registrada',
-                                'marca_vehiculo' => $vehiculo->marca_vehiculo,
-                                'modelo_vehiculo' => $vehiculo->modelo_vehiculo,
-                                'tipo_vehiculo' => $vehiculo->tipoVehiculo->tipo_vehiculo,
-                                'estado' => $detalle && $detalle->estado ? $detalle->estado->estado : 'No registrado',
-                                'año' => $detalle ? $detalle->año : 'No registrado',
-                                'capacidad' => $detalle ? $detalle->capacidad : 'No registrada',
-                                'conductor' => $detalle ? $detalle->conductor : 'No asignado',
-                                'ultimo_mantenimiento' => $detalle ? $detalle->fecha_ultimo_mantenimiento : 'No registrado',
-                                'soat_estado' => $detalle ? $detalle->fecha_soat : 'No registrado',
-                                'tecno_estado' => $detalle ? $detalle->tecno_estado : 'No registrada',
-                                'imagen_vehiculo' => $detalle && $detalle->imagen_vehiculo ? base64_encode($detalle->imagen_vehiculo) : null
-                            ];
-                        });
+            ->where('id_tipovehiculo', 4)
+            ->get();
         return view('modulos.vehiculos.tipos.otros', compact('otros'));
     }
 
@@ -218,7 +146,7 @@ class VehiculoController extends Controller
 
         // Map the vehicle type to the corresponding id_tipovehiculo
         $tipoVehiculoMap = [
-            'camion' => 1,        // Camiones
+            'camioneta' => 1,        // camionetas
             'compactador' => 2,   // Compactadores
             'moto' => 3,          // Motos
             'otro' => 4           // Otros

@@ -1,10 +1,14 @@
 @extends('layouts.vehiculos')
 
 @section('content')
+<h2 class="mb-4">Compactadores</h2>
 <div class="vehicle-grid">
 
-    @foreach ($compactadores as $compactadores)
-        @foreach ($compactadores->detalleVehiculo as $detalle)
+    @foreach ($compactadores as $compactador)
+        @php
+            $detalleVehiculos = isset($compactador->detalleVehiculo) ? $compactador->detalleVehiculo : [];
+        @endphp
+        @foreach ($detalleVehiculos as $detalle)
             <div class="vehicle-card">
 
                 @if ($detalle->imagen_vehiculo)
@@ -19,8 +23,8 @@
                     <div class="resumen">DETALLES</div>
                     <div class="detalle">
                         <div class="vehicle-plate">{{ $detalle->placa }}</div>
-                        <p><strong>Modelo:</strong> {{ $compactadores->modelo_vehiculo }}</p>
-                        <p><strong>Marca:</strong> {{ $compactadores->marca_vehiculo }}</p>
+                        <p><strong>Modelo:</strong> {{ $compactador->modelo_vehiculo }}</p>
+                        <p><strong>Marca:</strong> {{ $compactador->marca_vehiculo }}</p>
                         <p><strong>Año:</strong> {{ $detalle->año ?? 'No registrado' }}</p>
                         <p><strong>Capacidad:</strong> {{ $detalle->capacidad ?? '2' }} pasajeros</p>
                         <p><strong>Conductor:</strong> {{ $detalle->conductor ?? 'No asignado' }}</p>
@@ -33,5 +37,13 @@
         @endforeach
     @endforeach
 
+</div>
+
+<div id="modalVehiculo" onclick="cerrarModal()">
+    <div class="contenido-modal" onclick="event.stopPropagation()">
+        <span class="cerrar" onclick="cerrarModal()">&times;</span>
+        <img id="modalImagen" src="" alt="Imagen del vehículo">
+        <div id="modalDetalles"></div>
+    </div>
 </div>
 @endsection

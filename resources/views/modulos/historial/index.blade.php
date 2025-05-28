@@ -8,26 +8,28 @@
         <thead>
             <tr>
                 <th>Tipo</th>
-                <th>Nombre/Descripción</th>
-                <th>Fecha de Adquisición</th>
+                <th>Marca</th>
+                <th>Modelo</th>
+                <th>Tipo de Vehículo</th>
+                <th>Placa</th>
+                <th>Usuario Asignado</th>
                 <th>Historial de Mantenimiento</th>
                 <th>Estado Actual</th>
-                <th>Acciones</th>
             </tr>
         </thead>
         <tbody>
             @foreach($items as $item)
             <tr>
                 <td>{{ $item->tipo }}</td>
-                <td>{{ $item->nombre ?? $item->descripcion }}</td>
-                <td>{{ $item->fecha_adquisicion }}</td>
+                <td>{{ $item->marca }}</td>
+                <td>{{ $item->modelo }}</td>
+                <td>{{ $item->tipo_vehiculo }}</td>
+                <td>{{ $item->placa }}</td>
+                <td>{{ $item->usuario }}</td>
                 <td>
                     <a href="{{ route('historial.mantenimientos', $item->id) }}" class="btn btn-info btn-sm">Ver Historial</a>
                 </td>
                 <td>{{ $item->estado }}</td>
-                <td>
-                    <a href="{{ route('historial.editar', $item->id) }}" class="btn btn-warning btn-sm">Editar</a>
-                </td>
             </tr>
             @endforeach
         </tbody>
