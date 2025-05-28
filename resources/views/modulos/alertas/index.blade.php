@@ -2,7 +2,12 @@
 
 @section('content')
 <div class="container">
-    <h2 class="mb-4">Mis Alertas</h2>
+    <div class="d-flex align-items-center mb-4">
+        <a href="{{ route('dashboard') }}" class="btn-pequeño dashboard-buttondos me-3 ">
+            <i class="bi bi-arrow-left"></i> Volver
+        </a>
+        <h2 class="mb-0">Mis Alertas</h2>
+    </div>
     @if($alertas->count())
         <div class="list-group">
             @foreach($alertas as $alerta)
