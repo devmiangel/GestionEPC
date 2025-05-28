@@ -72,6 +72,7 @@ class HistorialController extends Controller
     {
         $vehiculo = \App\Models\Vehiculo::with(['tipoVehiculo', 'detalleVehiculo.persona'])->findOrFail($id);
         // Puedes agregar más relaciones según lo que quieras mostrar
-        return view('modulos.historial.vehiculo', compact('vehiculo'));
+        $items = []; // Para evitar error de variable indefinida en el layout
+        return view('modulos.historial.vehiculo', compact('vehiculo', 'items'));
     }
 }
