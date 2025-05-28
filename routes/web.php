@@ -23,16 +23,27 @@ Route::middleware(['auth'])->group(function () {
     
     Route::get('/vehiculos', [VehiculoController::class, 'index'])->name('vehiculos.index');
     Route::get('/vehiculos/agregar', [VehiculoController::class, 'create'])->name('vehiculos.create');
+    Route::post('/vehiculos', [VehiculoController::class, 'store'])->name('vehiculos.store');
     Route::get('/vehiculos/eliminar', [VehiculoController::class, 'eliminate'])->name('vehiculos.eliminate');
     Route::get('/vehiculos/camiones', [VehiculoController::class,'camiones'])->name('vehiculos.camiones');
     Route::get('/vehiculos/compactadores', [VehiculoController::class,'compactadores'])->name('vehiculos.compactadores');
     Route::get('/vehiculos/motos', [VehiculoController::class, 'motos'])->name('vehiculos.motos');
     Route::get('/vehiculos/otros', [VehiculoController::class,'otros'])->name('vehiculos.otros');
     Route::get('/herramientas', [HerramientaController::class, 'index'])->name('herramientas.index');
+    Route::get('/herramientas/agregar', [HerramientaController::class, 'create'])->name('herramientas.create');
+    Route::post('/herramientas', [HerramientaController::class, 'store'])->name('herramientas.store');
+    Route::get('/herramientas/eliminar', [HerramientaController::class, 'eliminate'])->name('herramientas.eliminate');
+    Route::delete('/herramientas/{herramienta}', [HerramientaController::class, 'destroy'])->name('herramientas.destroy');
+    Route::get('/herramientas/mecanicas', [HerramientaController::class, 'mecanicas'])->name('herramientas.mecanicas');
+    Route::get('/herramientas/electricas', [HerramientaController::class, 'electricas'])->name('herramientas.electricas');
+    Route::get('/herramientas/medicion', [HerramientaController::class, 'medicion'])->name('herramientas.medicion');
+    Route::get('/herramientas/otros', [HerramientaController::class, 'otros'])->name('herramientas.otros');
     
     Route::get('/conductores', [ConductorController::class, 'index'])->name('conductores.index');
     Route::get('/conductores/agregar', [ConductorController::class, 'create'])->name('conductores.create');
+    Route::post('/conductores', [ConductorController::class, 'store'])->name('conductores.store');
     Route::get('/conductores/eliminar', [ConductorController::class, 'eliminate'])->name('conductores.eliminate');
+    Route::delete('/conductores/{conductor}', [ConductorController::class, 'destroy'])->name('conductores.destroy');
     Route::get('/conductores/modificar/{conductor}', [ConductorController::class, 'edit'])->name('conductores.edit');
     Route::put('/conductores/modificar/{conductor}', [ConductorController::class, 'update'])->name('conductores.update');
     
@@ -66,6 +77,7 @@ Route::middleware(['auth'])->group(function () {
     Route::put('/vehiculos/modificar/{vehiculo}', [VehiculoController::class, 'update'])->name('vehiculos.update');
     Route::get('/vehiculos/asignar', [VehiculoController::class, 'asignarForm'])->name('vehiculos.asignar.form');
     Route::post('/vehiculos/asignar', [VehiculoController::class, 'asignar'])->name('vehiculos.asignar');
+    Route::delete('/vehiculos/{id}', [VehiculoController::class, 'destroy'])->name('vehiculos.destroy');
 });
 
 Route::post('/logout', function () {

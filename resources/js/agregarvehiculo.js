@@ -1,5 +1,4 @@
 document.addEventListener('DOMContentLoaded', function() {
-    document.addEventListener('DOMContentLoaded', function() {
     // Obtener parámetro de URL para preseleccionar tipo
     const urlParams = new URLSearchParams(window.location.search);
     const tipoPreseleccionado = urlParams.get('tipo');
@@ -8,51 +7,35 @@ document.addEventListener('DOMContentLoaded', function() {
         document.getElementById('tipoVehiculo').value = tipoPreseleccionado;
     }
 
-    // Resto del código existente...
-});
-
     const formAgregarVehiculo = document.getElementById('formAgregarVehiculo');
     
     formAgregarVehiculo.addEventListener('submit', function(e) {
         e.preventDefault();
         
-        // Obtener los valores del formulario
-        const tipoVehiculo = document.getElementById('tipoVehiculo').value;
-        const placa = document.getElementById('placa').value;
-        const modelo = document.getElementById('modelo').value;
-        const anio = document.getElementById('anio').value;
-        const color = document.getElementById('color').value;
-        const observaciones = document.getElementById('observaciones').value;
-        const imagen = document.getElementById('imagen').files[0];
+        // Crear FormData para enviar archivos
+        const formData = new FormData(formAgregarVehiculo);
         
-        // Validaciones básicas
-        if (!tipoVehiculo || !placa || !modelo || !anio || !color) {
-            alert('Por favor complete todos los campos obligatorios');
-            return;
-        }
-        
-        // Crear objeto con los datos del vehículo
-        const nuevoVehiculo = {
-            tipo: tipoVehiculo,
-            placa: placa,
-            modelo: modelo,
-            anio: anio,
-            color: color,
-            observaciones: observaciones,
-            imagen: imagen ? URL.createObjectURL(imagen) : null
-        };
-        
-        // Aquí normalmente harías una petición AJAX para guardar en el servidor
-        console.log('Nuevo vehículo:', nuevoVehiculo);
-        
-        // Simulamos el guardado exitoso
-        alert('Vehículo agregado correctamente');
-        formAgregarVehiculo.reset();
-        
-        // Redirigir a la página de vehículos después de 1 segundo
-        setTimeout(() => {
-            window.location.href = 'vehiculos.html';
-        }, 1000);
+        // Enviar datos al servidor
+        fetch('/vehiculos', {
+            method: 'POST',
+            body: formData,
+            headers: {
+                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                alert('Vehículo agregado correctamente');
+                window.location.href = '/vehiculos';
+            } else {
+                alert('Error al agregar el vehículo: ' + data.message);
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('Error al agregar el vehículo');
+        });
     });
     
     // Validación de placa en formato ABC-123

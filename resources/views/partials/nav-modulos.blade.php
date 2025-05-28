@@ -18,29 +18,23 @@
                 <span>Home</span>
             </a>
         </li>
-        <li class="menu-item menu-item-dropdown">
-            <a href="#" class="menu-link">
+        <li class="menu-item menu-item-static">
+            <a href="{{ route('vehiculos.index') }}" class="menu-link">
                 <i class='bx bxs-car'></i>
                 <span>Vehículos</span>
-                <i class='bx bxs-down-arrow'></i>
             </a>
-            <ul class="sub-menu">
-                <li><a href="#camiones" class="sub-menu-link"><i class='bx bxs-truck'></i> Camiones</a></li>
-                <li><a href="#camionetas" class="sub-menu-link"><i class='bx bxs-car bx-flip-horizontal'></i> Camionetas</a></li>
-                <li><a href="#Motos" class="sub-menu-link"><i class="material-symbols-outlined">two_wheeler</i> Motos</a></li>
-            </ul>
         </li>
-        <li class="menu-item menu-item-dropdown">
-            <a href="#" class="menu-link">
+        <li class="menu-item menu-item-static">
+            <a href="{{ route('herramientas.index') }}" class="menu-link">
                 <i class='bx bx-wrench'></i>
                 <span>Herramientas</span>
-                <i class='bx bxs-down-arrow'></i>
             </a>
-            <ul class="sub-menu">
-                <li><a href="#" class="sub-menu-link">Herramienta1</a></li>
-                <li><a href="#" class="sub-menu-link">Herramienta2</a></li>
-                <li><a href="#" class="sub-menu-link">Herramienta3</a></li>
-            </ul>
+        </li>
+        <li class="menu-item menu-item-static">
+            <a href="{{ route('conductores.index') }}" class="menu-link">
+                <i class='bx bx-id-card'></i>
+                <span>Conductores</span>
+            </a>
         </li>
     </ul>
 </div>

@@ -1,32 +1,25 @@
+@extends('layouts.app')
 
-@extends('layouts.modulos')
+@section('links')
+    <link rel="stylesheet" href="{{ asset('styles/vehiculo.css') }}">
+    <link rel="stylesheet" href="{{ asset('styles/estiloDashboard.css') }}">
+@endsection
 
 @section('content')
-<div class="container">
-    <h1>Conductores</h1>
-    <a href="{{ route('conductores.create') }}" class="btn btn-primary mb-3">Agregar Conductor</a>
-    <table class="table table-bordered">
-        <thead>
-            <tr>
-                <th>Nombre</th>
-                <th>Apellido</th>
-                <th>Licencia</th>
-                <th>Vencimiento</th>
-                <th>Acciones</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach($conductores as $conductor)
-            <tr>
-                <td>{{ $conductor->nombre }}</td>
-                <td>{{ $conductor->apellido }}</td>
-                <td>{{ $conductor->licencia }}</td>
-                <td>{{ $conductor->vencimiento_licencia }}</td>
-                <td>
-                </td>
-            </tr>
-            @endforeach
-        </tbody>
-    </table>
-</div>
+    <div class="tool-grid">
+        <div class="tool-card">
+            @yield('content')
+        </div>
+    </div>
+    <div class="content-wrapper">
+        <div class="cuadroConductores">
+            <div class="actions-conductores">
+                <div class="action-buttons">
+                    {{-- Aquí puedes agregar botones de acción si lo deseas --}}
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="{{ asset('js/modulos.js') }}"></script>
+    <script src="{{ asset('js/conductores.js') }}"></script>
 @endsection

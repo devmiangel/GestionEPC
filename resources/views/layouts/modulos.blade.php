@@ -9,16 +9,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
     {{-- Estilos --}}
-    <link rel="stylesheet" href="{{ asset('styles/estilosModulos.css') }}">
-    <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" />
     
     <title>Módulo - @yield('title')</title>
 </head>
-<body>
     @include('partials.nav-modulos')
 
     {{-- Scripts --}}
     <script src="{{ asset('js/modulos.js') }}"></script>
-</body>
-</html>
+
+@push('styles')
+    <link rel="stylesheet" href="{{ asset('styles/estilosModulos.css') }}">
+    <link rel="stylesheet" href="{{ asset('styles/sidebar.css') }}">
+    <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" />
+@endpush
