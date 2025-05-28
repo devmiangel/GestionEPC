@@ -179,3 +179,12 @@ main {
 .footer-icons a:hover {
     color: #1abc9c;
 }
+
+.btn-pequeño{
+    padding: 8px 8px;
+    border: none;
+    border-radius: 6px;
+    text-decoration: none;
+    font-weight: bold;
+    transition: background 0.3s;
+}
