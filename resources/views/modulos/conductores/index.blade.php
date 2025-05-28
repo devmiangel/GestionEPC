@@ -2,40 +2,20 @@
 
 @section('content')
 <div class="container">
-    <h1>Conductores</h1>
-    <a href="{{ route('conductores.create') }}" class="btn btn-primary mb-3">Agregar Conductor</a>
-    <table class="table table-bordered">
-        <thead>
-            <tr>
-                <th>Nombre</th>
-                <th>Apellido</th>
-                <th>Licencia</th>
-                <th>Vencimiento</th>
-                <th>Acciones</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach($conductores as $conductor)
-            <tr>
-                <td>{{ $conductor->nombre }}</td>
-                <td>{{ $conductor->apellido }}</td>
-                <td>{{ $conductor->licencia }}</td>
-                <td>{{ $conductor->vencimiento_licencia }}</td>
-                <td>
-                    <a href="{{ route('conductores.edit', $conductor->id) }}" class="btn btn-sm btn-warning">Editar</a>
-                    <form action="{{ route('conductores.update', $conductor->id) }}" method="POST" style="display:inline;">
-                        @csrf
-                        @method('PUT')
-                        <button class="btn btn-sm btn-success" type="submit">Actualizar</button>
-                    </form>
-                    <form action="{{ route('conductores.eliminate') }}" method="GET" style="display:inline;">
-                        <input type="hidden" name="id" value="{{ $conductor->id }}">
-                        <button class="btn btn-sm btn-danger" type="submit">Eliminar</button>
-                    </form>
-                </td>
-            </tr>
-            @endforeach
-        </tbody>
-    </table>
+    <h1 style="text-align: center; margin-top: 20px; font-size: 40px;">Conductores</h1>
+    <div class="dashboard-buttons" style="margin-top: 40px;">
+        @foreach($conductores as $conductor)
+            <div class="conductor-card">
+                <div class="conductor-title">{{ $conductor->primer_nombre }} {{ $conductor->primer_apellido }}</div>
+                <div class="conductor-info">Documento: <strong>{{ $conductor->num_documento }}</strong></div>
+                <div class="conductor-info">Tipo: <strong>{{ $conductor->tipoDocumento->tipo_documento ?? '' }}</strong></div>
+                <a href="{{ route('conductores.edit', $conductor->id) }}" class="btn btn-light btn-sm" style="margin-top: 10px;">Editar</a>
+            </div>
+        @endforeach
+    </div>
 </div>
 @endsection
+@push('styles')
+    <link rel="stylesheet" href="{{ asset('styles/estiloDashboard.css') }}">
+    <link rel="stylesheet" href="{{ asset('styles/conductor.css') }}">
+@endpush

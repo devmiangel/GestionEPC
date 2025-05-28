@@ -43,11 +43,11 @@
             </a>
             @auth
                 @if (auth()->user()->tieneRol('Coordinador'))
-                    <a href="{{ route('conductores.asignar.form') }}" class="dashboard-buttondos">Asignar</a>
+                    <a href="{{ url('/vehiculos/asignar') }}" class="dashboard-buttondos">Asignar</a>
                 @endif
                 @if (auth()->user()->tieneRol('Administrador'))
-                    <a href="{{ route('conductores.edit', 1) }}" class="dashboard-buttondos">Modificar</a>
-                    <a href="{{ route('conductores.asignar.form') }}" class="dashboard-buttondos">Asignar</a>
+                    <a href="{{ url('conductores/modificar') }}" class="dashboard-buttondos">Modificar</a>
+                    <a href="{{ url('vehiculos/asignar') }}" class="dashboard-buttondos">Asignar</a>
                 @endif
             @endauth
         </div>

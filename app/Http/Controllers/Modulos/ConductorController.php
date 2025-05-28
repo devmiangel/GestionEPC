@@ -10,7 +10,7 @@ class ConductorController extends Controller
 {
     public function index()
     {
-        $conductores = Persona::all();
+        $conductores = Persona::with('tipoDocumento')->get();
         return view('modulos.conductores.index', compact('conductores'));
     }
 
@@ -46,8 +46,9 @@ class ConductorController extends Controller
 
     public function edit($id)
     {
-        $conductor = Persona::findOrFail($id);
-        return view('modulos.conductores.edit', ['conductor' => $conductor]);
+        $conductor = \App\Models\Persona::findOrFail($id);
+        $tipos_documento = \App\Models\TipoDocumento::all();
+        return view('modulos.conductores.edit', compact('conductor', 'tipos_documento'));
     }
 
     public function update(Request $request, $id)

@@ -7,20 +7,32 @@
         @csrf
         @method('PUT')
         <div class="mb-3">
-            <label for="nombre" class="form-label">Nombre</label>
-            <input type="text" class="form-control" id="nombre" name="nombre" value="{{ old('nombre', $conductor->nombre) }}" required>
+            <label for="primer_nombre" class="form-label">Primer Nombre</label>
+            <input type="text" class="form-control" id="primer_nombre" name="primer_nombre" value="{{ old('primer_nombre', $conductor->primer_nombre) }}" required>
         </div>
         <div class="mb-3">
-            <label for="apellido" class="form-label">Apellido</label>
-            <input type="text" class="form-control" id="apellido" name="apellido" value="{{ old('apellido', $conductor->apellido) }}" required>
+            <label for="segundo_nombre" class="form-label">Segundo Nombre</label>
+            <input type="text" class="form-control" id="segundo_nombre" name="segundo_nombre" value="{{ old('segundo_nombre', $conductor->segundo_nombre) }}">
         </div>
         <div class="mb-3">
-            <label for="licencia" class="form-label">Licencia</label>
-            <input type="text" class="form-control" id="licencia" name="licencia" value="{{ old('licencia', $conductor->licencia) }}" required>
+            <label for="primer_apellido" class="form-label">Primer Apellido</label>
+            <input type="text" class="form-control" id="primer_apellido" name="primer_apellido" value="{{ old('primer_apellido', $conductor->primer_apellido) }}" required>
         </div>
         <div class="mb-3">
-            <label for="vencimiento_licencia" class="form-label">Vencimiento Licencia</label>
-            <input type="date" class="form-control" id="vencimiento_licencia" name="vencimiento_licencia" value="{{ old('vencimiento_licencia', $conductor->vencimiento_licencia) }}" required>
+            <label for="segundo_apellido" class="form-label">Segundo Apellido</label>
+            <input type="text" class="form-control" id="segundo_apellido" name="segundo_apellido" value="{{ old('segundo_apellido', $conductor->segundo_apellido) }}">
+        </div>
+        <div class="mb-3">
+            <label for="num_documento" class="form-label">Número de Documento</label>
+            <input type="text" class="form-control" id="num_documento" name="num_documento" value="{{ old('num_documento', $conductor->num_documento) }}" required>
+        </div>
+        <div class="mb-3">
+            <label for="id_tipdocumento" class="form-label">Tipo de Documento</label>
+            <select class="form-control" id="id_tipdocumento" name="id_tipdocumento" required>
+                @foreach($tipos_documento as $tipo)
+                    <option value="{{ $tipo->id }}" {{ old('id_tipdocumento', $conductor->id_tipdocumento) == $tipo->id ? 'selected' : '' }}>{{ $tipo->tipo_documento }}</option>
+                @endforeach
+            </select>
         </div>
         <button type="submit" class="btn btn-success">Guardar Cambios</button>
         <a href="{{ route('conductores.index') }}" class="btn btn-secondary">Cancelar</a>

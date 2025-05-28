@@ -159,9 +159,10 @@ class VehiculoController extends Controller
     // Formulario de asignación de vehículo
     public function asignarForm()
     {
-        $vehiculos = \App\Models\Vehiculo::all();
+        $tipos = TipoVehiculo::all();
+        $vehiculos = DetalleVehiculo::with('vehiculo')->get();
         $personas = \App\Models\Persona::all();
-        return view('modulos.vehiculos.asignar', compact('vehiculos', 'personas'));
+        return view('modulos.vehiculos.asignar', compact('tipos', 'vehiculos', 'personas'));
     }
 
     // Procesar la asignación de vehículo a persona
