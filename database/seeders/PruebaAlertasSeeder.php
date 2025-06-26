@@ -72,24 +72,27 @@ class PruebaAlertasSeeder extends Seeder
         // 4. Crear vehículos con fechas próximas a vencer y responsables
         $tipoVehiculoId = 1; // Ajusta según tu seeder de tipo_vehiculos
         $vehiculo1 = Vehiculo::create([
-            'modelo_vehiculo' => '2020',
+            'modelo_vehiculo' => 'Corolla',
             'marca_vehiculo' => 'Toyota',
+            'anio' => 2020,
             'id_tipovehiculo' => $tipoVehiculoId,
         ]);
         $vehiculo2 = Vehiculo::create([
-            'modelo_vehiculo' => '2021',
+            'modelo_vehiculo' => 'CX-5',
             'marca_vehiculo' => 'Mazda',
+            'anio' => 2021,
             'id_tipovehiculo' => $tipoVehiculoId,
         ]);
-        // Vehículo 3 y 4
         $vehiculo3 = Vehiculo::create([
-            'modelo_vehiculo' => '2019',
+            'modelo_vehiculo' => 'Sail',
             'marca_vehiculo' => 'Chevrolet',
+            'anio' => 2019,
             'id_tipovehiculo' => $tipoVehiculoId,
         ]);
         $vehiculo4 = Vehiculo::create([
-            'modelo_vehiculo' => '2018',
+            'modelo_vehiculo' => 'Ranger',
             'marca_vehiculo' => 'Ford',
+            'anio' => 2018,
             'id_tipovehiculo' => $tipoVehiculoId,
         ]);
 
@@ -101,7 +104,6 @@ class PruebaAlertasSeeder extends Seeder
                 'id_estado' => 1, // Ajusta según tu seeder de estados
                 'id_estadoregistro' => 1, // Ajusta según tu seeder de estado_registros
                 'placa' => 'AAA111',
-                'Nombre' => 'Vehículo Admin',
                 'conductor_auxiliar' => null,
                 'fecha_solicitud' => now()->subDays(2),
                 'fecha_devolucion' => null,
@@ -119,7 +121,6 @@ class PruebaAlertasSeeder extends Seeder
                 'id_estado' => 1,
                 'id_estadoregistro' => 1,
                 'placa' => 'BBB222',
-                'Nombre' => 'Vehículo Coord',
                 'conductor_auxiliar' => null,
                 'fecha_solicitud' => now()->subDays(3),
                 'fecha_devolucion' => null,
@@ -141,7 +142,6 @@ class PruebaAlertasSeeder extends Seeder
                 'id_estado' => 2, // Prestado
                 'id_estadoregistro' => 1,
                 'placa' => 'CCC333',
-                'Nombre' => 'Vehículo Extra1',
                 'conductor_auxiliar' => null,
                 'fecha_solicitud' => now()->subDays(1),
                 'fecha_devolucion' => null,
@@ -159,7 +159,6 @@ class PruebaAlertasSeeder extends Seeder
                 'id_estado' => 3, // Fuera de servicio
                 'id_estadoregistro' => 1,
                 'placa' => 'DDD444',
-                'Nombre' => 'Vehículo Extra2',
                 'conductor_auxiliar' => null,
                 'fecha_solicitud' => now()->subDays(5),
                 'fecha_devolucion' => null,
@@ -175,14 +174,18 @@ class PruebaAlertasSeeder extends Seeder
 
         // Compactador
         $compactador1 = Vehiculo::create([
-            'modelo_vehiculo' => '2022',
+            'modelo_vehiculo' => 'SD160',
             'marca_vehiculo' => 'Volvo',
+            'anio' => 2022,
             'id_tipovehiculo' => 2, // Compactador
+            'nombre' => 'Compactador 1',
         ]);
         $compactador2 = Vehiculo::create([
-            'modelo_vehiculo' => '2021',
+            'modelo_vehiculo' => 'CS44B',
             'marca_vehiculo' => 'Caterpillar',
+            'anio' => 2021,
             'id_tipovehiculo' => 2,
+            'nombre' => 'Compactador 2',
         ]);
         DB::table('detalle_vehiculos')->insert([
             [
@@ -191,7 +194,6 @@ class PruebaAlertasSeeder extends Seeder
                 'id_estado' => 1,
                 'id_estadoregistro' => 1,
                 'placa' => 'COM111',
-                'Nombre' => 'Compactador 1',
                 'conductor_auxiliar' => null,
                 'fecha_solicitud' => now()->subDays(2),
                 'fecha_devolucion' => null,
@@ -209,7 +211,6 @@ class PruebaAlertasSeeder extends Seeder
                 'id_estado' => 2,
                 'id_estadoregistro' => 1,
                 'placa' => 'COM222',
-                'Nombre' => 'Compactador 2',
                 'conductor_auxiliar' => null,
                 'fecha_solicitud' => now()->subDays(3),
                 'fecha_devolucion' => null,
@@ -224,14 +225,18 @@ class PruebaAlertasSeeder extends Seeder
         ]);
         // Motos
         $moto1 = Vehiculo::create([
-            'modelo_vehiculo' => '2023',
+            'modelo_vehiculo' => 'FZ25',
             'marca_vehiculo' => 'Yamaha',
+            'anio' => 2023,
             'id_tipovehiculo' => 3,
+            'nombre' => 'Moto 1',
         ]);
         $moto2 = Vehiculo::create([
-            'modelo_vehiculo' => '2022',
+            'modelo_vehiculo' => 'CB190R',
             'marca_vehiculo' => 'Honda',
+            'anio' => 2022,
             'id_tipovehiculo' => 3,
+            'nombre' => 'Moto 2',
         ]);
         DB::table('detalle_vehiculos')->insert([
             [
@@ -240,7 +245,6 @@ class PruebaAlertasSeeder extends Seeder
                 'id_estado' => 1,
                 'id_estadoregistro' => 1,
                 'placa' => 'MOT111',
-                'Nombre' => 'Moto 1',
                 'conductor_auxiliar' => null,
                 'fecha_solicitud' => now()->subDays(1),
                 'fecha_devolucion' => null,
@@ -258,7 +262,6 @@ class PruebaAlertasSeeder extends Seeder
                 'id_estado' => 2,
                 'id_estadoregistro' => 1,
                 'placa' => 'MOT222',
-                'Nombre' => 'Moto 2',
                 'conductor_auxiliar' => null,
                 'fecha_solicitud' => now()->subDays(2),
                 'fecha_devolucion' => null,
@@ -273,14 +276,18 @@ class PruebaAlertasSeeder extends Seeder
         ]);
         // Otros
         $otro1 = Vehiculo::create([
-            'modelo_vehiculo' => '2020',
+            'modelo_vehiculo' => '5045E',
             'marca_vehiculo' => 'John Deere',
+            'anio' => 2020,
             'id_tipovehiculo' => 4,
+            'nombre' => 'Otro 1',
         ]);
         $otro2 = Vehiculo::create([
-            'modelo_vehiculo' => '2017',
+            'modelo_vehiculo' => 'L2501',
             'marca_vehiculo' => 'Kubota',
+            'anio' => 2017,
             'id_tipovehiculo' => 4,
+            'nombre' => 'Otro 2',
         ]);
         DB::table('detalle_vehiculos')->insert([
             [
@@ -289,7 +296,6 @@ class PruebaAlertasSeeder extends Seeder
                 'id_estado' => 1,
                 'id_estadoregistro' => 1,
                 'placa' => 'OTR111',
-                'Nombre' => 'Otro 1',
                 'conductor_auxiliar' => null,
                 'fecha_solicitud' => now()->subDays(4),
                 'fecha_devolucion' => null,
@@ -307,7 +313,6 @@ class PruebaAlertasSeeder extends Seeder
                 'id_estado' => 2,
                 'id_estadoregistro' => 1,
                 'placa' => 'OTR222',
-                'Nombre' => 'Otro 2',
                 'conductor_auxiliar' => null,
                 'fecha_solicitud' => now()->subDays(6),
                 'fecha_devolucion' => null,
