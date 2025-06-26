@@ -9,6 +9,7 @@ use App\Http\Controllers\Modulos\VehiculoController;
 use App\Http\Controllers\Modulos\HerramientaController;
 use App\Http\Controllers\Modulos\ConductorController;
 use App\Http\Controllers\Auth\AlertasController;
+use App\Http\Controllers\Auth\HistorialController;
 
 
 Route::get('/', function () {
@@ -21,28 +22,61 @@ Route::middleware(['auth'])->group(function () {
         return app(\App\Http\Controllers\DashboardController::class)->index();
     })->name('dashboard');
     
+    //-------------------------------------------------------------------------------------------------------------------------
+    //Vehiculos
     Route::get('/vehiculos', [VehiculoController::class, 'index'])->name('vehiculos.index');
-    Route::get('/vehiculos/agregar', [VehiculoController::class, 'create'])->name('vehiculos.create');
-    Route::post('/vehiculos', [VehiculoController::class, 'store'])->name('vehiculos.store');
-    Route::get('/vehiculos/eliminar', [VehiculoController::class, 'eliminate'])->name('vehiculos.eliminate');
     Route::get('/vehiculos/camionetas', [VehiculoController::class,'camionetas'])->name('vehiculos.camionetas');
     Route::get('/vehiculos/compactadores', [VehiculoController::class,'compactadores'])->name('vehiculos.compactadores');
     Route::get('/vehiculos/motos', [VehiculoController::class, 'motos'])->name('vehiculos.motos');
     Route::get('/vehiculos/otros', [VehiculoController::class,'otros'])->name('vehiculos.otros');
+    
+    //Actions
+    Route::get('/vehiculos/agregar', [VehiculoController::class, 'create'])->name('vehiculos.create');
+    Route::post('/vehiculos', [VehiculoController::class, 'store'])->name('vehiculos.store');
+    Route::get('/vehiculos/modificar/{vehiculo}', [VehiculoController::class, 'edit'])->name('vehiculos.edit');
+    Route::put('/vehiculos/modificar/{vehiculo}', [VehiculoController::class, 'update'])->name('vehiculos.update');
+    Route::get('/vehiculos/eliminar', [VehiculoController::class, 'eliminate'])->name('vehiculos.eliminate');
+    Route::delete('/vehiculos/{id}', [VehiculoController::class, 'destroy'])->name('vehiculos.destroy');
+    
+    // Rutas para modificar y asignar vehículos
+    Route::get('/vehiculos/acciones/asignar/{detalle}', [VehiculoController::class, 'asignarVehiculoSeleccionado'])->name('vehiculos.asignar.seleccionado');
+    Route::get('/vehiculos/asignar', [VehiculoController::class, 'asignarForm'])->name('vehiculos.asignar');
+    Route::post('/vehiculos/asignar', [VehiculoController::class, 'asignar'])->name('vehiculos.asignar');
+    Route::post('/vehiculos/devolver', [VehiculoController::class, 'devolver'])->name('vehiculos.devolver');
+    
+    Route::patch('/vehiculos/{vehiculo}/estado', [VehiculoController::class, 'cambiarEstado'])->name('vehiculos.cambiarEstado');
+
+    //-------------------------------------------------------------------------------------------------------------------------
+    //Herramientas
     Route::get('/herramientas', [HerramientaController::class, 'index'])->name('herramientas.index');
-    Route::get('/herramientas/agregar', [HerramientaController::class, 'create'])->name('herramientas.create');
-    Route::post('/herramientas', [HerramientaController::class, 'store'])->name('herramientas.store');
-    Route::get('/herramientas/eliminar', [HerramientaController::class, 'eliminate'])->name('herramientas.eliminate');
-    Route::delete('/herramientas/{herramienta}', [HerramientaController::class, 'destroy'])->name('herramientas.destroy');
     Route::get('/herramientas/mecanicas', [HerramientaController::class, 'mecanicas'])->name('herramientas.mecanicas');
     Route::get('/herramientas/electricas', [HerramientaController::class, 'electricas'])->name('herramientas.electricas');
     Route::get('/herramientas/medicion', [HerramientaController::class, 'medicion'])->name('herramientas.medicion');
     Route::get('/herramientas/otros', [HerramientaController::class, 'otros'])->name('herramientas.otros');
     
+    // Actions
+    Route::get('/herramientas/agregar', [HerramientaController::class, 'create'])->name('herramientas.create');
+    Route::post('/herramientas', [HerramientaController::class, 'store'])->name('herramientas.store');
+    Route::get('/herramientas/modificar/{herramienta}', [HerramientaController::class, 'edit'])->name('herramientas.edit');
+    Route::put('/herramientas/modificar/{herramienta}', [HerramientaController::class, 'update'])->name('herramientas.update');
+    Route::get('/herramientas/eliminar', [HerramientaController::class, 'eliminate'])->name('herramientas.eliminate');
+    Route::delete('/herramientas/{herramienta}', [HerramientaController::class, 'destroy'])->name('herramientas.destroy');
+    
+    // Rutas para modificar y asignar herramientas
+    Route::get('/herramientas/asignar', [HerramientaController::class, 'asignarForm'])->name('herramientas.asignar.form');
+    Route::post('/herramientas/asignar', [HerramientaController::class, 'asignar'])->name('herramientas.asignar');
+    Route::post('/vehiculos/devolver', [VehiculoController::class, 'devolver'])->name('vehiculos.devolver');
+    
+    Route::patch('/vehiculos/{vehiculo}/estado', [VehiculoController::class, 'cambiarEstado'])->name('vehiculos.cambiarEstado');
+
+    //-------------------------------------------------------------------------------------------------------------------------
+    //Conductores
     Route::get('/conductores', [ConductorController::class, 'index'])->name('conductores.index');
+
+    //Actions
     Route::get('/conductores/agregar', [ConductorController::class, 'create'])->name('conductores.create');
     Route::post('/conductores', [ConductorController::class, 'store'])->name('conductores.store');
-    Route::get('/conductores/eliminar', [ConductorController::class, 'eliminate'])->name('conductores.eliminate');
+    Route::get('/conductores/eliminar', [ConductorController::class, 'eliminate'])->name('conductores.eliminar');
     Route::delete('/conductores/{conductor}', [ConductorController::class, 'destroy'])->name('conductores.destroy');
     Route::get('/conductores/modificar/{conductor}', [ConductorController::class, 'edit'])->name('conductores.edit');
     Route::put('/conductores/modificar/{conductor}', [ConductorController::class, 'update'])->name('conductores.update');
@@ -51,38 +85,22 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/conductores/asignar', [ConductorController::class, 'asignarForm'])->name('conductores.asignar.form');
     Route::post('/conductores/asignar', [ConductorController::class, 'asignar'])->name('conductores.asignar');
     
-    // Rutas de alertas
+    //-------------------------------------------------------------------------------------------------------------------------
+    //Alertas
     Route::get('/alertas', [AlertasController::class, 'index'])->name('alertas.index');
     
-    // Si quieres exponer el envío manual de alertas (opcional):
-    // Route::post('/alertas/enviar', [AlertasController::class, 'enviarAlertas'])->name('alertas.enviar');
-    
+    //-------------------------------------------------------------------------------------------------------------------------
+    //Historial
     Route::get('/historial', [\App\Http\Controllers\Modulos\HistorialController::class, 'index'])->name('historial.index');
     Route::get('/historial/eliminar/{item}', function($item) {
         // Puedes pasar el item al view según tu lógica
         return view('modulos.historial.eliminar', compact('item'));
     })->name('historial.eliminar');
-    Route::delete('/historial/{item}', [\App\Http\Controllers\Modulos\HistorialController::class, 'destroy'])->name('historial.destroy');
-    Route::get('/historial/mantenimientos/{item}', [\App\Http\Controllers\Modulos\HistorialController::class, 'mantenimientos'])->name('historial.mantenimientos');
-    Route::get('/historial/editar/{item}', [\App\Http\Controllers\Modulos\HistorialController::class, 'editar'])->name('historial.editar');
-    
-    // Rutas para modificar y asignar herramientas
-    Route::get('/herramientas/modificar/{herramienta}', [HerramientaController::class, 'edit'])->name('herramientas.edit');
-    Route::put('/herramientas/modificar/{herramienta}', [HerramientaController::class, 'update'])->name('herramientas.update');
-    Route::get('/herramientas/asignar', [HerramientaController::class, 'asignarForm'])->name('herramientas.asignar.form');
-    Route::post('/herramientas/asignar', [HerramientaController::class, 'asignar'])->name('herramientas.asignar');
-    
-    // Rutas para modificar y asignar vehículos
-    Route::get('/vehiculos/modificar/{vehiculo}', [VehiculoController::class, 'edit'])->name('vehiculos.edit');
-    Route::put('/vehiculos/modificar/{vehiculo}', [VehiculoController::class, 'update'])->name('vehiculos.update');
-    Route::get('/vehiculos/asignar', [VehiculoController::class, 'asignarForm'])->name('vehiculos.asignar');
-    Route::post('/vehiculos/asignar', [VehiculoController::class, 'asignar'])->name('vehiculos.asignar');
-    Route::post('/vehiculos/devolver', [VehiculoController::class, 'devolver'])->name('vehiculos.devolver');
-    Route::delete('/vehiculos/{id}', [VehiculoController::class, 'destroy'])->name('vehiculos.destroy');
-    Route::patch('/vehiculos/{vehiculo}/estado', [VehiculoController::class, 'cambiarEstado'])->name('vehiculos.cambiarEstado');
-    
-    Route::get('/historial/herramienta/{id}', [\App\Http\Controllers\Modulos\HistorialController::class, 'historialHerramienta'])->name('historial.herramienta');
-    Route::get('/historial/vehiculo/{id}', [\App\Http\Controllers\Modulos\HistorialController::class, 'historialVehiculo'])->name('historial.vehiculo');
+    Route::delete('/historial/eliminar/{item}', [HistorialController::class, 'destroy'])->name('historial.destroy');
+    Route::get('/historial/mantenimientos/{item}', [HistorialController::class, 'mantenimientos'])->name('historial.mantenimientos');
+    Route::get('/historial/editar/{item}', [\HistorialController::class, 'editar'])->name('historial.editar');
+    Route::get('/historial/herramienta/{id}', [HistorialController::class, 'historialHerramienta'])->name('historial.herramienta');
+    Route::get('/historial/vehiculo/{id}', [HistorialController::class, 'historialVehiculo'])->name('historial.vehiculo');
 });
 
 Route::post('/logout', function () {

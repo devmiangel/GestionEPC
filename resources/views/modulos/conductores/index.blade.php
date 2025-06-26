@@ -4,6 +4,10 @@
 <div class="container">
     <h1 style="text-align: center; margin-top: 20px; font-size: 40px;">Conductores</h1>
     <div class="dashboard-buttons" style="margin-top: 40px;">
+        <div style="margin-bottom: 20px; display: flex; gap: 1rem;">
+            <a href="{{ route('conductores.create') }}" class="btn btn-success">Agregar Conductor</a>
+            <a href="{{ route('conductores.eliminar') }}" class="btn btn-danger">Eliminar Conductor</a>
+        </div>
         @foreach($conductores as $conductor)
             <div class="conductor-card">
                 <div class="conductor-title">{{ $conductor->primer_nombre }} {{ $conductor->primer_apellido }}</div>

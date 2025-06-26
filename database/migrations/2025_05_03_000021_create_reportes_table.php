@@ -22,6 +22,9 @@ return new class extends Migration
 
             $table->date('fecha_reporte');
 
+            $table->unsignedBigInteger('reporte_id')->nullable();
+            $table->foreign('reporte_id')->references('id')->on('reportes');
+
             $table->timestamps();
         });
     }

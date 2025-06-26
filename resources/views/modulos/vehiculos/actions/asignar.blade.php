@@ -15,36 +15,52 @@
         </div>
     @endif
     <h1>Asignar Vehículo</h1>
+    @if(isset($detalle))
+        <div class="alert alert-info">
+            <strong>Vehículo seleccionado:</strong><br>
+            <b>Placa:</b> {{ $detalle->placa }}<br>
+            <b>Modelo:</b> {{ $detalle->vehiculo->modelo_vehiculo ?? '' }}<br>
+            <b>Marca:</b> {{ $detalle->vehiculo->marca_vehiculo ?? '' }}<br>
+        </div>
+    @endif
     <form action="{{ route('vehiculos.asignar') }}" method="POST">
         @csrf
         <div class="mb-3">
             <label for="tipo_vehiculo_id" class="form-label">Tipo de Vehículo</label>
             <div class="input-group">
-                <select class="form-control" id="tipo_vehiculo_id" name="tipo_vehiculo_id">
+                <select class="form-control" id="tipo_vehiculo_id" name="tipo_vehiculo_id" @if(isset($detalle)) disabled @endif>
                     <option value="">Seleccione un tipo</option>
                     @foreach($tipos as $tipo)
-                        <option value="{{ $tipo->id }}">{{ $tipo->tipo_vehiculo }}</option>
+                        <option value="{{ $tipo->id }}" @if(isset($detalle) && $detalle->vehiculo->id_tipovehiculo == $tipo->id) selected @endif>{{ $tipo->tipo_vehiculo }}</option>
                     @endforeach
                 </select>
                 <span class="input-group-text"><i class="fas fa-chevron-down"></i></span>
             </div>
         </div>
-        <div class="mb-3" id="vehiculo-group" style="display:none;">
+        <div class="mb-3" id="vehiculo-group" @if(isset($detalle)) style="display:block;" @else style="display:none;" @endif>
             <label for="vehiculo_id" class="form-label">Vehículo</label>
             <div class="input-group">
-                <select class="form-control" id="vehiculo_id" name="vehiculo_id" required>
+                <select class="form-control" id="vehiculo_id" name="vehiculo_id" required @if(isset($detalle)) disabled @endif>
                     <option value="">Seleccione un vehículo</option>
-                    @foreach($vehiculos as $vehiculo)
+                    @foreach($vehiculos ?? [] as $vehiculo)
                         @if($vehiculo->vehiculo)
-                            <option value="{{ $vehiculo->id }}" data-tipo="{{ $vehiculo->vehiculo->id_tipovehiculo }}">
+                            <option value="{{ $vehiculo->vehiculo->id }}" data-tipo="{{ $vehiculo->vehiculo->id_tipovehiculo }}" @if(isset($detalle) && $detalle->vehiculo->id == $vehiculo->vehiculo->id) selected @endif>
                                 {{ $vehiculo->placa }} - {{ $vehiculo->vehiculo->modelo_vehiculo }}
                             </option>
                         @endif
                     @endforeach
+                    @if(isset($detalle))
+                        <option value="{{ $detalle->vehiculo->id }}" data-tipo="{{ $detalle->vehiculo->id_tipovehiculo }}" selected>
+                            {{ $detalle->placa }} - {{ $detalle->vehiculo->modelo_vehiculo }}
+                        </option>
+                    @endif
                 </select>
                 <span class="input-group-text"><i class="fas fa-chevron-down"></i></span>
             </div>
         </div>
+        @if(isset($detalle))
+            <input type="hidden" name="vehiculo_id" value="{{ $detalle->vehiculo->id }}">
+        @endif
         <div class="mb-3">
             <label for="persona_id" class="form-label">Persona</label>
             <div class="input-group">
