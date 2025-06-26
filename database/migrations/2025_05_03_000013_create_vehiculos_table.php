@@ -16,6 +16,8 @@ return new class extends Migration
 
             $table->string('modelo_vehiculo',50);
             $table->string('marca_vehiculo',50);
+            $table->integer('anio');
+            $table->string('nombre',20)->nullable();
 
             $table->unsignedBigInteger('id_tipovehiculo');
             $table->foreign('id_tipovehiculo')->references('id')->on('tipo_vehiculos');

@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Vehiculo;
 use App\Models\Herramienta;
+use App\Models\HistorialVehiculo;
+use App\Models\HistorialHerramienta;
 
 class HistorialController extends Controller
 {
@@ -61,18 +63,17 @@ class HistorialController extends Controller
         // return view('modulos.historial.editar', compact('item'));
     }
 
-    public function historialHerramienta($id)
-    {
-        $herramienta = \App\Models\Herramienta::with(['tipoHerramienta', 'estado', 'estadoRegistro', 'prestamos'])->findOrFail($id);
-        // Puedes agregar más relaciones según lo que quieras mostrar
-        return view('modulos.historial.herramienta', compact('herramienta'));
-    }
-
     public function historialVehiculo($id)
     {
-        $vehiculo = \App\Models\Vehiculo::with(['tipoVehiculo', 'detalleVehiculo.persona'])->findOrFail($id);
-        // Puedes agregar más relaciones según lo que quieras mostrar
-        $items = []; // Para evitar error de variable indefinida en el layout
-        return view('modulos.historial.vehiculo', compact('vehiculo', 'items'));
+        $vehiculo = Vehiculo::findOrFail($id);
+        $historial = HistorialVehiculo::where('vehiculo_id', $id)->orderBy('fecha', 'desc')->get();
+        return view('modulos.historial.vehiculo', compact('vehiculo', 'historial'));
+    }
+
+    public function historialHerramienta($id)
+    {
+        $herramienta = Herramienta::findOrFail($id);
+        $historial = HistorialHerramienta::where('herramienta_id', $id)->orderBy('fecha', 'desc')->get();
+        return view('modulos.historial.herramienta', compact('herramienta', 'historial'));
     }
 }

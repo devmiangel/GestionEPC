@@ -25,4 +25,24 @@ class Reporte extends Model
     {
         return $this->belongsTo(TipoReporte::class, 'id_tiporeporte');
     }
+
+    public function historialVehiculos()
+    {
+        return $this->hasMany(\App\Models\HistorialVehiculo::class, 'reporte_id');
+    }
+
+    public function historialHerramientas()
+    {
+        return $this->hasMany(\App\Models\HistorialHerramienta::class, 'reporte_id');
+    }
+
+    public function reportePadre()
+    {
+        return $this->belongsTo(self::class, 'reporte_id');
+    }
+
+    public function reportesHijos()
+    {
+        return $this->hasMany(self::class, 'reporte_id');
+    }
 }

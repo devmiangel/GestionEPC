@@ -14,17 +14,6 @@ class HerramientaController extends Controller
         return view('modulos.herramientas.index', compact('herramientas'));
     }
 
-    public function create()
-    {
-        return view('modulos.herramientas.agregar');
-    }
-
-    public function eliminate()
-    {
-        $herramientas = Herramienta::all();
-        return view('modulos.herramientas.eliminar', compact('herramientas'));
-    }
-
     public function mecanicas()
     {
         $mecanicas = Herramienta::with('tipoHerramienta')
@@ -57,6 +46,13 @@ class HerramientaController extends Controller
         return view('modulos.herramientas.tipos.otros', compact('otros'));
     }
 
+    //Acciones
+
+    public function create()
+    {
+        return view('modulos.herramientas.agregar');
+    }
+
     public function store(Request $request)
     {
         $request->validate([
@@ -84,6 +80,24 @@ class HerramientaController extends Controller
         $herramienta = Herramienta::findOrFail($id);
         $herramienta->update($request->all());
         return redirect()->route('herramientas.index')->with('success', 'Herramienta actualizada correctamente.');
+    }
+
+    public function eliminate()
+    {
+        $herramientas = Herramienta::all();
+        return view('modulos.herramientas.eliminar', compact('herramientas'));
+    }
+
+    public function destroy($id)
+    {
+        try {
+            $herramienta = Herramienta::findOrFail($id);
+            $herramienta->id_estadoregistro = 2; // 2 = Inactivo
+            $herramienta->save();
+            return response()->json(['success' => true, 'message' => 'Herramienta eliminada correctamente.']);
+        } catch (\Exception $e) {
+            return response()->json(['success' => false, 'message' => 'Error al eliminar la herramienta.'], 500);
+        }
     }
 
     public function asignarForm()

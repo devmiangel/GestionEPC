@@ -14,6 +14,8 @@ class Vehiculo extends Model
         'modelo_vehiculo',
         'marca_vehiculo',
         'id_tipovehiculo',
+        'anio',
+        'nombre',
     ];
 
     public function tipoVehiculo()
