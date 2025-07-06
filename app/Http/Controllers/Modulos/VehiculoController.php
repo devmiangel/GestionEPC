@@ -50,9 +50,10 @@ class VehiculoController extends Controller
         return view('modulos.vehiculos.tipos.otros', compact('otros'));
     }
 
-    public function create()
+    public function create(Request $request)
     {
-        return view('modulos.vehiculos.actions.agregar');
+        $tipoSeleccionado = $request->input('tipo_vehiculos') ?? $request->input('tipo') ?? null;
+        return view('modulos.vehiculos.actions.agregar', compact('tipoSeleccionado'));
     }
 
     public function store(Request $request)
@@ -72,10 +73,10 @@ class VehiculoController extends Controller
 
         // Map the vehicle type to the corresponding id_tipovehiculo
         $tipoVehiculoMap = [
-            'camioneta' => 1,        // Camionetas
-            'compactador' => 2,   // Compactadores
-            'moto' => 3,          // Motos
-            'otro' => 4           // Otros
+            'Camionetas' => 1,        // Camionetas
+            'Compactadores' => 2,   // Compactadores
+            'Motos' => 3,          // Motos
+            'Otro' => 4           // Otros
         ];
 
         // Get the tipo_vehiculo from the database to ensure it exists

@@ -30,12 +30,13 @@
                 <h2><i class="fas fa-plus-circle"></i> Información del Vehículo</h2>
 
                 <div class="form-group">
-                    <label for="tipoVehiculo">Tipo de Vehículo:</label>
-                    <select id="tipoVehiculo" name="tipoVehiculo" required>
+                    <label for="tipo_vehiculos">Tipo de Vehículo:</label>
+                    <select id="tipo_vehiculos" name="tipo_vehiculos" required>
                         <option value="">Seleccione un tipo</option>
-                        <option value="camioneta">Camión</option>
-                        <option value="camioneta">Camioneta</option>
-                        <option value="moto">Moto</option>
+                        <option value="Compactadores" {{ (isset($tipoSeleccionado) && $tipoSeleccionado == 'Compactadores') ? 'selected' : '' }}>Compactador</option>
+                        <option value="Camionetas" {{ (isset($tipoSeleccionado) && $tipoSeleccionado == 'Camionetas') ? 'selected' : '' }}>Camioneta</option>
+                        <option value="Motos" {{ (isset($tipoSeleccionado) && $tipoSeleccionado == 'Motos') ? 'selected' : '' }}>Moto</option>
+                        <option value="Otro" {{ (isset($tipoSeleccionado) && $tipoSeleccionado == 'Otro') ? 'selected' : '' }}>Otro</option>
                     </select>
                 </div>
 

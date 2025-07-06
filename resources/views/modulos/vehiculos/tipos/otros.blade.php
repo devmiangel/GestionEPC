@@ -59,4 +59,13 @@
         <div id="modalDetalles"></div>
     </div>
 </div>
+
+<br>
+
+<div class="action-buttons" style="text-align: right; margin: 0 2rem 1rem 0; position: static;">
+    <a href="{{ route('vehiculos.create', ['tipo_vehiculos' => 'Otro']) }}" class="btn-agregar-vehiculo btn-verde" title="Agregar otro">
+        <i class="fas fa-plus"></i> Agregar Otro
+    </a>
+</div>
+
 @endsection
