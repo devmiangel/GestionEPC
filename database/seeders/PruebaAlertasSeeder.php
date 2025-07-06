@@ -388,5 +388,27 @@ class PruebaAlertasSeeder extends Seeder
         if (method_exists($userMecanico, 'roles')) {
             $userMecanico->roles()->sync([$rolMecanico->id]);
         }
+
+        // 6. Crear documentos de prueba para cada detalle de vehículo
+        foreach ($detalleVehiculos as $detalle) {
+            DB::table('vehiculo_documentos')->insert([
+                [
+                    'id_detallevehiculo' => $detalle->id,
+                    'nombre' => 'SOAT',
+                    'fecha' => now()->subMonths(1),
+                    'ruta' => 'documentos/soat_' . $detalle->id . '.pdf',
+                    'created_at' => now(),
+                    'updated_at' => now(),
+                ],
+                [
+                    'id_detallevehiculo' => $detalle->id,
+                    'nombre' => 'Tecnomecánica',
+                    'fecha' => now()->subMonths(2),
+                    'ruta' => 'documentos/tecno_' . $detalle->id . '.pdf',
+                    'created_at' => now(),
+                    'updated_at' => now(),
+                ]
+            ]);
+        }
     }
 }

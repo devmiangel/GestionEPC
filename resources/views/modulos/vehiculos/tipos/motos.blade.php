@@ -4,7 +4,10 @@
 <div class="vehicle-grid">
 
     @foreach ($motos as $moto)
-        @foreach ($moto->detalleVehiculo as $detalle)
+        @php  
+            $detalleVehiculos = isset($moto->detalleVehiculo) ? $moto->detalleVehiculo : [];
+        @endphp
+        @foreach ($detalleVehiculos as $detalle)
             <div class="vehicle-card">
                 @if ($detalle->imagen_vehiculo)
                     <img src="data:image/jpeg;base64,{{ base64_encode($detalle->imagen_vehiculo) }}" alt="Vehículo {{ $detalle->placa }}">
@@ -32,7 +35,11 @@
                         <p><strong>Marca:</strong> {{ $moto->marca_vehiculo }}</p>
                         <p><strong>Año:</strong> {{ $detalle->año ?? 'No registrado' }}</p>
                         <p><strong>Capacidad:</strong> {{ $detalle->capacidad ?? '2' }} pasajeros</p>
-                        <p><strong>Conductor:</strong> {{ $detalle->conductor ?? 'No asignado' }}</p>
+                        <p><strong>Conductor:</strong> {{
+                            optional(
+                                is_iterable($moto->detalleVehiculo) ? $moto->detalleVehiculo->first()->persona ?? null : $moto->detalleVehiculo->persona ?? null
+                            )->nombre_completo ?? 'No asignado'
+                        }}</p>
                         <p><strong>Último mantenimiento:</strong> {{ $detalle->ultimo_mantenimiento ?? 'No registrado' }}</p>
                         <p><strong>Soat:</strong> {{ $detalle->soat_estado ?? 'No registrado' }}</p>
                         <p><strong>Tecnomecánica:</strong> {{ $detalle->tecno_estado ?? 'No registrada' }}</p>
@@ -44,6 +51,12 @@
                         @elseif(strtolower($detalle->estadoVehiculo->estado ?? '') === 'disponible')
                             <a href="{{ route('vehiculos.asignar') }}" class="btn btn-success" style="margin-top:1rem;">Asignar</a>
                         @endif
+                        <a href="{{ route('vehiculos.documentos.historial', ['detalle' => $detalle->id]) }}"
+                            class="btn btn-info"
+                            style="margin-top: 10px; background-color: #28a745; color: white; border: none; padding: 8px 12px; border-radius: 5px; cursor: pointer;">
+                            SOAT Y TECHNO / Ver Historial
+                        </a>
+
                     </div>
                 </div>
             </div>

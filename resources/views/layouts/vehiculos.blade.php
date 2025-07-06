@@ -19,10 +19,10 @@
         <div class="cuadroVehiculos">
             <div class="actions-vehiculos">
                 <div class="action-buttons">
-                    <a href="agregarvehiculo.html" class="btn-agregar-vehiculo">
+                    <a href="{{ route('vehiculos.create') }}" class="btn-agregar-vehiculo">
                         <i class="fas fa-plus"></i> Añadir Vehículo
                     </a>
-                    <a href="eliminarvehiculo.html" class="btn-eliminar-vehiculo">
+                    <a href="{{ route('vehiculos.eliminate') }}" class="btn-eliminar-vehiculo">
                         <i class="fas fa-trash-alt"></i> Eliminar Vehículo
                     </a>
                 </div>

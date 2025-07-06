@@ -6,6 +6,7 @@ use App\Http\Controllers\Auth\ForgotPasswordController;
 use App\Http\Controllers\Auth\ResetPasswordController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\Modulos\VehiculoController;
+use App\Http\Controllers\Modulos\VehiculoDocumentoController;
 use App\Http\Controllers\Modulos\HerramientaController;
 use App\Http\Controllers\Modulos\ConductorController;
 use App\Http\Controllers\Auth\AlertasController;
@@ -68,6 +69,12 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/vehiculos/devolver', [VehiculoController::class, 'devolver'])->name('vehiculos.devolver');
     
     Route::patch('/vehiculos/{vehiculo}/estado', [VehiculoController::class, 'cambiarEstado'])->name('vehiculos.cambiarEstado');
+
+    Route::post('/vehiculos/documentos/subir/{detalle}', [VehiculoDocumentoController::class, 'subir'])->name('vehiculos.documentos.subir');
+    Route::get('/vehiculos/documentos/descargar/{documento}', [VehiculoDocumentoController::class, 'descargar'])->name('vehiculos.documentos.descargar');
+    Route::get('/vehiculos/documentos/historial/{detalle}', [VehiculoDocumentoController::class, 'historial'])->name('vehiculos.documentos.historial');
+    Route::get('/vehiculos/documentos/ver/{documento}', [VehiculoDocumentoController::class, 'ver'])->name('vehiculos.documentos.ver');
+    Route::delete('/vehiculos/documentos/{documento}/eliminar', [VehiculoDocumentoController::class, 'eliminar'])->name('vehiculos.documentos.eliminar');
 
     //-------------------------------------------------------------------------------------------------------------------------
     //Conductores

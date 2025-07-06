@@ -20,7 +20,7 @@ class VehiculoController extends Controller
     
     public function camionetas()
     {
-        $camionetas = Vehiculo::with(['detalleVehiculo', 'tipoVehiculo'])
+        $camionetas = Vehiculo::with(['detalleVehiculo.persona', 'detalleVehiculo.estado', 'tipoVehiculo'])
             ->where('id_tipovehiculo', 1)
             ->get();
         return view('modulos.vehiculos.tipos.camionetas', compact('camionetas'));
@@ -28,7 +28,7 @@ class VehiculoController extends Controller
 
     public function compactadores()
     {
-        $compactadores = Vehiculo::with(['detalleVehiculo', 'tipoVehiculo'])
+        $compactadores = Vehiculo::with(['detalleVehiculo.persona', 'detalleVehiculo.estado', 'tipoVehiculo'])
             ->where('id_tipovehiculo', 2)
             ->get();
         return view('modulos.vehiculos.tipos.compactadores', compact('compactadores'));
@@ -36,7 +36,7 @@ class VehiculoController extends Controller
 
     public function motos()
     {
-        $motos = Vehiculo::with(['detalleVehiculo', 'tipoVehiculo'])
+        $motos = Vehiculo::with(['detalleVehiculo.persona', 'detalleVehiculo.estado', 'tipoVehiculo'])
             ->where('id_tipovehiculo', 3)
             ->get();
         return view('modulos.vehiculos.tipos.motos', compact('motos'));
@@ -44,7 +44,7 @@ class VehiculoController extends Controller
 
     public function otros()
     {
-        $otros = Vehiculo::with(['detalleVehiculo', 'tipoVehiculo'])
+        $otros = Vehiculo::with(['detalleVehiculo.persona', 'detalleVehiculo.estado', 'tipoVehiculo'])
             ->where('id_tipovehiculo', 4)
             ->get();
         return view('modulos.vehiculos.tipos.otros', compact('otros'));
@@ -171,7 +171,8 @@ class VehiculoController extends Controller
 
     public function show($id)
     {
-        $vehiculo = Vehiculo::with('detalleVehiculo.estado')->findOrFail($id);
+        // Cargar el detalle del vehículo junto con el estado y la persona (conductor) asignada
+        $vehiculo = Vehiculo::with(['detalleVehiculo.estado', 'detalleVehiculo.persona'])->findOrFail($id);
         $estados = Estado::all();
         return view('modulos.vehiculos.actions.show', compact('vehiculo', 'estados'));
     }
@@ -273,5 +274,4 @@ class VehiculoController extends Controller
             return redirect()->back()->with('error', 'No se encontró el detalle del vehículo para devolver.');
         }
     }
-
 }

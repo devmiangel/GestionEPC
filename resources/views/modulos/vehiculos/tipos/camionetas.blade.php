@@ -5,12 +5,7 @@
 <div class="vehicle-grid">
     @foreach ($camionetas as $camioneta)
         @php
-            $detalleVehiculos = [];
-            if (is_array($camioneta) && isset($camioneta['detalleVehiculo'])) {
-                $detalleVehiculos = $camioneta['detalleVehiculo'];
-            } elseif (is_object($camioneta) && isset($camioneta->detalleVehiculo)) {
-                $detalleVehiculos = $camioneta->detalleVehiculo;
-            }
+            $detalleVehiculos = isset($camioneta->detalleVehiculo) ? $camioneta->detalleVehiculo : [];
         @endphp
         @foreach ($detalleVehiculos as $detalle)
             <div class="vehicle-card">
@@ -46,7 +41,11 @@
                         <p><strong>Marca:</strong> {{ is_array($camioneta) ? ($camioneta['marca_vehiculo'] ?? '') : $camioneta->marca_vehiculo }}</p>
                         <p><strong>Año:</strong> {{ $detalle->año ?? 'No registrado' }}</p>
                         <p><strong>Capacidad:</strong> {{ $detalle->capacidad ?? '2' }} pasajeros</p>
-                        <p><strong>Conductor:</strong> {{ $detalle->conductor ?? 'No asignado' }}</p>
+                        <p><strong>Conductor:</strong> {{
+                            optional(
+                                is_iterable($camioneta->detalleVehiculo) ? $camioneta->detalleVehiculo->first()->persona ?? null : $camioneta->detalleVehiculo->persona ?? null
+                            )->nombre_completo ?? 'No asignado'
+                        }}</p>
                         <p><strong>Soat:</strong> {{ $detalle->soat_estado ?? 'No registrado' }}</p>
                         <p><strong>Tecnomecánica:</strong> {{ $detalle->tecno_estado ?? 'No registrada' }}</p>
                         @if(strtolower($detalle->estadoVehiculo->estado ?? '') === 'prestado')
@@ -57,6 +56,11 @@
                         @elseif(strtolower($detalle->estadoVehiculo->estado ?? '') === 'disponible')
                             <a href="{{ route('vehiculos.asignar') }}" class="btn btn-success" style="margin-top:1rem;">Asignar</a>
                         @endif
+                        <a href="{{ route('vehiculos.documentos.historial', ['detalle' => $detalle->id]) }}"
+                            class="btn btn-info"
+                            style="margin-top: 10px; background-color: #28a745; color: white; border: none; padding: 8px 12px; border-radius: 5px; cursor: pointer;">
+                            SOAT Y TECHNO / Ver Historial
+                        </a>
                     </div>
                 </div>
             </div>
