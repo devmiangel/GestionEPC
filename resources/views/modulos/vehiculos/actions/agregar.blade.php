@@ -27,6 +27,21 @@
 
             <form id="formAgregarVehiculo" class="add-vehicle-form" method="POST" action="{{ route('vehiculos.store') }}" enctype="multipart/form-data">
                 @csrf
+                @if(session('success'))
+                    <div class="alert alert-success">{{ session('success') }}</div>
+                @endif
+                @if(session('error'))
+                    <div class="alert alert-danger">{{ session('error') }}</div>
+                @endif
+                @if($errors->any())
+                    <div class="alert alert-danger">
+                        <ul class="mb-0">
+                            @foreach($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                @endif
                 <h2><i class="fas fa-plus-circle"></i> Información del Vehículo</h2>
 
                 <div class="form-group">
@@ -81,6 +96,11 @@
                 <div class="form-group">
                     <label for="fechaSoat">Fecha SOAT:</label>
                     <input type="date" id="fechaSoat" name="fechaSoat" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="fecha_tecnomecanica">Fecha Tecnomecánica:</label>
+                    <input type="date" id="fecha_tecnomecanica" name="fecha_tecnomecanica" required>
                 </div>
 
                 <div class="form-group">

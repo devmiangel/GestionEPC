@@ -54,7 +54,8 @@ class ConductorController extends Controller
     {
         $conductor = \App\Models\Persona::findOrFail($id);
         $tipos_documento = \App\Models\TipoDocumento::all();
-        return view('modulos.conductores.edit', compact('conductor', 'tipos_documento'));
+        // The edit view is stored under modulos/conductores/actions/modificar.blade.php
+        return view('modulos.conductores.actions.modificar', compact('conductor', 'tipos_documento'));
     }
 
     public function update(Request $request, $id)

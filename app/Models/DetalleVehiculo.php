@@ -24,6 +24,8 @@ class DetalleVehiculo extends Model
         'fecha_devolucion',
         'fecha_soat',
         'fecha_tecnomecanica',
+        'fecha_ultimo_mantenimiento',
+        'descripcion_ultimo_mantenimiento',
         'imagen_vehiculo',
     ];
 

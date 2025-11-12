@@ -58,17 +58,18 @@ class VehiculoController extends Controller
 
     public function store(Request $request)
     {
+        // Adjust validation to match form field names in the view
         $request->validate([
             'modelo' => 'required|string',
             'marcaVehiculo' => 'required|string',
             'anio' => 'required|integer',
-            'tipoVehiculo' => 'required|integer',
-            'placa' => 'required|string|max:10',
-            'nombre' => 'required|string|max:10',
+            'tipo_vehiculos' => 'required|string',
+            'placa' => 'required|string|max:20',
             'fechaSoat' => 'required|date',
-            'fechaTecnoMecanica' => 'required|date',
+            'fecha_tecnomecanica' => 'required|date',
             'fechaUltimoMantenimiento' => 'nullable|date',
             'descripcionUltimoMantenimiento' => 'nullable|string',
+            'persona_id' => 'nullable|exists:personas,id',
         ]);
 
         // Map the vehicle type to the corresponding id_tipovehiculo
@@ -80,7 +81,8 @@ class VehiculoController extends Controller
         ];
 
         // Get the tipo_vehiculo from the database to ensure it exists
-        $tipoVehiculo = TipoVehiculo::where('id', $tipoVehiculoMap[$request->tipoVehiculo] ?? 4)->first();
+    $tipoVehiculoKey = $request->input('tipo_vehiculos');
+    $tipoVehiculo = TipoVehiculo::where('id', $tipoVehiculoMap[$tipoVehiculoKey] ?? 4)->first();
         
         if (!$tipoVehiculo) {
             return redirect()->back()->with('error', 'Tipo de vehículo no válido');
@@ -97,12 +99,16 @@ class VehiculoController extends Controller
         // Create the vehicle details
         $detalleVehiculo = DetalleVehiculo::create([
             'id_vehiculo' => $vehiculo->id,
-            'id_estado' => 1, // Estado dsiponible por defecto
+            'persona_id' => $request->persona_id ?? null,
+            'id_estado' => 1, // Estado disponible por defecto
             'id_estadoregistro' => 1, // Estado de registro activo por defecto
             'placa' => $request->placa,
             'fecha_soat' => $request->fechaSoat,
-            'fecha_ultimo_mantenimiento' => $request->fechaUltimoMantenimiento,
-            'descripcion_ultimo_mantenimiento' => $request->descripcionUltimoMantenimiento,
+            'fecha_tecnomecanica' => $request->input('fecha_tecnomecanica'),
+            'fecha_solicitud' => $request->fechaSolicitud ?? null,
+            'fecha_devolucion' => $request->fechaDevolucion ?? null,
+            'fecha_ultimo_mantenimiento' => $request->fechaUltimoMantenimiento ?? null,
+            'descripcion_ultimo_mantenimiento' => $request->descripcionUltimoMantenimiento ?? null,
         ]);
 
         // Handle image upload if present
