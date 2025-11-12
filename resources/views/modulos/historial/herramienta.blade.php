@@ -1,4 +1,4 @@
-@extends('layouts.historial')
+@extends('layouts.modulos')
 
 @section('content')
 <div class="container">

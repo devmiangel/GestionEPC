@@ -10,7 +10,7 @@ use App\Http\Controllers\Modulos\VehiculoDocumentoController;
 use App\Http\Controllers\Modulos\HerramientaController;
 use App\Http\Controllers\Modulos\ConductorController;
 use App\Http\Controllers\Auth\AlertasController;
-use App\Http\Controllers\Auth\HistorialController;
+use App\Http\Controllers\Modulos\HistorialController;
 
 
 Route::get('/', function () {
@@ -105,7 +105,7 @@ Route::middleware(['auth'])->group(function () {
     })->name('historial.eliminar');
     Route::delete('/historial/eliminar/{item}', [HistorialController::class, 'destroy'])->name('historial.destroy');
     Route::get('/historial/mantenimientos/{item}', [HistorialController::class, 'mantenimientos'])->name('historial.mantenimientos');
-    Route::get('/historial/editar/{item}', [\HistorialController::class, 'editar'])->name('historial.editar');
+    Route::get('/historial/editar/{item}', [HistorialController::class, 'editar'])->name('historial.editar');
     Route::get('/historial/herramienta/{id}', [HistorialController::class, 'historialHerramienta'])->name('historial.herramienta');
     Route::get('/historial/vehiculo/{id}', [HistorialController::class, 'historialVehiculo'])->name('historial.vehiculo');
 });

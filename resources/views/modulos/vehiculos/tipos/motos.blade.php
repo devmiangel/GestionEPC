@@ -51,7 +51,7 @@
                         @elseif(strtolower($detalle->estadoVehiculo->estado ?? '') === 'disponible')
                             <a href="{{ route('vehiculos.asignar') }}" class="btn btn-success" style="margin-top:1rem;">Asignar</a>
                         @endif
-                        <a href="{{ route('vehiculos.documentos.historial', ['detalle' => $detalle->id]) }}"
+                        <a href="{{ route('historial.vehiculo', $moto->id) }}"
                             class="btn btn-info"
                             style="margin-top: 10px; background-color: #28a745; color: white; border: none; padding: 8px 12px; border-radius: 5px; cursor: pointer;">
                             SOAT Y TECHNO / Ver Historial

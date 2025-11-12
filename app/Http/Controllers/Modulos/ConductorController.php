@@ -16,18 +16,24 @@ class ConductorController extends Controller
 
     public function create()
     {
-        return view('modulos.conductores.agregar');
+        $tipos_documento = \App\Models\TipoDocumento::all();
+        return view('modulos.conductores.actions.agregar', compact('tipos_documento'));
     }
 
     public function store(Request $request)
     {
         $request->validate([
-            'nombre' => 'required|string|max:255',
-            'apellido' => 'required|string|max:255',
-            'licencia' => 'required|string|max:255',
-            'vencimiento_licencia' => 'required|date',
+            'primer_nombre' => 'required|string|max:255',
+            'primer_apellido' => 'required|string|max:255',
+            'num_documento' => 'required|string|max:255|unique:personas,num_documento',
+            'id_tipdocumento' => 'required|exists:tipo_documentos,id',
         ]);
-        Persona::create($request->all());
+
+        $data = $request->only([
+            'primer_nombre', 'segundo_nombre', 'primer_apellido', 'segundo_apellido', 'num_documento', 'id_tipdocumento'
+        ]);
+
+        Persona::create($data);
         return redirect()->route('conductores.index')->with('success', 'Conductor agregado correctamente.');
     }
 
@@ -54,13 +60,16 @@ class ConductorController extends Controller
     public function update(Request $request, $id)
     {
         $request->validate([
-            'nombre' => 'required|string|max:255',
-            'apellido' => 'required|string|max:255',
-            'licencia' => 'required|string|max:255',
-            'vencimiento_licencia' => 'required|date',
+            'primer_nombre' => 'required|string|max:255',
+            'primer_apellido' => 'required|string|max:255',
+            'num_documento' => 'required|string|max:255|unique:personas,num_documento,' . $id,
+            'id_tipdocumento' => 'required|exists:tipo_documentos,id',
         ]);
         $conductor = Persona::findOrFail($id);
-        $conductor->update($request->all());
+        $data = $request->only([
+            'primer_nombre', 'segundo_nombre', 'primer_apellido', 'segundo_apellido', 'num_documento', 'id_tipdocumento'
+        ]);
+        $conductor->update($data);
         return redirect()->route('conductores.index')->with('success', 'Conductor actualizado correctamente.');
     }
 
