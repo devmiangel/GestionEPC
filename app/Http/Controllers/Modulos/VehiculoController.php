@@ -152,26 +152,42 @@ class VehiculoController extends Controller
         return view('modulos.vehiculos.actions.eliminar', compact('vehiculos'));
     }
 
-    public function destroy($id)
+    public function destroy(Request $request, $id)
     {
+        // Ahora realizamos eliminación física: eliminar detalle y vehículo dentro de una transacción
+        \DB::beginTransaction();
         try {
             $vehiculo = Vehiculo::findOrFail($id);
-            $detalleVehiculo = $vehiculo->detalleVehiculo->first();
-            
+            $detalleVehiculo = $vehiculo->detalleVehiculo()->first();
+
             if ($detalleVehiculo) {
-                $detalleVehiculo->id_estadoregistro = 2; // 2 = oculto/inactivo
-                $detalleVehiculo->save();
+                // eliminar registros relacionados si es necesario
+                $detalleVehiculo->delete();
             }
 
-            return response()->json([
-                'success' => true,
-                'message' => 'Vehículo eliminado correctamente'
-            ]);
+            // eliminar el vehículo
+            $vehiculo->delete();
+
+            \DB::commit();
+
+            if ($request->wantsJson() || $request->ajax()) {
+                return response()->json([
+                    'success' => true,
+                    'message' => 'Vehículo eliminado correctamente'
+                ]);
+            }
+
+            return redirect()->route('vehiculos.eliminate')->with('success', 'Vehículo eliminado correctamente');
         } catch (\Exception $e) {
-            return response()->json([
-                'success' => false,
-                'message' => 'Error al eliminar el vehículo'
-            ], 500);
+            \DB::rollBack();
+            if (isset($request) && ($request->wantsJson() || $request->ajax())) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Error al eliminar el vehículo: ' . $e->getMessage()
+                ], 500);
+            }
+
+            return redirect()->back()->with('error', 'Error al eliminar el vehículo');
         }
     }
 

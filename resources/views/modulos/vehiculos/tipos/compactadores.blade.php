@@ -53,6 +53,7 @@
                         @if(strtolower($detalle->estadoVehiculo->estado ?? '') === 'prestado')
                             <form method="POST" action="{{ route('vehiculos.devolver') }}" style="margin-top:1rem;">
                                 @csrf
+                                <input type="hidden" name="vehiculo_id" value="{{ $compactador->id }}">
                                 <button type="submit" class="btn btn-warning">Devolver</button>
                             </form>
                         @elseif(strtolower($detalle->estadoVehiculo->estado ?? '') === 'disponible')
