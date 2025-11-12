@@ -43,8 +43,9 @@ Route::middleware(['auth'])->group(function () {
     
     // Rutas para modificar y asignar vehículos
     Route::get('/vehiculos/acciones/asignar/{detalle}', [VehiculoController::class, 'asignarVehiculoSeleccionado'])->name('vehiculos.asignar.seleccionado');
-    Route::get('/vehiculos/asignar', [VehiculoController::class, 'asignarForm'])->name('vehiculos.asignar');
-    Route::post('/vehiculos/asignar', [VehiculoController::class, 'asignar'])->name('vehiculos.asignar');
+    Route::get('/vehiculos/asignar', [VehiculoController::class, 'asignarForm'])->name('vehiculos.asignar.form');
+    Route::post('/vehiculos/asignar', [VehiculoController::class, 'asignar'])->name('vehiculos.asignar.store');
+
     Route::post('/vehiculos/devolver', [VehiculoController::class, 'devolver'])->name('vehiculos.devolver');
     
     Route::patch('/vehiculos/{vehiculo}/estado', [VehiculoController::class, 'cambiarEstado'])->name('vehiculos.cambiarEstado');
