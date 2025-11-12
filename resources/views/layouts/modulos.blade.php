@@ -27,3 +27,6 @@
 @push('scripts')
     {{-- <script src="{{ asset('js/vehiculos.js') }}"></script> --}}
 @endpush
+
+{{-- Chatbot component (Hugging Face) --}}
+@include('components.chatbot')

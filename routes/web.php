@@ -9,6 +9,8 @@ use App\Http\Controllers\Modulos\VehiculoController;
 use App\Http\Controllers\Modulos\VehiculoDocumentoController;
 use App\Http\Controllers\Modulos\HerramientaController;
 use App\Http\Controllers\Modulos\ConductorController;
+use App\Http\Controllers\Modulos\HuggingFaceChatController;
+use App\Http\Controllers\Modulos\HFTestController;
 use App\Http\Controllers\Auth\AlertasController;
 use App\Http\Controllers\Modulos\HistorialController;
 
@@ -108,6 +110,12 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/historial/editar/{item}', [HistorialController::class, 'editar'])->name('historial.editar');
     Route::get('/historial/herramienta/{id}', [HistorialController::class, 'historialHerramienta'])->name('historial.herramienta');
     Route::get('/historial/vehiculo/{id}', [HistorialController::class, 'historialVehiculo'])->name('historial.vehiculo');
+
+    // Chatbot (Hugging Face) - recibe mensajes desde el widget y responde
+    Route::post('/chat', [HuggingFaceChatController::class, 'chat'])->name('chat');
+    
+    // Test endpoint para debug HF API
+    Route::get('/hf-test', [HFTestController::class, 'test'])->name('hf.test');
 });
 
 Route::post('/logout', function () {
