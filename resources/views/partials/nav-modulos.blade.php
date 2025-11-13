@@ -12,12 +12,10 @@
         </div>
     </div>
     <ul class="menu">
-        <li class="menu-item menu-item-static">
-            <a href="{{ route('dashboard') }}" class="menu-link">
-                <i class='bx bx-home'></i>
-                <span>Home</span>
-            </a>
-        </li>
+        @php
+            $hasDashboard = \Illuminate\Support\Facades\Route::has('dashboard');
+        @endphp
+        <!-- Estadísticas menu item removed to avoid duplicates; use Dashboard page's stats toggle -->
         <li class="menu-item menu-item-static">
             <a href="{{ route('vehiculos.index') }}" class="menu-link">
                 <i class='bx bxs-car'></i>
