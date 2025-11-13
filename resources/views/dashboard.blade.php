@@ -13,7 +13,7 @@
             </a>
             @auth
                 @if (auth()->user()->tieneRol('Coordinador') || auth()->user()->tieneRol('Administrador'))
-                    <a href="{{ route('vehiculos.asignar') }}" class="dashboard-buttondos">Asignar</a>
+                    <a href="{{ route('vehiculos.asignar.form') }}" class="dashboard-buttondos">Asignar</a>
                 @endif
             @endauth
         </div>
@@ -35,7 +35,7 @@
             </a>
             @auth
                 @if (auth()->user()->tieneRol('Coordinador')|| auth()->user()->tieneRol('Administrador'))
-                    <a href="{{ route('vehiculos.asignar') }}" class="dashboard-buttondos">Asignar</a>
+                    <a href="{{ route('vehiculos.asignar.form') }}" class="dashboard-buttondos">Asignar</a>
                 @endif
             @endauth
         </div>
