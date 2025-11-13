@@ -55,7 +55,7 @@
                                 <button type="submit" class="btn btn-warning">Devolver</button>
                             </form>
                         @elseif(strtolower($detalle->estadoVehiculo->estado ?? '') === 'disponible')
-                            <a href="{{ route('vehiculos.asignar') }}" class="btn btn-success" style="margin-top:1rem;">Asignar</a>
+                            <a href="{{ route('vehiculos.asignar.store') }}" class="btn btn-success" style="margin-top:1rem;">Asignar</a>
                         @endif
                         <a href="{{ route('historial.vehiculo', $camioneta->id) }}"
                             class="btn btn-info"
