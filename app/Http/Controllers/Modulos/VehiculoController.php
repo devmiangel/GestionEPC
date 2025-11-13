@@ -152,42 +152,26 @@ class VehiculoController extends Controller
         return view('modulos.vehiculos.actions.eliminar', compact('vehiculos'));
     }
 
-    public function destroy(Request $request, $id)
+    public function destroy($id)
     {
-        // Ahora realizamos eliminación física: eliminar detalle y vehículo dentro de una transacción
-        \DB::beginTransaction();
         try {
             $vehiculo = Vehiculo::findOrFail($id);
-            $detalleVehiculo = $vehiculo->detalleVehiculo()->first();
-
+            $detalleVehiculo = $vehiculo->detalleVehiculo->first();
+            
             if ($detalleVehiculo) {
-                // eliminar registros relacionados si es necesario
-                $detalleVehiculo->delete();
+                $detalleVehiculo->id_estadoregistro = 2; // 2 = oculto/inactivo
+                $detalleVehiculo->save();
             }
 
-            // eliminar el vehículo
-            $vehiculo->delete();
-
-            \DB::commit();
-
-            if ($request->wantsJson() || $request->ajax()) {
-                return response()->json([
-                    'success' => true,
-                    'message' => 'Vehículo eliminado correctamente'
-                ]);
-            }
-
-            return redirect()->route('vehiculos.eliminate')->with('success', 'Vehículo eliminado correctamente');
+            return response()->json([
+                'success' => true,
+                'message' => 'Vehículo eliminado correctamente'
+            ]);
         } catch (\Exception $e) {
-            \DB::rollBack();
-            if (isset($request) && ($request->wantsJson() || $request->ajax())) {
-                return response()->json([
-                    'success' => false,
-                    'message' => 'Error al eliminar el vehículo: ' . $e->getMessage()
-                ], 500);
-            }
-
-            return redirect()->back()->with('error', 'Error al eliminar el vehículo');
+            return response()->json([
+                'success' => false,
+                'message' => 'Error al eliminar el vehículo'
+            ], 500);
         }
     }
 

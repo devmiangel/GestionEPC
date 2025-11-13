@@ -3,8 +3,8 @@
 @section('content')
 <div class="vehicle-grid">
 
-    @foreach ($otros as $vehiculo)
-        @foreach ($vehiculo->detalleVehiculo as $detalle)
+    @foreach ($otros as $otros)
+        @foreach ($otros->detalleVehiculo as $detalle)
             <div class="vehicle-card">
                 
                 @if ($detalle->imagen_vehiculo)
@@ -26,21 +26,25 @@
     }
 }}">
     {{ $detalle->placa }}
-                        </div>
-                        <p><strong>Modelo:</strong> {{ $vehiculo->modelo_vehiculo ?? 'N/A' }}</p>
-                        <p><strong>Marca:</strong> {{ $vehiculo->marca_vehiculo ?? 'N/A' }}</p>
+</div>nombre
+                        <p><strong>Modelo:</strong> {{ $detalle->nombre }}</p>
+                        <p><strong>Modelo:</strong> {{ $otros->modelo_vehiculo }}</p>
+                        <p><strong>Marca:</strong> {{ $otros->marca_vehiculo }}</p>
                         <p><strong>Año:</strong> {{ $detalle->año ?? 'No registrado' }}</p>
                         <p><strong>Capacidad:</strong> {{ $detalle->capacidad ?? '2' }} pasajeros</p>
                         <p><strong>Conductor:</strong>
-                            {{ optional(is_iterable($vehiculo->detalleVehiculo) ? $vehiculo->detalleVehiculo->first()->persona ?? null : $vehiculo->detalleVehiculo->persona ?? null)->nombre_completo ?? 'No asignado' }}
-                        </p>
+        {{
+            optional(
+                is_iterable($vehiculo->detalleVehiculo) ? $vehiculo->detalleVehiculo->first()->persona ?? null : $vehiculo->detalleVehiculo->persona ?? null
+            )->nombre_completo ?? 'No asignado'
+        }}
+    </p>
                         <p><strong>Último mantenimiento:</strong> {{ $detalle->ultimo_mantenimiento ?? 'No registrado' }}</p>
                         <p><strong>Soat:</strong> {{ $detalle->soat_estado ?? 'No registrado' }}</p>
                         <p><strong>Tecnomecánica:</strong> {{ $detalle->tecno_estado ?? 'No registrada' }}</p>
                         @if(strtolower($detalle->estadoVehiculo->estado ?? '') === 'prestado')
                             <form method="POST" action="{{ route('vehiculos.devolver') }}" style="margin-top:1rem;">
                                 @csrf
-                                <input type="hidden" name="vehiculo_id" value="{{ $vehiculo->id }}">
                                 <button type="submit" class="btn btn-warning">Devolver</button>
                             </form>
                         @elseif(strtolower($detalle->estadoVehiculo->estado ?? '') === 'disponible')
