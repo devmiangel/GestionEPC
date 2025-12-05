@@ -13,6 +13,21 @@ use App\Models\Persona;
 
 class VehiculoController extends Controller
 {
+    /**
+     * Verifica que el usuario autenticado tenga rol Coordinador o Administrador.
+     * Si no, aborta con 403.
+     */
+    private function authorizeCoordinadorAdmin()
+    {
+        if (!auth()->check()) {
+            abort(403, 'No autorizado.');
+        }
+        $user = auth()->user();
+        if (!($user->tieneRol('Coordinador') || $user->tieneRol('Administrador'))) {
+            abort(403, 'No tienes permisos para realizar esta acción.');
+        }
+    }
+
     public function index()
     {
         return view('modulos.vehiculos.index');
@@ -52,12 +67,14 @@ class VehiculoController extends Controller
 
     public function create(Request $request)
     {
+        $this->authorizeCoordinadorAdmin();
         $tipoSeleccionado = $request->input('tipo_vehiculos') ?? $request->input('tipo') ?? null;
         return view('modulos.vehiculos.actions.agregar', compact('tipoSeleccionado'));
     }
 
     public function store(Request $request)
     {
+        $this->authorizeCoordinadorAdmin();
         // Adjust validation to match form field names in the view
         $request->validate([
             'modelo' => 'required|string',
@@ -125,6 +142,7 @@ class VehiculoController extends Controller
     // Mostrar formulario de edición de vehículo
     public function edit($id)
     {
+        $this->authorizeCoordinadorAdmin();
         $vehiculo = \App\Models\Vehiculo::findOrFail($id);
         return view('modulos.vehiculos.edit', compact('vehiculo'));
     }
@@ -132,6 +150,7 @@ class VehiculoController extends Controller
     // Procesar actualización de vehículo
     public function update(Request $request, $id)
     {
+        $this->authorizeCoordinadorAdmin();
         $request->validate([
             'placa' => 'required|string|max:255',
             'modelo' => 'required|string|max:255',
@@ -146,6 +165,7 @@ class VehiculoController extends Controller
 
     public function eliminate()
     {
+        $this->authorizeCoordinadorAdmin();
         $vehiculos = Vehiculo::with(['detalleVehiculo' => function($query) {
             $query->where('id_estadoregistro', 1); // 1 = visible/activo
         }])->get();
@@ -154,6 +174,7 @@ class VehiculoController extends Controller
 
     public function destroy(Request $request, $id)
     {
+        $this->authorizeCoordinadorAdmin();
         // Ahora realizamos eliminación física: eliminar detalle y vehículo dentro de una transacción
         \DB::beginTransaction();
         try {
@@ -201,6 +222,7 @@ class VehiculoController extends Controller
 
     public function cambiarEstado(Request $request, Vehiculo $vehiculo)
     {
+        $this->authorizeCoordinadorAdmin();
         $detalleVehiculo = $vehiculo->detalleVehiculo;
         $detalleVehiculo->id_estado = $request->id_estado;
         $detalleVehiculo->save();
@@ -211,6 +233,7 @@ class VehiculoController extends Controller
     // Formulario de asignación de vehículo
     public function asignarForm()
     {
+        $this->authorizeCoordinadorAdmin();
         $tipos = TipoVehiculo::all();
         // Obtener el id del estado 'disponible' dinámicamente
         $estadoDisponible = Estado::where('estado', 'Disponible')->first();
@@ -227,6 +250,7 @@ class VehiculoController extends Controller
     // Procesar la asignación de vehículo a persona
     public function asignar(Request $request)
     {
+        $this->authorizeCoordinadorAdmin();
         $request->validate([
             'vehiculo_id' => 'required|exists:vehiculos,id',
             'persona_id' => 'required|exists:personas,id',
@@ -259,6 +283,7 @@ class VehiculoController extends Controller
     // Formulario de asignación de vehículo con datos autocompletados
     public function asignarVehiculoSeleccionado($detalleId)
     {
+        $this->authorizeCoordinadorAdmin();
         $tipos = TipoVehiculo::all();
         $detalle = DetalleVehiculo::with('vehiculo')->findOrFail($detalleId);
         $personas = Persona::all();
@@ -269,6 +294,7 @@ class VehiculoController extends Controller
     // Procesar la devolución de un vehículo
     public function devolver(Request $request)
     {
+        $this->authorizeCoordinadorAdmin();
         $request->validate([
             'vehiculo_id' => 'required|exists:vehiculos,id',
         ]);

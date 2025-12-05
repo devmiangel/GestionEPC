@@ -18,6 +18,13 @@ class DatabaseSeeder extends Seeder
             EstadoRegistroSeeder::class,
             TiposVehiculosSeeder::class,
             Estadoseeder::class,
+            TipoHerramientasSeeder::class,
+            PersonasMecanicosSeeder::class,
+            AsignarRolMecanicoSeeder::class,
+            // Seeders para conductores
+            PersonasConductoresSeeder::class,
+            AsignarRolConductorSeeder::class,
+            HerramientasSeeder::class,
             TipoAlertasSeeder::class,
             PruebaAlertasSeeder::class,
         ]);

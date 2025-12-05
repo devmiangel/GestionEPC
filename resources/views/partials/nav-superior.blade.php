@@ -15,14 +15,10 @@
         </button>
 
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <!-- Left Side Of Navbar -->
             <ul class="navbar-nav me-auto">
-                <!-- Estadísticas link removed (kept on dashboard only) -->
             </ul>
 
-            <!-- Right Side Of Navbar -->
             <ul class="navbar-nav ms-auto">
-                <!-- Botón de alertas -->
                 @auth
                 @if(Auth::user()->roles && Auth::user()->roles->contains('rol', 'Administrador'))
                 <li class="nav-item dropdown me-2">

@@ -12,5 +12,8 @@ class RolSeeder extends Seeder
         Rol::create(['rol' => 'Administrador', 'descripcion' => 'Acceso completo']);
         Rol::create(['rol' => 'Coordinador', 'descripcion' => 'Acceso medio']);
         Rol::create(['rol' => 'Usuario', 'descripcion' => 'Acceso limitado']);
+        Rol::create(['rol' => 'Mecánico', 'descripcion' => 'Rol para mecánicos de herramientas']);
+        // Rol para conductores
+        Rol::create(['rol' => 'Conductor', 'descripcion' => 'Rol para conductores de vehículos']);
     }
 }

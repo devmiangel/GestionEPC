@@ -5,12 +5,19 @@ namespace App\Http\Controllers\Modulos;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Persona;
+use App\Models\User;
 
 class ConductorController extends Controller
 {
     public function index()
     {
-        $conductores = Persona::with('tipoDocumento')->get();
+        // Get all personas that have the 'Conductor' role through their users
+        $conductores = Persona::whereHas('user.roles', function ($q) {
+            $q->where('rols.rol', 'Conductor');
+        })
+        ->with(['tipoDocumento']) // Load the tipo_documento relationship
+        ->get();
+        
         return view('modulos.conductores.index', compact('conductores'));
     }
 
@@ -33,7 +40,33 @@ class ConductorController extends Controller
             'primer_nombre', 'segundo_nombre', 'primer_apellido', 'segundo_apellido', 'num_documento', 'id_tipdocumento'
         ]);
 
-        Persona::create($data);
+        $persona = Persona::create($data);
+
+        // Crear un usuario asociado y asignarle el rol de Conductor si existe
+        try {
+            $userData = [
+                'email' => strtolower($persona->primer_nombre . '.' . $persona->primer_apellido) . '.' . $persona->num_documento . '@epc.local',
+                'password' => bcrypt('password123'),
+                'id_persona' => $persona->id,
+            ];
+
+            // Evitar colisión en email
+            $existing = \App\Models\User::where('email', $userData['email'])->first();
+            if ($existing) {
+                $userData['email'] = strtolower($persona->primer_nombre . '.' . $persona->primer_apellido) . '.' . $persona->id . '@epc.local';
+            }
+
+            $user = \App\Models\User::create($userData);
+
+            $rolConductor = \App\Models\Rol::where('rol', 'Conductor')->first();
+            if ($rolConductor) {
+                $user->roles()->attach($rolConductor->id);
+            }
+        } catch (\Exception $e) {
+            // No bloquemos la creación del persona si el user falla; loguear el error
+            logger()->error('Error creando usuario para conductor: ' . $e->getMessage());
+        }
+
         return redirect()->route('conductores.index')->with('success', 'Conductor agregado correctamente.');
     }
 
@@ -46,6 +79,22 @@ class ConductorController extends Controller
     public function destroy($id)
     {
         $conductor = Persona::findOrFail($id);
+
+        // Si la persona tiene un usuario asociado, primero desvincular roles para evitar FK errors
+        if ($conductor->user) {
+            try {
+                $user = $conductor->user;
+                // Detach all roles
+                if (method_exists($user, 'roles')) {
+                    $user->roles()->detach();
+                }
+                // Delete user explicitly (persona deletion may cascade, but detach first to remove pivot rows)
+                $user->delete();
+            } catch (\Exception $e) {
+                logger()->error('Error al eliminar usuario asociado al conductor: ' . $e->getMessage());
+            }
+        }
+
         $conductor->delete();
         return redirect()->route('conductores.index')->with('success', 'Conductor eliminado correctamente.');
     }

@@ -15,15 +15,19 @@
     <div class="content-wrapper">
     <div class="cuadroHerramientas">
       <div class="actions-herramientas">
-    <div class="action-buttons">
-            <a href="#" class="btn-agregar-vehiculo">
-            <i class="fas fa-plus"></i> Añadir Herramienta
-        </a>
-        <a href="#" class="btn-eliminar-vehiculo">
-            <i class="fas fa-trash-alt"></i> Eliminar Herramienta
-        </a>
-    </div>
-</div>
+        <div class="action-buttons">
+            @auth
+                @if(auth()->user()->tieneRol('Coordinador') || auth()->user()->tieneRol('Administrador'))
+                    <a href="#" class="btn-agregar-vehiculo">
+                        <i class="fas fa-plus"></i> Añadir Herramienta
+                    </a>
+                    <a href="#" class="btn-eliminar-vehiculo">
+                        <i class="fas fa-trash-alt"></i> Eliminar Herramienta
+                    </a>
+                @endif
+            @endauth
+        </div>
+      </div>
     </div>
 </div>
 {{-- <script src="{{ asset('js/modulos.js') }}"></script> --}}

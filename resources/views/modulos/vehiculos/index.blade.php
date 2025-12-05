@@ -24,16 +24,20 @@
                 <div><a href="{{ route('vehiculos.otros') }}" class="dashboard-button">Otros</a></div>
             </div>
             <br>
-            <div class="actions-vehiculos">
-                <div class="action-buttons">
-                    <a href="{{ route('vehiculos.create') }}" class="btn-agregar-vehiculo">
-                        <i class="fas fa-plus"></i> Añadir Vehículo
-                    </a>
-                    <a href="{{ route('vehiculos.eliminate') }}" class="btn-eliminar-vehiculo">
-                        <i class="fas fa-trash-alt"></i> Eliminar Vehículo
-                    </a>
-                </div>
-            </div>
+            @auth
+                @if (auth()->user()->tieneRol('Coordinador') || auth()->user()->tieneRol('Administrador'))
+                    <div class="actions-vehiculos">
+                        <div class="action-buttons">
+                            <a href="{{ route('vehiculos.create') }}" class="btn-agregar-vehiculo">
+                                <i class="fas fa-plus"></i> Añadir Vehículo
+                            </a>
+                            <a href="{{ route('vehiculos.eliminate') }}" class="btn-eliminar-vehiculo">
+                                <i class="fas fa-trash-alt"></i> Eliminar Vehículo
+                            </a>
+                        </div>
+                    </div>
+                @endif
+            @endauth
 
             <div id="modalVehiculo" onclick="cerrarModal()">
                 <div class="contenido-modal" onclick="event.stopPropagation()">

@@ -26,17 +26,25 @@
             Conductores
         </a>
 
-        <a href="{{ route('historial.index') }}" class="dashboard-button" style="display: block; padding: 20px 10px; background: #ff7f50; color: white; text-decoration: none; border-radius: 8px; font-weight: bold; font-size: 18px; text-align: center;">
-            <i class="fas fa-history" style="margin-right: 8px;"></i>
-            Historial
-        </a>
+        @auth
+            @if(auth()->user()->tieneRol('Coordinador') || auth()->user()->tieneRol('Administrador'))
+                <a href="{{ route('historial.index') }}" class="dashboard-button" style="display: block; padding: 20px 10px; background: #ff7f50; color: white; text-decoration: none; border-radius: 8px; font-weight: bold; font-size: 18px; text-align: center;">
+                    <i class="fas fa-history" style="margin-right: 8px;"></i>
+                    Historial
+                </a>
+            @endif
+        @endauth
     </div>
-    <!-- Botón Estadísticas (debajo de los botones principales) como desplegable inline -->
-    <div style="text-align: center; margin-top: 30px; padding: 0 40px;">
-        <button id="toggle-stats-btn" class="dashboard-button" style="display: inline-block; padding: 14px 28px; background: linear-gradient(135deg,#667eea 0%,#764ba2 100%); color: white; border: none; border-radius: 8px; font-weight: 700; font-size: 16px; cursor: pointer;">
-            📊 Mostrar Estadísticas
-        </button>
-    </div>
+
+    @auth
+        @if(auth()->user()->tieneRol('Coordinador') || auth()->user()->tieneRol('Administrador'))        
+            <div style="text-align: center; margin-top: 30px; padding: 0 40px;">
+                <button id="toggle-stats-btn" class="dashboard-button" style="display: inline-block; padding: 14px 28px; background: linear-gradient(135deg,#667eea 0%,#764ba2 100%); color: white; border: none; border-radius: 8px; font-weight: 700; font-size: 16px; cursor: pointer;">
+                    📊 Mostrar Estadísticas
+                </button>
+            </div>
+        @endif
+    @endauth
 
     <!-- Panel oculto de estadísticas -->
     <div id="dashboard-stats-panel" style="display: none; max-width: 1200px; margin: 30px auto 0; padding: 20px;">
@@ -86,7 +94,7 @@
             </div>
         </div>
 
-        <div style="background:white; border-radius:12px; padding:1.5rem; box-shadow:0 4px 12px rgba(0,0,0,0.08); margin-top:1.5rem;">
+        <div style="background:white; border-radius:12px; padding:10rem; box-shadow:0 4px 12px rgba(0,0,0,0.08); margin-top:1.5rem;">
             <h3 style="margin-top:0;">Distribución de Estados</h3>
             <canvas id="distributionChart"></canvas>
         </div>
