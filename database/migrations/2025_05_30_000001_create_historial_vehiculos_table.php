@@ -9,7 +9,7 @@ return new class extends Migration {
         Schema::create('historial_vehiculos', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('vehiculo_id');
-            $table->string('tipo_evento'); // mantenimiento, soat, tecnomecanica, prestamo, devolucion, etc.
+            $table->string('tipo_evento');
             $table->date('fecha');
             $table->text('descripcion')->nullable();
             $table->unsignedBigInteger('usuario_id')->nullable();

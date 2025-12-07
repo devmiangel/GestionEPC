@@ -11,10 +11,6 @@ use App\Models\HistorialHerramienta;
 
 class HistorialController extends Controller
 {
-    /**
-     * Verifica que el usuario autenticado tenga rol Coordinador o Administrador.
-     * Si no, aborta con 403.
-     */
     private function authorizeCoordinadorAdmin()
     {
         if (!auth()->check()) {
@@ -29,8 +25,6 @@ class HistorialController extends Controller
     public function index()
     {
         $this->authorizeCoordinadorAdmin();
-        // Unimos los elementos de vehículos y herramientas para mostrar en el historial
-        // Load detalleVehiculo with its estado relation so we can display vehicle state
         $vehiculos = Vehiculo::with(['tipoVehiculo', 'detalleVehiculo.persona', 'detalleVehiculo.estado'])->get()->map(function($v) {
             $detalle = $v->detalleVehiculo->first();
             $tipoVehiculo = $v->tipoVehiculo ? $v->tipoVehiculo->tipo_vehiculo : '';
@@ -82,19 +76,11 @@ class HistorialController extends Controller
     public function mantenimientos($id)
     {
         $this->authorizeCoordinadorAdmin();
-        // Aquí puedes buscar los mantenimientos por ID y tipo
-        // Ejemplo simple:
-        // $mantenimientos = Mantenimiento::where('elemento_id', $id)->get();
-        // return view('modulos.historial.mantenimientos', compact('mantenimientos'));
     }
 
     public function editar($id)
     {
         $this->authorizeCoordinadorAdmin();
-        // Aquí puedes buscar el elemento y mostrar el formulario de edición
-        // Ejemplo simple:
-        // $item = ...;
-        // return view('modulos.historial.editar', compact('item'));
     }
 
     public function historialVehiculo($id)

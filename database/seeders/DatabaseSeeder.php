@@ -21,7 +21,6 @@ class DatabaseSeeder extends Seeder
             TipoHerramientasSeeder::class,
             PersonasMecanicosSeeder::class,
             AsignarRolMecanicoSeeder::class,
-            // Seeders para conductores
             PersonasConductoresSeeder::class,
             AsignarRolConductorSeeder::class,
             HerramientasSeeder::class,

@@ -13,7 +13,6 @@ class HerramientasSeeder extends Seeder
      */
     public function run(): void
     {
-        // Inserciones de ejemplo para pruebas locales (sin truncate para evitar FK constraints)
         DB::table('herramientas')->insert([
             [
                 'nombre' => 'Llave inglesa 12"',

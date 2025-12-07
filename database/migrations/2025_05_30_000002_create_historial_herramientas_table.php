@@ -9,7 +9,7 @@ return new class extends Migration {
         Schema::create('historial_herramientas', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('herramienta_id');
-            $table->string('tipo_evento'); // mantenimiento, calibracion, prestamo, devolucion, etc.
+            $table->string('tipo_evento');
             $table->date('fecha');
             $table->text('descripcion')->nullable();
             $table->unsignedBigInteger('usuario_id')->nullable();

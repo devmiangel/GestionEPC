@@ -2,7 +2,6 @@
 
 @section('content')
 <style>
-    /* Avoid footer covering content and make tables scrollable on small screens */
     .historial-page { padding-bottom: 160px; }
     .historial-table-wrapper { max-height: calc(100vh - 320px); overflow: auto; }
     @media (max-width: 768px) {
@@ -14,7 +13,6 @@
     <h1>Historial de Elementos y Vehículos</h1>
     <p>Consulta y gestiona las hojas de vida de todos los elementos del almacén y vehículos registrados, incluyendo fecha de adquisición, historial de mantenimiento y estado actual.</p>
     
-    <!-- Tabla de Vehículos -->
     <div class="mb-5">
         <h2 style="color: #136ea7; border-bottom: 3px solid #136ea7; padding-bottom: 10px;">
             <i class="fas fa-car"></i> Vehículos
@@ -63,7 +61,6 @@
         @endif
     </div>
 
-    <!-- Tabla de Herramientas -->
     <div class="mb-5">
         <h2 style="color: #6c757d; border-bottom: 3px solid #6c757d; padding-bottom: 10px;">
             <i class="fas fa-wrench"></i> Herramientas

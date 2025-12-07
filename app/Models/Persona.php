@@ -27,7 +27,6 @@ class Persona extends Model
         return $this->hasOne(User::class, 'id_persona');
     }
 
-    // Accesor para el nombre completo
     public function getNombreCompletoAttribute()
     {
         return trim(
@@ -35,7 +34,6 @@ class Persona extends Model
         );
     }
 
-    // Accessors para compatibilidad con vistas
     public function getNombreAttribute()
     {
         return trim("{$this->primer_nombre} {$this->segundo_nombre}");

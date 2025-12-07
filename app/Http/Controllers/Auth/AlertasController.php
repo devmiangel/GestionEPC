@@ -20,9 +20,8 @@ class AlertasController extends Controller
     public function enviarAlertas()
     {
         $hoy = Carbon::now();
-        $diasAlerta = 15; // Días antes del vencimiento para alertar
+        $diasAlerta = 15;
 
-        // Buscar detalles de vehículos con SOAT, técnico-mecánica o mantenimiento próximos a vencer
         $detalles = DetalleVehiculo::where(function($query) use ($hoy, $diasAlerta) {
             $query->whereDate('fecha_soat', '<=', $hoy->copy()->addDays($diasAlerta))
                   ->whereDate('fecha_soat', '>=', $hoy)
@@ -36,7 +35,6 @@ class AlertasController extends Controller
                 });
         })->get();
 
-        // Obtener todos los administradores
         $admins = \App\Models\User::whereHas('roles', function($q) {
             $q->where('rol', 'Administrador');
         })->get();
@@ -88,11 +86,11 @@ class AlertasController extends Controller
         if (!$tipoAlerta) return;
         // Registrar en la base de datos
         Alerta::create([
-            'user_id' => auth()->id(), // usuario autenticado actual
+            'user_id' => auth()->id(),
             'id_detallevehiculo' => $detalle->id,
-            'email_alerta' => $mensaje, // el mensaje de la alerta
+            'email_alerta' => $mensaje,
             'id_tipoalerta' => $tipoAlerta->id,
-            'id_estadoregistro' => 1, // Activo
+            'id_estadoregistro' => 1,
             'mensaje' => $mensaje,
         ]);
         // Enviar correo

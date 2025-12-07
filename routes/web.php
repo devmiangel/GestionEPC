@@ -117,9 +117,8 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/historial/vehiculo/{id}', [HistorialController::class, 'historialVehiculo'])->name('historial.vehiculo');
     });
 
-    // Chatbot routes removed
+    // Chatbot 
 });
-
 Route::post('/logout', function () {
     Auth::logout();
     request()->session()->invalidate();

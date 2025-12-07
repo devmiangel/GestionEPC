@@ -14,7 +14,6 @@ class AsignarRolConductorSeeder extends Seeder
      */
     public function run(): void
     {
-        // Obtener el rol de Conductor
         $rolConductor = Rol::where('rol', 'Conductor')->first();
 
         if (!$rolConductor) {
@@ -22,7 +21,6 @@ class AsignarRolConductorSeeder extends Seeder
             return;
         }
 
-        // Obtener las personas creadas en PersonasConductoresSeeder
         $personas = Persona::whereIn('num_documento', [
             '2234567890',
             '2234567891',
@@ -31,11 +29,9 @@ class AsignarRolConductorSeeder extends Seeder
         ])->get();
 
         foreach ($personas as $persona) {
-            // Verificar si ya existe un usuario para esta persona
             $user = User::where('id_persona', $persona->id)->first();
 
             if (!$user) {
-                // Crear usuario si no existe
                 $user = User::create([
                     'email' => strtolower($persona->primer_nombre . '.' . $persona->primer_apellido) . '@epc.local',
                     'password' => bcrypt('password123'),
@@ -43,7 +39,6 @@ class AsignarRolConductorSeeder extends Seeder
                 ]);
             }
 
-            // Asignar el rol de Conductor si no lo tiene ya
             if (!$user->roles->contains('id', $rolConductor->id)) {
                 $user->roles()->attach($rolConductor->id);
             }

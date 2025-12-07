@@ -36,7 +36,7 @@ class DetalleVehiculo extends Model
     
     public function persona()
     {
-        return $this->belongsTo(Persona::class, 'persona_id');//User:class ->Persona
+        return $this->belongsTo(Persona::class, 'persona_id');
     }
 
     public function estadoVehiculo()

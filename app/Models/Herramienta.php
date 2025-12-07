@@ -15,7 +15,6 @@ class Herramienta extends Model
     protected $fillable = [
         'nombre',
         'id_tipoherramienta',
-        // alias usado por vistas/controladores (mantener compatibilidad)
         'tipo_herramienta_id',
         'id_estado',
         'id_estadoregistro',
@@ -48,9 +47,7 @@ class Herramienta extends Model
     {
         return $this->belongsTo(Persona::class, 'persona_id');
     }
-
-    // Accessor / Mutator to provide compatibility with views/controllers
-    // that use `tipo_herramienta_id` instead of the DB column `id_tipoherramienta`.
+    
     public function getTipoHerramientaIdAttribute()
     {
         return $this->attributes['id_tipoherramienta'] ?? null;

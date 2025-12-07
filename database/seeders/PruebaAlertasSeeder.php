@@ -353,7 +353,6 @@ class PruebaAlertasSeeder extends Seeder
                 ],
             ]);
         }
-        // Más mantenimientos para todos los detalles
         $tipoMantId2 = DB::table('tipo_mantenimientos')->insertGetId([
             'mantenimiento' => 'Correctivo',
             'created_at' => now(),

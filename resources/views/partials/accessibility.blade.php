@@ -1,4 +1,3 @@
-<!-- Accessibility floating controls: font-size and contrast -->
 <div id="accessibility-controls" aria-hidden="false">
     <style>
         #accessibility-controls {
@@ -49,7 +48,6 @@
         body.high-contrast a { color: #ffeb3b !important; }
     </style>
 
-    <!-- Font control button -->
     <div style="display:flex; flex-direction:column; align-items:center;">
         <button id="acc-font-btn" class="acc-btn" aria-label="Control de tamaño de letra">A</button>
         <div id="acc-font-panel" class="acc-panel" role="dialog" aria-hidden="true">
@@ -59,7 +57,6 @@
         </div>
     </div>
 
-    <!-- Contrast toggle button -->
     <button id="acc-contrast-btn" class="acc-btn" aria-pressed="false" aria-label="Alternar contraste">☼</button>
 
     <script>
@@ -91,12 +88,10 @@
             }
 
             function resetSize(){
-                // Remove inline font-size to restore browser/stylesheet default
                 document.documentElement.style.fontSize = '';
                 localStorage.removeItem(STORAGE_KEY_SIZE);
             }
 
-            // init: apply only if user has a saved preference
             try{ if(localStorage.getItem(STORAGE_KEY_SIZE)) applySize(getSize()); }catch(e){/* ignore */}
 
             btn.addEventListener('click', function(e){
@@ -109,7 +104,6 @@
             dec.addEventListener('click', function(){ changeSize(-0.1); });
             rst.addEventListener('click', function(){ resetSize(); });
 
-            // Contrast
             function setContrast(on){
                 document.body.classList.toggle('high-contrast', !!on);
                 contrastBtn.setAttribute('aria-pressed', !!on);
@@ -121,12 +115,10 @@
                 setContrast(!isOn);
             });
 
-            // restore contrast
             try{
                 if(localStorage.getItem(STORAGE_KEY_CONTRAST) === '1') setContrast(true);
             }catch(e){}
 
-            // Close panel when clicking outside
             document.addEventListener('click', function(e){
                 if(!btn.contains(e.target) && !panel.contains(e.target)){
                     panel.style.display = 'none';

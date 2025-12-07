@@ -10,10 +10,6 @@ use App\Models\Estado;
 
 class HerramientaController extends Controller
 {
-    /**
-     * Verifica que el usuario autenticado tenga rol Coordinador o Administrador.
-     * Si no, aborta con 403.
-     */
     private function authorizeCoordinadorAdmin()
     {
         if (!auth()->check()) {
@@ -63,8 +59,6 @@ class HerramientaController extends Controller
         return view('modulos.herramientas.tipos.otros', compact('otros'));
     }
 
-    //Acciones
-
     public function create()
     {
         $this->authorizeCoordinadorAdmin();
@@ -76,7 +70,6 @@ class HerramientaController extends Controller
     public function store(Request $request)
     {
         $this->authorizeCoordinadorAdmin();
-        // Normalizar claves posibles desde las vistas (compatibilidad)
         if ($request->has('id_tipoherramienta') && !$request->has('tipo_herramienta_id')) {
             $request->merge(['tipo_herramienta_id' => $request->input('id_tipoherramienta')]);
         }
@@ -103,7 +96,6 @@ class HerramientaController extends Controller
     public function update(Request $request, $id)
     {
         $this->authorizeCoordinadorAdmin();
-        // Normalizar claves desde las vistas
         if ($request->has('id_tipoherramienta') && !$request->has('tipo_herramienta_id')) {
             $request->merge(['tipo_herramienta_id' => $request->input('id_tipoherramienta')]);
         }
@@ -120,7 +112,6 @@ class HerramientaController extends Controller
     public function eliminate()
     {
         $this->authorizeCoordinadorAdmin();
-        // Only show active herramientas (not marked as inactive)
         $herramientas = Herramienta::where('id_estadoregistro', '!=', 2)->get();
         return view('modulos.herramientas.eliminar', compact('herramientas'));
     }
@@ -140,14 +131,12 @@ class HerramientaController extends Controller
     public function asignarForm($herramientaId = null)
     {
         $this->authorizeCoordinadorAdmin();
-        $herramientas = Herramienta::whereNull('persona_id')->get(); // Solo mostrar sin asignar
-        $herramientaSeleccionada = null;
+        $herramientas = Herramienta::whereNull('persona_id')->get();
 
         if ($herramientaId) {
             $herramientaSeleccionada = Herramienta::find($herramientaId);
         }
 
-        // Obtener solo personas con rol de Mecánico
         $personas = \App\Models\Persona::whereHas('user.roles', function ($query) {
             $query->where('rol', 'Mecánico');
         })->get();
@@ -166,13 +155,11 @@ class HerramientaController extends Controller
 
             \Log::info('Asignar herramienta - Datos validados:', $validated);
 
-            // Obtener la herramienta
             $herramienta = Herramienta::findOrFail($request->herramienta_id);
             \Log::info('Herramienta antes:', $herramienta->toArray());
 
-            // Actualizar persona_id explícitamente usando query builder para forzar actualización
             $herramienta->update(['persona_id' => $request->persona_id]);
-            $herramienta->touch(); // Forzar actualización de updated_at
+            $herramienta->touch();
             
             \Log::info('Herramienta después:', $herramienta->fresh()->toArray());
 
@@ -189,7 +176,6 @@ class HerramientaController extends Controller
         try {
             \Log::info('Devolver herramienta - Antes:', ['persona_id' => $herramienta->persona_id]);
             
-            // Desasignar (poner persona_id en NULL)
             $herramienta->update(['persona_id' => null]);
             $herramienta->touch();
             

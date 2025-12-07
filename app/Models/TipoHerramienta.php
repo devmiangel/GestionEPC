@@ -6,7 +6,6 @@ use Illuminate\Database\Eloquent\Model;
 
 class TipoHerramienta extends Model
 {
-    // Tabla en la base de datos
     protected $table = 'tipo_herramientas';
 
     public $timestamps = true;

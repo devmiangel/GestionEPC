@@ -5,7 +5,6 @@
 
 <a href="javascript:history.back()" class="btn btn-outline-secondary mb-3">Volver</a>
 
-<!-- Formulario para subir documento -->
 <form method="POST" action="{{ route('vehiculos.documentos.subir', ['detalle' => $detalleVehiculo->id]) }}" enctype="multipart/form-data" style="margin-bottom: 2rem;">
     @csrf
     <div class="mb-3">
@@ -23,7 +22,6 @@
     <button type="submit" class="btn btn-primary">Subir documento</button>
 </form>
 
-<!-- Historial de documentos -->
 <table class="table table-bordered">
     <thead>
         <tr>

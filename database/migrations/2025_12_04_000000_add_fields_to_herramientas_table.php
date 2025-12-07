@@ -12,7 +12,6 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('herramientas', function (Blueprint $table) {
-            // Agregar campos faltantes según el modelo y vistas
             if (!Schema::hasColumn('herramientas', 'nombre')) {
                 $table->string('nombre', 255)->nullable()->after('id');
             }

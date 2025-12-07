@@ -12,7 +12,6 @@ class PersonasMecanicosSeeder extends Seeder
      */
     public function run(): void
     {
-        // Insertar personas de prueba (mecánicos)
         DB::table('personas')->insert([
             [
                 'primer_nombre' => 'Juan',

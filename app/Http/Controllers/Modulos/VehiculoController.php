@@ -13,10 +13,6 @@ use App\Models\Persona;
 
 class VehiculoController extends Controller
 {
-    /**
-     * Verifica que el usuario autenticado tenga rol Coordinador o Administrador.
-     * Si no, aborta con 403.
-     */
     private function authorizeCoordinadorAdmin()
     {
         if (!auth()->check()) {
@@ -75,7 +71,6 @@ class VehiculoController extends Controller
     public function store(Request $request)
     {
         $this->authorizeCoordinadorAdmin();
-        // Adjust validation to match form field names in the view
         $request->validate([
             'modelo' => 'required|string',
             'marcaVehiculo' => 'required|string',
@@ -88,16 +83,13 @@ class VehiculoController extends Controller
             'descripcionUltimoMantenimiento' => 'nullable|string',
             'persona_id' => 'nullable|exists:personas,id',
         ]);
-
-        // Map the vehicle type to the corresponding id_tipovehiculo
         $tipoVehiculoMap = [
-            'Camionetas' => 1,        // Camionetas
-            'Compactadores' => 2,   // Compactadores
-            'Motos' => 3,          // Motos
-            'Otro' => 4           // Otros
+            'Camionetas' => 1,
+            'Compactadores' => 2,
+            'Motos' => 3,
+            'Otro' => 4
         ];
 
-        // Get the tipo_vehiculo from the database to ensure it exists
     $tipoVehiculoKey = $request->input('tipo_vehiculos');
     $tipoVehiculo = TipoVehiculo::where('id', $tipoVehiculoMap[$tipoVehiculoKey] ?? 4)->first();
         
@@ -105,7 +97,6 @@ class VehiculoController extends Controller
             return redirect()->back()->with('error', 'Tipo de vehículo no válido');
         }
 
-        // Create the vehicle
         $vehiculo = Vehiculo::create([
             'modelo_vehiculo' => $request->modelo,
             'marca_vehiculo' => $request->marcaVehiculo,
@@ -113,12 +104,11 @@ class VehiculoController extends Controller
             'id_tipovehiculo' => $tipoVehiculo->id,
         ]);
 
-        // Create the vehicle details
         $detalleVehiculo = DetalleVehiculo::create([
             'id_vehiculo' => $vehiculo->id,
             'persona_id' => $request->persona_id ?? null,
-            'id_estado' => 1, // Estado disponible por defecto
-            'id_estadoregistro' => 1, // Estado de registro activo por defecto
+            'id_estado' => 1,
+            'id_estadoregistro' => 1,
             'placa' => $request->placa,
             'fecha_soat' => $request->fechaSoat,
             'fecha_tecnomecanica' => $request->input('fecha_tecnomecanica'),
@@ -128,7 +118,6 @@ class VehiculoController extends Controller
             'descripcion_ultimo_mantenimiento' => $request->descripcionUltimoMantenimiento ?? null,
         ]);
 
-        // Handle image upload if present
         if ($request->hasFile('imagen')) {
             $imagen = $request->file('imagen');
             $imagenData = file_get_contents($imagen->getRealPath());
@@ -139,7 +128,6 @@ class VehiculoController extends Controller
         return redirect()->route('vehiculos.index')->with('success', 'Vehículo agregado correctamente');
     }
 
-    // Mostrar formulario de edición de vehículo
     public function edit($id)
     {
         $this->authorizeCoordinadorAdmin();
@@ -147,7 +135,6 @@ class VehiculoController extends Controller
         return view('modulos.vehiculos.edit', compact('vehiculo'));
     }
 
-    // Procesar actualización de vehículo
     public function update(Request $request, $id)
     {
         $this->authorizeCoordinadorAdmin();
@@ -175,18 +162,15 @@ class VehiculoController extends Controller
     public function destroy(Request $request, $id)
     {
         $this->authorizeCoordinadorAdmin();
-        // Ahora realizamos eliminación física: eliminar detalle y vehículo dentro de una transacción
         \DB::beginTransaction();
         try {
             $vehiculo = Vehiculo::findOrFail($id);
             $detalleVehiculo = $vehiculo->detalleVehiculo()->first();
 
             if ($detalleVehiculo) {
-                // eliminar registros relacionados si es necesario
                 $detalleVehiculo->delete();
             }
 
-            // eliminar el vehículo
             $vehiculo->delete();
 
             \DB::commit();
@@ -214,7 +198,6 @@ class VehiculoController extends Controller
 
     public function show($id)
     {
-        // Cargar el detalle del vehículo junto con el estado y la persona (conductor) asignada
         $vehiculo = Vehiculo::with(['detalleVehiculo.estado', 'detalleVehiculo.persona'])->findOrFail($id);
         $estados = Estado::all();
         return view('modulos.vehiculos.actions.show', compact('vehiculo', 'estados'));
@@ -230,15 +213,12 @@ class VehiculoController extends Controller
         return redirect()->back()->with('success', 'Estado del vehículo actualizado correctamente');
     }
 
-    // Formulario de asignación de vehículo
     public function asignarForm()
     {
         $this->authorizeCoordinadorAdmin();
         $tipos = TipoVehiculo::all();
-        // Obtener el id del estado 'disponible' dinámicamente
         $estadoDisponible = Estado::where('estado', 'Disponible')->first();
         $idEstadoDisponible = $estadoDisponible ? $estadoDisponible->id : 1; // fallback a 1 si no existe
-        // Solo mostrar vehículos con estado disponible y registro activo
         $vehiculos = DetalleVehiculo::with('vehiculo')
             ->where('id_estado', $idEstadoDisponible)
             ->where('id_estadoregistro', 1)
@@ -247,7 +227,6 @@ class VehiculoController extends Controller
         return view('modulos.vehiculos.actions.asignar', compact('tipos', 'vehiculos', 'personas'));
     }
 
-    // Procesar la asignación de vehículo a persona
     public function asignar(Request $request)
     {
         $this->authorizeCoordinadorAdmin();
@@ -265,14 +244,13 @@ class VehiculoController extends Controller
                 $detalle->id_estado = $estadoPrestado->id;
             }
             $detalle->save();
-            // Registrar en historial_vehiculos
             \App\Models\HistorialVehiculo::create([
                 'vehiculo_id' => $detalle->vehiculo->id,
                 'tipo_evento' => 'prestamo',
                 'fecha' => now(),
                 'descripcion' => 'Vehículo asignado a persona ID: ' . $request->persona_id,
                 'usuario_id' => auth()->id(),
-                'reporte_id' => null // Puedes asociar un reporte si aplica
+                'reporte_id' => null
             ]);
             return redirect()->route('vehiculos.index')->with('success', 'Vehículo asignado correctamente.');
         } else {
@@ -280,18 +258,15 @@ class VehiculoController extends Controller
         }
     }
 
-    // Formulario de asignación de vehículo con datos autocompletados
     public function asignarVehiculoSeleccionado($detalleId)
     {
         $this->authorizeCoordinadorAdmin();
         $tipos = TipoVehiculo::all();
         $detalle = DetalleVehiculo::with('vehiculo')->findOrFail($detalleId);
         $personas = Persona::all();
-        // Pasar el detalle y el vehículo a la vista
         return view('modulos.vehiculos.actions.asignar', compact('tipos', 'detalle', 'personas'));
     }
 
-    // Procesar la devolución de un vehículo
     public function devolver(Request $request)
     {
         $this->authorizeCoordinadorAdmin();
@@ -308,14 +283,13 @@ class VehiculoController extends Controller
                 $detalle->id_estado = $estadoDisponible->id;
             }
             $detalle->save();
-            // Registrar en historial_vehiculos
             \App\Models\HistorialVehiculo::create([
                 'vehiculo_id' => $detalle->vehiculo->id,
                 'tipo_evento' => 'devolucion',
                 'fecha' => now(),
                 'descripcion' => 'Vehículo devuelto y puesto disponible',
                 'usuario_id' => auth()->id(),
-                'reporte_id' => null // Puedes asociar un reporte si aplica
+                'reporte_id' => null
             ]);
             return redirect()->route('vehiculos.index')->with('success', 'Vehículo devuelto correctamente.');
         } else {

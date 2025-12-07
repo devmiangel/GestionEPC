@@ -43,7 +43,7 @@ class User extends Authenticatable
 
     public function tieneRol($nombreRol)
     {
-        return $this->roles->contains('rol', $nombreRol); // Asume que la columna se llama 'rol'
+        return $this->roles->contains('rol', $nombreRol);
     }
 
     public function persona()

@@ -23,9 +23,8 @@ class VehiculoDocumentoController extends Controller
 
         $path = $request->file('documento')->store('vehiculos/documentos', 'public');
 
-        // Guarda el documento en la tabla vehiculo_documentos
         $doc = new VehiculoDocumento();
-        $doc->id_detallevehiculo = $detalleVehiculo->id; // Corrige el nombre de la variable y el campo
+        $doc->id_detallevehiculo = $detalleVehiculo->id;
         $doc->nombre = $request->nombre;
         $doc->fecha = $request->fecha;
         $doc->ruta = $path;
@@ -51,7 +50,6 @@ class VehiculoDocumentoController extends Controller
     public function ver($documento)
     {
         $doc = VehiculoDocumento::findOrFail($documento);
-        // Mostrar el PDF en el navegador (sin espacio en el nombre del archivo)
         $filename = preg_replace('/\s+/', '_', $doc->nombre ?: 'documento') . '.pdf';
         return response()->file(storage_path('app/public/' . $doc->ruta), [
             'Content-Type' => 'application/pdf',
@@ -63,7 +61,6 @@ class VehiculoDocumentoController extends Controller
     {
         $documento = vehiculoDocumento::findOrFail(id: $id);
 
-        // Elimina el archivo físico si existe
         if ($documento->ruta && \Storage::disk('public')->exists($documento->ruta)) {
             \Storage::disk('public')->delete($documento->ruta);
         }

@@ -11,7 +11,6 @@ return new class extends Migration
      */
     public function up(): void
     {
-        // Delete duplicate estados, keep only the first 4 (Disponible, Prestado, Fuera de servicio, Inactivo)
         DB::statement('DELETE FROM estados WHERE id > 4');
     }
 
@@ -20,6 +19,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        // Restore would need to re-seed, but that's ok for now
+        // 
     }
 };

@@ -12,7 +12,6 @@ class PersonasConductoresSeeder extends Seeder
      */
     public function run(): void
     {
-        // Insertar personas de prueba (conductores)
         DB::table('personas')->insert([
             [
                 'primer_nombre' => 'Carlos',
