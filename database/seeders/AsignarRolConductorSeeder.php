@@ -1,0 +1,49 @@
+<?php
+
+namespace Database\Seeders;
+
+use Illuminate\Database\Seeder;
+use App\Models\Rol;
+use App\Models\Persona;
+use App\Models\User;
+
+class AsignarRolConductorSeeder extends Seeder
+{
+    /**
+     * Run the database seeds.
+     */
+    public function run(): void
+    {
+        $rolConductor = Rol::where('rol', 'Conductor')->first();
+
+        if (!$rolConductor) {
+            $this->command->info('Rol Conductor no encontrado. Por favor ejecuta RolSeeder primero.');
+            return;
+        }
+
+        $personas = Persona::whereIn('num_documento', [
+            '2234567890',
+            '2234567891',
+            '2234567892',
+            '2234567893',
+        ])->get();
+
+        foreach ($personas as $persona) {
+            $user = User::where('id_persona', $persona->id)->first();
+
+            if (!$user) {
+                $user = User::create([
+                    'email' => strtolower($persona->primer_nombre . '.' . $persona->primer_apellido) . '@epc.local',
+                    'password' => bcrypt('password123'),
+                    'id_persona' => $persona->id,
+                ]);
+            }
+
+            if (!$user->roles->contains('id', $rolConductor->id)) {
+                $user->roles()->attach($rolConductor->id);
+            }
+        }
+
+        $this->command->info('Rol Conductor asignado a las personas correctamente.');
+    }
+}

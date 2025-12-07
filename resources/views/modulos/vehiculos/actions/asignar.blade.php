@@ -23,7 +23,7 @@
             <b>Marca:</b> {{ $detalle->vehiculo->marca_vehiculo ?? '' }}<br>
         </div>
     @endif
-    <form action="{{ route('vehiculos.asignar') }}" method="POST">
+    <form action="{{ route('vehiculos.asignar.form') }}" method="POST">
         @csrf
         <div class="mb-3">
             <label for="tipo_vehiculo_id" class="form-label">Tipo de Vehículo</label>

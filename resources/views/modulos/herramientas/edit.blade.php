@@ -12,7 +12,21 @@
         </div>
         <div class="mb-3">
             <label for="tipo_herramienta_id" class="form-label">Tipo de Herramienta</label>
-            <input type="text" class="form-control" id="tipo_herramienta_id" name="tipo_herramienta_id" value="{{ old('tipo_herramienta_id', $herramienta->tipo_herramienta_id) }}" required>
+            <select class="form-control" id="tipo_herramienta_id" name="tipo_herramienta_id" required>
+                <option value="">-- Seleccionar tipo --</option>
+                @foreach($tipos as $tipo)
+                    <option value="{{ $tipo->id }}" {{ (old('tipo_herramienta_id', $herramienta->tipo_herramienta_id) == $tipo->id) ? 'selected' : '' }}>{{ $tipo->tipo_herramienta }}</option>
+                @endforeach
+            </select>
+        </div>
+        <div class="mb-3">
+            <label for="id_estado" class="form-label">Estado</label>
+            <select class="form-control" id="id_estado" name="id_estado">
+                <option value="">-- Seleccionar estado --</option>
+                @foreach($estados as $estado)
+                    <option value="{{ $estado->id }}" {{ (old('id_estado', $herramienta->id_estado) == $estado->id) ? 'selected' : '' }}>{{ $estado->estado }}</option>
+                @endforeach
+            </select>
         </div>
         <div class="mb-3">
             <label for="descripcion" class="form-label">Descripción</label>

@@ -24,6 +24,8 @@ class DetalleVehiculo extends Model
         'fecha_devolucion',
         'fecha_soat',
         'fecha_tecnomecanica',
+        'fecha_ultimo_mantenimiento',
+        'descripcion_ultimo_mantenimiento',
         'imagen_vehiculo',
     ];
 
@@ -34,7 +36,7 @@ class DetalleVehiculo extends Model
     
     public function persona()
     {
-        return $this->belongsTo(User::class, 'persona_id');
+        return $this->belongsTo(Persona::class, 'persona_id');
     }
 
     public function estadoVehiculo()
@@ -60,5 +62,15 @@ class DetalleVehiculo extends Model
     public function alertas()
     {
         return $this->hasMany(Alerta::class, 'id_detallevehiculo');
+    }
+
+    public function estado()
+    {
+        return $this->estadoVehiculo();
+    }
+
+    public function documentos()
+    {
+        return $this->hasMany(VehiculoDocumento::class, 'id_detallevehiculo');
     }
 }

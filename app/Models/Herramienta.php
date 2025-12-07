@@ -13,10 +13,14 @@ class Herramienta extends Model
     public $timestamps = true;
 
     protected $fillable = [
+        'nombre',
         'id_tipoherramienta',
+        'tipo_herramienta_id',
         'id_estado',
         'id_estadoregistro',
         'especificacion_herramienta',
+        'descripcion',
+        'persona_id',
     ];
 
     public function tipoHerramienta()
@@ -37,5 +41,20 @@ class Herramienta extends Model
     public function prestamos()
     {
         return $this->hasMany(PrestamoHerramienta::class, 'id_herramienta');
+    }
+
+    public function persona()
+    {
+        return $this->belongsTo(Persona::class, 'persona_id');
+    }
+    
+    public function getTipoHerramientaIdAttribute()
+    {
+        return $this->attributes['id_tipoherramienta'] ?? null;
+    }
+
+    public function setTipoHerramientaIdAttribute($value)
+    {
+        $this->attributes['id_tipoherramienta'] = $value;
     }
 }

@@ -11,16 +11,31 @@ use App\Models\HistorialHerramienta;
 
 class HistorialController extends Controller
 {
+    private function authorizeCoordinadorAdmin()
+    {
+        if (!auth()->check()) {
+            abort(403, 'No autorizado.');
+        }
+        $user = auth()->user();
+        if (!($user->tieneRol('Coordinador') || $user->tieneRol('Administrador'))) {
+            abort(403, 'No tienes permisos para realizar esta acción.');
+        }
+    }
+
     public function index()
     {
-        // Unimos los elementos de vehículos y herramientas para mostrar en el historial
-        $vehiculos = Vehiculo::with(['tipoVehiculo', 'detalleVehiculo.persona'])->get()->map(function($v) {
+        $this->authorizeCoordinadorAdmin();
+        $vehiculos = Vehiculo::with(['tipoVehiculo', 'detalleVehiculo.persona', 'detalleVehiculo.estado'])->get()->map(function($v) {
             $detalle = $v->detalleVehiculo->first();
             $tipoVehiculo = $v->tipoVehiculo ? $v->tipoVehiculo->tipo_vehiculo : '';
             $placa = $detalle ? $detalle->placa : '';
             $conductor = $detalle && $detalle->persona
                 ? trim($detalle->persona->primer_nombre . ' ' . $detalle->persona->primer_apellido)
                 : 'No asignado';
+            $estado = 'Desconocido';
+            if ($detalle && method_exists($detalle, 'estado') && $detalle->estado) {
+                $estado = $detalle->estado->estado ?? $detalle->id_estado ?? 'Desconocido';
+            }
             return [
                 'id' => $v->id,
                 'tipo' => 'Vehículo',
@@ -31,16 +46,27 @@ class HistorialController extends Controller
                 'usuario' => $conductor,
                 'nombre' => $placa ?? ($v->nombre ?? ''),
                 'fecha_adquisicion' => $v->fecha_adquisicion ?? '',
-                'estado' => $v->estado ?? 'Desconocido',
+                'estado' => $estado,
             ];
         });
-        $herramientas = Herramienta::all()->map(function($h) {
+        $herramientas = Herramienta::with(['tipoHerramienta', 'estado', 'persona'])->get()->map(function($h) {
+            $tipo_herramienta = $h->tipoHerramienta ? $h->tipoHerramienta->tipo_herramienta : '';
+            $estado = $h->estado ? $h->estado->estado : 'Desconocido';
+            $usuario = $h->persona 
+                ? trim($h->persona->primer_nombre . ' ' . $h->persona->primer_apellido)
+                : 'No asignado';
+            
             return [
                 'id' => $h->id,
                 'tipo' => 'Herramienta',
+                'marca' => '',
+                'modelo' => $tipo_herramienta,
+                'tipo_vehiculo' => '',
+                'placa' => '',
                 'nombre' => isset($h->nombre) ? $h->nombre : (isset($h->descripcion) ? $h->descripcion : ''),
+                'usuario' => $usuario,
                 'fecha_adquisicion' => isset($h->fecha_adquisicion) ? $h->fecha_adquisicion : '',
-                'estado' => isset($h->estado) ? $h->estado : 'Desconocido',
+                'estado' => $estado,
             ];
         });
         $items = $vehiculos->concat($herramientas);
@@ -49,22 +75,17 @@ class HistorialController extends Controller
 
     public function mantenimientos($id)
     {
-        // Aquí puedes buscar los mantenimientos por ID y tipo
-        // Ejemplo simple:
-        // $mantenimientos = Mantenimiento::where('elemento_id', $id)->get();
-        // return view('modulos.historial.mantenimientos', compact('mantenimientos'));
+        $this->authorizeCoordinadorAdmin();
     }
 
     public function editar($id)
     {
-        // Aquí puedes buscar el elemento y mostrar el formulario de edición
-        // Ejemplo simple:
-        // $item = ...;
-        // return view('modulos.historial.editar', compact('item'));
+        $this->authorizeCoordinadorAdmin();
     }
 
     public function historialVehiculo($id)
     {
+        $this->authorizeCoordinadorAdmin();
         $vehiculo = Vehiculo::findOrFail($id);
         $historial = HistorialVehiculo::where('vehiculo_id', $id)->orderBy('fecha', 'desc')->get();
         return view('modulos.historial.vehiculo', compact('vehiculo', 'historial'));
@@ -72,6 +93,7 @@ class HistorialController extends Controller
 
     public function historialHerramienta($id)
     {
+        $this->authorizeCoordinadorAdmin();
         $herramienta = Herramienta::findOrFail($id);
         $historial = HistorialHerramienta::where('herramienta_id', $id)->orderBy('fecha', 'desc')->get();
         return view('modulos.historial.herramienta', compact('herramienta', 'historial'));

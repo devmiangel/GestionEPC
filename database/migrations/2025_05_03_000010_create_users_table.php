@@ -18,7 +18,6 @@ return new class extends Migration
             $table->rememberToken();
             $table->timestamps();
 
-            // Foreign key constraints
             $table->foreign('id_persona')
                     ->references('id')
                     ->on('personas')

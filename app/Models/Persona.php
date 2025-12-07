@@ -26,4 +26,21 @@ class Persona extends Model
     {
         return $this->hasOne(User::class, 'id_persona');
     }
+
+    public function getNombreCompletoAttribute()
+    {
+        return trim(
+            "{$this->primer_nombre} {$this->segundo_nombre} {$this->primer_apellido} {$this->segundo_apellido}"
+        );
+    }
+
+    public function getNombreAttribute()
+    {
+        return trim("{$this->primer_nombre} {$this->segundo_nombre}");
+    }
+
+    public function getApellidoAttribute()
+    {
+        return trim("{$this->primer_apellido} {$this->segundo_apellido}");
+    }
 }

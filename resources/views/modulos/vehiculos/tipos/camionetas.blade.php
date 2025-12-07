@@ -5,12 +5,7 @@
 <div class="vehicle-grid">
     @foreach ($camionetas as $camioneta)
         @php
-            $detalleVehiculos = [];
-            if (is_array($camioneta) && isset($camioneta['detalleVehiculo'])) {
-                $detalleVehiculos = $camioneta['detalleVehiculo'];
-            } elseif (is_object($camioneta) && isset($camioneta->detalleVehiculo)) {
-                $detalleVehiculos = $camioneta->detalleVehiculo;
-            }
+            $detalleVehiculos = isset($camioneta->detalleVehiculo) ? $camioneta->detalleVehiculo : [];
         @endphp
         @foreach ($detalleVehiculos as $detalle)
             <div class="vehicle-card">
@@ -46,17 +41,27 @@
                         <p><strong>Marca:</strong> {{ is_array($camioneta) ? ($camioneta['marca_vehiculo'] ?? '') : $camioneta->marca_vehiculo }}</p>
                         <p><strong>Año:</strong> {{ $detalle->año ?? 'No registrado' }}</p>
                         <p><strong>Capacidad:</strong> {{ $detalle->capacidad ?? '2' }} pasajeros</p>
-                        <p><strong>Conductor:</strong> {{ $detalle->conductor ?? 'No asignado' }}</p>
+                        <p><strong>Conductor:</strong> {{
+                            optional(
+                                is_iterable($camioneta->detalleVehiculo) ? $camioneta->detalleVehiculo->first()->persona ?? null : $camioneta->detalleVehiculo->persona ?? null
+                            )->nombre_completo ?? 'No asignado'
+                        }}</p>
                         <p><strong>Soat:</strong> {{ $detalle->soat_estado ?? 'No registrado' }}</p>
                         <p><strong>Tecnomecánica:</strong> {{ $detalle->tecno_estado ?? 'No registrada' }}</p>
                         @if(strtolower($detalle->estadoVehiculo->estado ?? '') === 'prestado')
                             <form method="POST" action="{{ route('vehiculos.devolver') }}" style="margin-top:1rem;">
                                 @csrf
+                                <input type="hidden" name="vehiculo_id" value="{{ $camioneta->id }}">
                                 <button type="submit" class="btn btn-warning">Devolver</button>
                             </form>
                         @elseif(strtolower($detalle->estadoVehiculo->estado ?? '') === 'disponible')
-                            <a href="{{ route('vehiculos.asignar') }}" class="btn btn-success" style="margin-top:1rem;">Asignar</a>
+                            <a href="{{ route('vehiculos.asignar.store') }}" class="btn btn-success" style="margin-top:1rem;">Asignar</a>
                         @endif
+                        <a href="{{ route('historial.vehiculo', $camioneta->id) }}"
+                            class="btn btn-info"
+                            style="margin-top: 10px; background-color: #28a745; color: white; border: none; padding: 8px 12px; border-radius: 5px; cursor: pointer;">
+                            SOAT Y TECHNO / Ver Historial
+                        </a>
                     </div>
                 </div>
             </div>
@@ -71,4 +76,13 @@
         <div id="modalDetalles"></div>
     </div>
 </div>
+
+<br>
+
+<div class="action-buttons" style="text-align: right; margin: 0 2rem 1rem 0; position: static;">
+    <a href="{{ route('vehiculos.create', ['tipo_vehiculos' => 'Camionetas']) }}" class="btn-agregar-vehiculo btn-verde" title="Agregar camioneta">
+        <i class="fas fa-plus"></i> Agregar Camioneta
+    </a>
+</div>
+
 @endsection

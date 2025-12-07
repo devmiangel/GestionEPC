@@ -3,9 +3,15 @@
 @section('content')
 <div class="container">
     <div class="d-flex align-items-center mb-4">
-        <a href="{{ route('dashboard') }}" class="btn-pequeño dashboard-buttondos me-3 ">
-            <i class="bi bi-arrow-left"></i> Volver
-        </a>
+        @if(\Illuminate\Support\Facades\Route::has('dashboard'))
+            <a href="{{ route('dashboard') }}" class="btn-pequeño dashboard-buttondos me-3 ">
+                <i class="bi bi-arrow-left"></i> Volver
+            </a>
+        @else
+            <a href="/dashboard" class="btn-pequeño dashboard-buttondos me-3 ">
+                <i class="bi bi-arrow-left"></i> Volver
+            </a>
+        @endif
         <h2 class="mb-0">Mis Alertas</h2>
     </div>
     @if($alertas->count())

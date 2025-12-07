@@ -27,15 +27,31 @@
 
             <form id="formAgregarVehiculo" class="add-vehicle-form" method="POST" action="{{ route('vehiculos.store') }}" enctype="multipart/form-data">
                 @csrf
+                @if(session('success'))
+                    <div class="alert alert-success">{{ session('success') }}</div>
+                @endif
+                @if(session('error'))
+                    <div class="alert alert-danger">{{ session('error') }}</div>
+                @endif
+                @if($errors->any())
+                    <div class="alert alert-danger">
+                        <ul class="mb-0">
+                            @foreach($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                @endif
                 <h2><i class="fas fa-plus-circle"></i> Información del Vehículo</h2>
 
                 <div class="form-group">
-                    <label for="tipoVehiculo">Tipo de Vehículo:</label>
-                    <select id="tipoVehiculo" name="tipoVehiculo" required>
+                    <label for="tipo_vehiculos">Tipo de Vehículo:</label>
+                    <select id="tipo_vehiculos" name="tipo_vehiculos" required>
                         <option value="">Seleccione un tipo</option>
-                        <option value="camioneta">Camión</option>
-                        <option value="camioneta">Camioneta</option>
-                        <option value="moto">Moto</option>
+                        <option value="Compactadores" {{ (isset($tipoSeleccionado) && $tipoSeleccionado == 'Compactadores') ? 'selected' : '' }}>Compactador</option>
+                        <option value="Camionetas" {{ (isset($tipoSeleccionado) && $tipoSeleccionado == 'Camionetas') ? 'selected' : '' }}>Camioneta</option>
+                        <option value="Motos" {{ (isset($tipoSeleccionado) && $tipoSeleccionado == 'Motos') ? 'selected' : '' }}>Moto</option>
+                        <option value="Otro" {{ (isset($tipoSeleccionado) && $tipoSeleccionado == 'Otro') ? 'selected' : '' }}>Otro</option>
                     </select>
                 </div>
 
@@ -80,6 +96,11 @@
                 <div class="form-group">
                     <label for="fechaSoat">Fecha SOAT:</label>
                     <input type="date" id="fechaSoat" name="fechaSoat" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="fecha_tecnomecanica">Fecha Tecnomecánica:</label>
+                    <input type="date" id="fecha_tecnomecanica" name="fecha_tecnomecanica" required>
                 </div>
 
                 <div class="form-group">

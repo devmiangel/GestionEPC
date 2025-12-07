@@ -3,6 +3,10 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Vehiculo;
+use App\Models\DetalleVehiculo;
+use App\Models\Estado;
+use App\Models\TipoVehiculo;
 
 class DashboardController extends Controller
 {
@@ -17,7 +21,7 @@ class DashboardController extends Controller
     }
 
     /**
-     * Show the application dashboard.
+     * Show the application dashboard with category buttons.
      *
      * @return \Illuminate\Contracts\Support\Renderable
      */

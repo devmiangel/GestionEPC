@@ -1,6 +1,13 @@
 <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm"  style="position: sticky; top: 0;">
     <div class="container">
-        <a class="navbar-brand" href="{{ route('dashboard') }}">
+        @php
+            $hasDashboard = \Illuminate\Support\Facades\Route::has('dashboard');
+        @endphp
+        @if($hasDashboard)
+            <a class="navbar-brand" href="{{ route('dashboard') }}">
+        @else
+            <a class="navbar-brand" href="/dashboard">
+        @endif
             <img src="{{ asset('img/logo_epc.webp') }}" alt="logo" style="width: 50px; height: 50px; border-radius: 50%;">
         </a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
@@ -8,14 +15,10 @@
         </button>
 
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <!-- Left Side Of Navbar -->
             <ul class="navbar-nav me-auto">
-
             </ul>
 
-            <!-- Right Side Of Navbar -->
             <ul class="navbar-nav ms-auto">
-                <!-- Botón de alertas -->
                 @auth
                 @if(Auth::user()->roles && Auth::user()->roles->contains('rol', 'Administrador'))
                 <li class="nav-item dropdown me-2">
